@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>buck</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>e-puck2_main-processor</name>
+			<type>2</type>
+			<location>C:/Users/guill/microinfo_TP/lib/e-puck2_main-processor</location>
+		</link>
+	</linkedResources>
+</projectDescription>

@@ -1,0 +1,6 @@
+#ifndef TRAITEMENT_CAPTEUR_IR_H
+#define TRAITEMENT_CAPTEUR_IR_H
+
+
+
+#endif

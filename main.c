@@ -7,6 +7,7 @@
 #include "hal.h"
 #include "memory_protection.h"
 #include <main.h>
+#include <usbcfg.h>
 #include <sensors/proximity.h>
 
 messagebus_t bus;
@@ -45,8 +46,13 @@ int main(void)
     //starts the USB communication
     usb_start();
 
+    //démarrage des moteurs
+    motors_init();
+
     //calibration des capteurs
     calibrate_ir();
+
+    parcours_start();
 
     /* Infinite loop. */
     while (1) {
@@ -58,8 +64,8 @@ int main(void)
     	valeurs_absolues();
     	valeurs_calibrees();
 
-    	//waits 1 second
-        chThdSleepMilliseconds(1000);
+    	//waits 100 ms
+        chThdSleepMilliseconds(100);
     }
 }
 

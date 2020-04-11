@@ -143,6 +143,7 @@ build/obj/main.o: main.c \
  c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\unistd.h \
  c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\unistd.h \
  ../../lib/e-puck2_main-processor/src/parameter/parameter.h \
+ ../../lib/e-puck2_main-processor/src/usbcfg.h \
  ../../lib/e-puck2_main-processor/src/sensors/proximity.h
 
 c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\stdio.h:
@@ -434,5 +435,7 @@ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-n
 c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\unistd.h:
 
 ../../lib/e-puck2_main-processor/src/parameter/parameter.h:
+
+../../lib/e-puck2_main-processor/src/usbcfg.h:
 
 ../../lib/e-puck2_main-processor/src/sensors/proximity.h:

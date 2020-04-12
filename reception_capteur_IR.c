@@ -14,7 +14,7 @@ static uint32_t val_calibrees[PROXIMITY_NB_CHANNELS];
 
 static int16_t valeurs_au_dessus_seuil = 0;
 
-//static bool obstacle = false;
+static bool obstacle = false;
 
 int32_t check_environnement(void)
 {
@@ -23,16 +23,23 @@ int32_t check_environnement(void)
 		val_calibrees[i] = get_calibrated_prox(i);
 		if (val_calibrees[i] > OBSTACLE_ENV_2CM)
 		{
+			chprintf((BaseSequentialStream *)&SD3, "contact \n");
 			valeurs_au_dessus_seuil++;
 			if (valeurs_au_dessus_seuil == 3)
 			{
+				chprintf((BaseSequentialStream *)&SD3, "3 contacts d'affile \n");
 				valeurs_au_dessus_seuil = 0;
-				break;
+				obstacle = true;
 				return i;
 			}
 		}
 	}
 	return PAS_DE_CAPTEUR;
+}
+
+bool get_obstacle_condition (void)
+{
+	return obstacle;
 }
 
 void valeurs_ambiantes(void)

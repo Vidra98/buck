@@ -1,6 +1,7 @@
 #ifndef PARCOURS_H
 #define PARCOURS_H
 #include <stdint.h>
+#include <stdbool.h>
 
 
 //pour une vitesse lineaire de 10cm/s avec la conversion de 1 tour/s = 1000 steps/s et r = 13/(2pi)
@@ -14,7 +15,7 @@
 
 
 
-int16_t vitesse_moteurs(int32_t capteur);
+int16_t vitesse_moteurs(int32_t capteur, bool obstacle_capteur);
 
 int16_t vitesse_moteur_gauche (int16_t right_speed);
 

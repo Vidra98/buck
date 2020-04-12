@@ -2,6 +2,7 @@
 #define RECEPTION_CAPTEUR_IR_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 //numérotation des capteurs
 #define CAPTEUR_HAUT_DROITE 	0
@@ -29,6 +30,7 @@
 // Les mesures sont faites à des frequences de 800Hz soit 100Hz par capteur
 // Les mesures sont faites par paires opposées afin de pas avoir des interferences : IR0 et IR4 puis IR1 et IR5 puis IR2 et IR6 puis IR3 et IR7
 
+bool get_obstacle_condition(void);
 
 void valeurs_ambiantes(void);
 

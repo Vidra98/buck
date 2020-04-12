@@ -7,7 +7,12 @@
 #include "hal.h"
 #include "memory_protection.h"
 #include <main.h>
+#include <usbcfg.h>
+#include <chprintf.h>
+#include <audio/microphone.h>
+
 #include <sensors/proximity.h>
+#include <traitement_son.h>
 
 messagebus_t bus;
 MUTEX_DECL(bus_lock);
@@ -48,16 +53,14 @@ int main(void)
     //calibration des capteurs
     calibrate_ir();
 
+    mic_start(&processAudioData);
+
     /* Infinite loop. */
     while (1) {
+    	wait_traitement_data();
+		//chprintf((BaseSequentialStream *) &SDU1, "\n hello main %d \n", 1);
 
-
-    	//affiche les valeurs de chaque capteur (lumiere ambiantes, valeurs absolues et calibrees)
-
-    	valeurs_ambiantes();
-    	valeurs_absolues();
-    	valeurs_calibrees();
-
+    	traitement_data();
     	//waits 1 second
         chThdSleepMilliseconds(1000);
     }

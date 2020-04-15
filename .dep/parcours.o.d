@@ -136,7 +136,8 @@ build/obj/parcours.o: parcours.c parcours.h \
  c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\alloca.h \
  ../../lib/e-puck2_main-processor/ChibiOS//os/hal/lib/streams/chprintf.h \
  c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdarg.h \
- ../../lib/e-puck2_main-processor/src/motors.h reception_capteur_IR.h
+ ../../lib/e-puck2_main-processor/src/motors.h reception_capteur_IR.h \
+ ../../lib/e-puck2_main-processor/src/sensors/proximity.h
 
 parcours.h:
 
@@ -419,3 +420,5 @@ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\g
 ../../lib/e-puck2_main-processor/src/motors.h:
 
 reception_capteur_IR.h:
+
+../../lib/e-puck2_main-processor/src/sensors/proximity.h:

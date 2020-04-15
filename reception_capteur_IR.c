@@ -5,6 +5,7 @@
 #include <usbcfg.h>
 #include <chprintf.h>
 #include <sensors/proximity.h>
+#include "parcours.h"
 
 static uint32_t val_ambiantes[PROXIMITY_NB_CHANNELS];
 
@@ -12,35 +13,33 @@ static uint32_t val_absolues[PROXIMITY_NB_CHANNELS];
 
 static uint32_t val_calibrees[PROXIMITY_NB_CHANNELS];
 
-static int16_t valeurs_au_dessus_seuil = 0;
+static bool obstacle[PROXIMITY_NB_CHANNELS];
 
-static bool obstacle = false;
 
-int32_t check_environnement(void)
+int16_t check_chemin(void)
 {
-	for (int i = 0; i < PROXIMITY_NB_CHANNELS; i++)
+	if ((!obstacle[CAPTEUR_GAUCHE]) && (!obstacle[CAPTEUR_HAUT_GAUCHE_45]))
 	{
-		val_calibrees[i] = get_calibrated_prox(i);
-		if (val_calibrees[i] > OBSTACLE_ENV_2CM)
-		{
-			chprintf((BaseSequentialStream *)&SD3, "contact \n");
-			valeurs_au_dessus_seuil++;
-			if (valeurs_au_dessus_seuil == 3)
-			{
-				chprintf((BaseSequentialStream *)&SD3, "3 contacts d'affile \n");
-				valeurs_au_dessus_seuil = 0;
-				obstacle = true;
-				return i;
-			}
-		}
+		return MVT_CONTOURNEMENT_GAUCHE;
 	}
-	return PAS_DE_CAPTEUR;
+
+	else
+	{
+		return MVT_CONTOURNEMENT_DROITE;
+	}
 }
 
-bool get_obstacle_condition (void)
+
+bool get_obstacle_condition (int32_t numero_capteur)
 {
-	return obstacle;
+	return obstacle[numero_capteur];
 }
+
+uint32_t get_valeur_capteur(int32_t numero_capteur)
+{
+	return val_calibrees[numero_capteur];
+}
+
 
 void valeurs_ambiantes(void)
 {
@@ -64,7 +63,17 @@ void valeurs_calibrees(void)
 {
 	for (int i = 0; i < PROXIMITY_NB_CHANNELS; i++)
 	{
+
 		val_calibrees[i] = get_calibrated_prox(i);
+		if (val_calibrees[i] >= OBSTACLE_ENV_5CM)
+		{
+			obstacle[i] = true;
+		}
+
+		else
+		{
+			obstacle[i] = false;
+		}
 		//chprintf((BaseSequentialStream *)&SDU1, "valeurs calibrees du capteur %d : %d \n", i, val_calibrees[i]);
 	}
 }

@@ -1,7 +1,13 @@
 #ifndef TRAITEMENT_SON
 #define TRAITEMENT_SON
 
-#define FFT_SIZE 	1024
+#define FFT_SIZE 			1024
+#define AUDIO_RESOLUTION   	15.23f
+#define SOUND_CONST			901.8 // =340/(2*PI*lx)
+#define lx					0.06
+//paramètre de la moyenne mobile : angle = a*angle +b*angle_buf
+#define a					0.2
+#define b					0.8
 
 typedef enum {
 	//2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)

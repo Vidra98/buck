@@ -31,6 +31,10 @@ static float micBack_cmplx_input_buf[2 * FFT_SIZE];
 
 static uint8_t samples_count=0;
 
+static float intensity_const=10;
+static float l_x=3;
+static float angle=1.5;
+
 #define FREQ_TRAITEMENT		10
 #define MIN_VALUE_THRESHOLD	1000
 
@@ -95,11 +99,28 @@ void traitement_data(void){
 			max_norm_index[MIC_BACK_I] = i;
 		}
 	}
+	/*float emit_intensity = intensity_const*((micFront_output[max_norm_index[MIC_FRONT_I]]*micFront_output[max_norm_index[MIC_FRONT_I]]*
+											micLeft_output[max_norm_index[MIC_LEFT_I]]*micLeft_output[max_norm_index[MIC_LEFT_I]])/
+											(micFront_output[max_norm_index[MIC_FRONT_I]]*micFront_output[max_norm_index[MIC_FRONT_I]]-
+											micLeft_output[max_norm_index[MIC_LEFT_I]]*micLeft_output[max_norm_index[MIC_LEFT_I]]));
+	float test_x = emit_intensity*(1/micRight_output[max_norm_index[MIC_RIGHT_I]]-1/micLeft_output[max_norm_index[MIC_LEFT_I]])/(l_x);
+	chprintf((BaseSequentialStream *) &SDU1, "\n test x %f emit int %f \n", test_x,emit_intensity);
+
+	test_x=asin(test_x);*/
 	//chprintf((BaseSequentialStream *) &SDU1, "\n hello traitement MIC_FRONT_I %d MIC_BACK_I %d \n", max_norm_index[MIC_FRONT_I],max_norm_index[MIC_BACK_I]);
+
+
+	/*float test_angle1,test_angle2,angle_buf;
+	test_angle1= atan2f(micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]+1], micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]]);
+	test_angle2= atan2f(micLeft_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]+1], micRight_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]]);
+	angle_buf = asin(SOUND_CONST*(test_angle1-test_angle2)/(max_norm_index[MIC_RIGHT_I]*AUDIO_RESOLUTION));
+	if ((-3.15 < angle_buf) && (angle_buf<3.15)){
+		angle = a*angle+b*angle_buf;
+	}*/
 	if((max_norm_index[MIC_FRONT_I] == max_norm_index[MIC_BACK_I]) && (max_norm_index[MIC_BACK_I] >MIN_FREQ)){
-	chprintf((BaseSequentialStream *) &SDU1, "amp droite = %f    amp gauche = %f  amp front = %f amp back = %f \n",
+	chprintf((BaseSequentialStream *) &SDU1, "amp droite = %f    amp gauche = %f  test_X = %f \n indice = %d angle = %f deg = %f \n",
 			micRight_output[max_norm_index[MIC_RIGHT_I]],micLeft_output[max_norm_index[MIC_LEFT_I]],
-			micFront_output[max_norm_index[MIC_FRONT_I]],micBack_output[max_norm_index[MIC_BACK_I]]);
+			test_x,max_norm_index[MIC_RIGHT_I],test_x,test_x*180/3.14);
 	}
 }
 /*
@@ -189,34 +210,4 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 
 void wait_traitement_data(void){
 	chBSemWait(&traitement);
-}
-
-float* get_audio_buffer_ptr(BUFFER_NAME_t name){
-	if(name == LEFT_CMPLX_INPUT){
-		return micLeft_cmplx_input;
-	}
-	else if (name == RIGHT_CMPLX_INPUT){
-		return micRight_cmplx_input;
-	}
-	else if (name == FRONT_CMPLX_INPUT){
-		return micFront_cmplx_input;
-	}
-	else if (name == BACK_CMPLX_INPUT){
-		return micBack_cmplx_input;
-	}
-	else if (name == LEFT_OUTPUT){
-		return micLeft_output;
-	}
-	else if (name == RIGHT_OUTPUT){
-		return micRight_output;
-	}
-	else if (name == FRONT_OUTPUT){
-		return micFront_output;
-	}
-	else if (name == BACK_OUTPUT){
-		return micBack_output;
-	}
-	else{
-		return NULL;
-	}
 }

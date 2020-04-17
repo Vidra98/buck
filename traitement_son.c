@@ -110,18 +110,25 @@ void traitement_data(void){
 	//chprintf((BaseSequentialStream *) &SDU1, "\n hello traitement MIC_FRONT_I %d MIC_BACK_I %d \n", max_norm_index[MIC_FRONT_I],max_norm_index[MIC_BACK_I]);
 
 
-	/*float test_angle1,test_angle2,angle_buf;
+	float test_angle1,test_angle2,angle_buf,test;
+	float deph_buf, deph =0.;
 	test_angle1= atan2f(micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]+1], micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]]);
 	test_angle2= atan2f(micLeft_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]+1], micRight_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]]);
-	angle_buf = asin(SOUND_CONST*(test_angle1-test_angle2)/(max_norm_index[MIC_RIGHT_I]*AUDIO_RESOLUTION));
+	deph_buf=(test_angle1-test_angle2);
+	if ((-4 < deph_buf) && (deph_buf<4)){
+			deph = a*deph+b*deph_buf;
+			test = SOUND_CONST*deph/(max_norm_index[MIC_RIGHT_I]*AUDIO_RESOLUTION);
+			if((max_norm_index[MIC_FRONT_I] == max_norm_index[MIC_BACK_I]) && (max_norm_index[MIC_BACK_I] >MIN_FREQ)){
+				chprintf((BaseSequentialStream *) &SDU1, "\n  deph = %f test %f     ¦¦ indice = %f ¦¦ deph_buf %f \n",
+						deph,test,(float)(max_norm_index[MIC_RIGHT_I]*AUDIO_RESOLUTION),deph_buf);
+			}
+	}
+
+	/*angle_buf = asinf(test);
 	if ((-3.15 < angle_buf) && (angle_buf<3.15)){
 		angle = a*angle+b*angle_buf;
 	}*/
-	if((max_norm_index[MIC_FRONT_I] == max_norm_index[MIC_BACK_I]) && (max_norm_index[MIC_BACK_I] >MIN_FREQ)){
-	chprintf((BaseSequentialStream *) &SDU1, "amp droite = %f    amp gauche = %f  test_X = %f \n indice = %d angle = %f deg = %f \n",
-			micRight_output[max_norm_index[MIC_RIGHT_I]],micLeft_output[max_norm_index[MIC_LEFT_I]],
-			test_x,max_norm_index[MIC_RIGHT_I],test_x,test_x*180/3.14);
-	}
+
 }
 /*
 *	Callback called when the demodulation of the four microphones is done.

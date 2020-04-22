@@ -57,15 +57,7 @@ int main(void)
     /* Infinite loop. */
     while (1) {
 
-
-    	//affiche les valeurs de chaque capteur (lumiere ambiantes, valeurs absolues et calibrees)
-
-    	valeurs_ambiantes();
-    	valeurs_absolues();
-    	valeurs_calibrees();
-
-    	//waits 100 ms
-        chThdSleepMilliseconds(100);
+        chThdSleepMilliseconds(1000);
     }
 }
 

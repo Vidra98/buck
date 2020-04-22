@@ -6,11 +6,10 @@
 
 //pour une vitesse lineaire de 10cm/s avec la conversion de 1 tour/s = 1000 steps/s et r = 13/(2pi)
 #define VITESSE_LIN 				769
-
 //buck a un perimetre de 16.8cm donc un quart de tour correspond à 4.2 cm donc on veut une vitesse de 2.1 cm/s (tourne pendant 2 secs)
 // on fait la conversion en step
-#define ROTATION_45_DEG 			81
-#define ROTATION_90_DEG				162
+//#define ROTATION_45_DEG 			81
+//#define ROTATION_90_DEG			162
 
 //les 3 1ers defines ne devraient normalement plus servir pour la suite du projet
 
@@ -21,17 +20,29 @@
 #define MVT_IDLE 					0
 #define MVT_CONTOURNEMENT_DROITE	1
 #define MVT_CONTOURNEMENT_GAUCHE 	2
+#define LIM_CONTOURNEMENT 			50
 
 /*comme la vitesse du régulateur s'ajoute à celle de l'idle (à savoir 7.5 cm/s) et que l'on souhaite pas dépasser la vitesse max
 de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamais dépasser. ceci évite ainsi que le régulateur
 s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit les valeurs des capteurs)
 Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 
-#define VITESSE_LIM					350
-#define KP 							1
+#define VITESSE_LIM					230
+#define KP 							5
 #define KI							0.1
 #define MAX_SUM_ERROR 				VITESSE_LIM/KI
 #define MAX_ERROR 					VITESSE_LIM/KP
+
+#define PREM_LIGNE_DROITE			1
+#define PREM_VIRAGE 				2
+#define SEC_LIGNE_DROITE 			3
+#define SEC_VIRAGE 					4
+#define ERREURS_STEPS				10
+#define LIMITE_STEPS_DROITE			2310
+#define LIMITE_STEPS_PETIT_VIRAGE	3796
+#define LIMITE_STEPS_GRAND_VIRAGE 	6360
+#define VITESSE_PETIT_VIRAGE 		459
+
 
 //On aura très probablement plus besoin de ces 2 fonctions
 
@@ -39,6 +50,13 @@ Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 
 //int16_t vitesse_moteur_gauche (int16_t right_speed);
 
+
+/* Définit un parcours de buck selon le symbôle infini (un 8 couché)
+ * Parcours composé de 2 lignes droites de 30 cm et de 2 virages d'un rayon de 21cm
+ * (15.7cm pour la roue intérieure et 26.3cm pour la roue extérieure)
+ *
+ */
+void parcours_en_infini(void);
 
 /* Le controleur PI, qui s'active lorsqu'on detecte un obstacle devant ou sur les cotés (et qu'on sort alors de l'idle)
  * Recoit en paramètre les valeurs des capteurs de devant et du coté ainsi qu'une valeur correspondant à un obstacle en contact

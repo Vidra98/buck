@@ -31,30 +31,18 @@ static float micBack_cmplx_input_buf[2 * FFT_SIZE];
 
 static uint8_t samples_count=0;
 
-static float intensity_const=10;
-static float l_x=3;
-static float angle=1.5, deph =0.;
+/*pour intensity deph
+ *
+ static float intensity_const=10;
+static float l_x=3;*/
+static float angle=0.;
 
-#define FREQ_TRAITEMENT		10
+#define FREQ_TRAITEMENT		1
 #define MIN_VALUE_THRESHOLD	1000
 
+
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
-#define FREQ_FORWARD	16	//250Hz
-#define FREQ_LEFT		19	//296Hz
-#define FREQ_RIGHT		23	//359HZ
-#define FREQ_BACKWARD	26	//406Hz
 #define MAX_FREQ		130	//we don't analyze after this index to not use resources for nothing
-
-#define FREQ_FORWARD_L		(FREQ_FORWARD-1)
-#define FREQ_FORWARD_H		(FREQ_FORWARD+1)
-#define FREQ_LEFT_L			(FREQ_LEFT-1)
-#define FREQ_LEFT_H			(FREQ_LEFT+1)
-#define FREQ_RIGHT_L		(FREQ_RIGHT-1)
-#define FREQ_RIGHT_H		(FREQ_RIGHT+1)
-#define FREQ_BACKWARD_L		(FREQ_BACKWARD-1)
-#define FREQ_BACKWARD_H		(FREQ_BACKWARD+1)
-
-
 
 /* Define complex multiplication and its conjugate */
 #define  rmul(x,y)      (x.real * y.real - x.imag * y.imag)
@@ -72,13 +60,43 @@ void doFFT_optimized(uint16_t size, float* complex_buffer){
 
 }
 
-/*
-*	Wrapper to call the non optimized FFT function
-*/
+/*test fonction, a adapter plus tard*/
+/*void position_control(float angle, int freq_indice){
+	float error=0. ,speed=0.;
+	static float sum_error=0;
+
+	error = angle - ANGLE_MARGIN;
+	//pour eviter des emballements
+	if (error > MAX_ERROR)
+	{
+		error = MAX_ERROR;
+	}
+	else if (error < -MAX_ERROR)
+	{
+		error = -MAX_ERROR;
+	}
+	//we set a maximum and a minimum for the sum to avoid an uncontrolled growth
+	if(sum_error > MAX_SUM_ERROR){
+		sum_error = MAX_SUM_ERROR;
+	}else if(sum_error < -MAX_SUM_ERROR){
+		sum_error = -MAX_SUM_ERROR;
+	}
+	speed = KP * error + KI * sum_error;
+	if(micLeft_output[freq_indice] < micRight_output[freq_indice]){
+		right_motor_set_speed(speed);
+		left_motor_set_speed(-speed);
+	}
+	else {
+		right_motor_set_speed(-speed);
+		left_motor_set_speed(speed);
+	}
+}*/
 
 void traitement_data(void){
 	float max_norm[4] = {MIN_VALUE_THRESHOLD,MIN_VALUE_THRESHOLD,MIN_VALUE_THRESHOLD,MIN_VALUE_THRESHOLD};
 	int16_t max_norm_index[4] = {-1,-1,-1,-1};
+	float test_angle1,test_angle2,test,deph_buf;
+	static float deph =0.;
 
 	//search for the highest peak
 	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
@@ -99,32 +117,35 @@ void traitement_data(void){
 			max_norm_index[MIC_BACK_I] = i;
 		}
 	}
-	/*float emit_intensity = intensity_const*((micFront_output[max_norm_index[MIC_FRONT_I]]*micFront_output[max_norm_index[MIC_FRONT_I]]*
-											micLeft_output[max_norm_index[MIC_LEFT_I]]*micLeft_output[max_norm_index[MIC_LEFT_I]])/
-											(micFront_output[max_norm_index[MIC_FRONT_I]]*micFront_output[max_norm_index[MIC_FRONT_I]]-
-											micLeft_output[max_norm_index[MIC_LEFT_I]]*micLeft_output[max_norm_index[MIC_LEFT_I]]));
-	float test_x = emit_intensity*(1/micRight_output[max_norm_index[MIC_RIGHT_I]]-1/micLeft_output[max_norm_index[MIC_LEFT_I]])/(l_x);
-	chprintf((BaseSequentialStream *) &SDU1, "\n test x %f emit int %f \n", test_x,emit_intensity);
 
-	test_x=asin(test_x);*/
-	//chprintf((BaseSequentialStream *) &SDU1, "\n hello traitement MIC_FRONT_I %d MIC_BACK_I %d \n", max_norm_index[MIC_FRONT_I],max_norm_index[MIC_BACK_I]);
+	test_angle1= atan2f(micFront_cmplx_input_buf[2*max_norm_index[MIC_FRONT_I]+1], micFront_cmplx_input_buf[2*max_norm_index[MIC_FRONT_I]]);
+	test_angle2= atan2f(micBack_cmplx_input_buf[2*max_norm_index[MIC_BACK_I]+1], micBack_cmplx_input_buf[2*max_norm_index[MIC_BACK_I]]);
+	deph_buf=(test_angle1-test_angle2);
+	if ((-3 < deph_buf) && (deph_buf<3)){
+		deph = a*deph+b*deph_buf;
+		test = SOUND_CONST*deph/(max_norm_index[MIC_BACK_I]*AUDIO_RESOLUTION);
+		angle = asinf(test);
+		if((max_norm_index[MIC_BACK_I] == max_norm_index[MIC_FRONT_I]) && (max_norm_index[MIC_BACK_I] >MIN_FREQ)){
+			chprintf((BaseSequentialStream *) &SDU1, "\n indice = %6f | deph = %6f test %6f  || angle = %4f || deph_buf %f \n ",
+					(float)(max_norm_index[MIC_BACK_I]*AUDIO_RESOLUTION),deph,test,angle*180/3.14,deph_buf);
+			/*chprintf((BaseSequentialStream *) &SDU1, "left output %f right output %f \n\n",micLeft_output[max_norm_index[MIC_LEFT_I]],
+						micRight_output[max_norm_index[MIC_LEFT_I]]);*/
 
-
-	float test_angle1,test_angle2,angle_buf,test;
-	float deph_buf;
-	test_angle1= atan2f(micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]+1], micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]]);
-	test_angle2= atan2f(micLeft_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]+1], micRight_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]]);
-	deph_buf=fabsf(test_angle1-test_angle2);
-	if ((-4 < deph_buf) && (deph_buf<4)){
-			deph = a*deph+b*deph_buf;
-			test = SOUND_CONST*deph/(max_norm_index[MIC_RIGHT_I]*AUDIO_RESOLUTION);
-			angle = asinf(test);
-			if((max_norm_index[MIC_FRONT_I] == max_norm_index[MIC_BACK_I]) && (max_norm_index[MIC_BACK_I] >MIN_FREQ)){
-				chprintf((BaseSequentialStream *) &SDU1, "\n indice = %f | deph = %f test %f angle = %f | deph_buf %f \n",
-						(float)(max_norm_index[MIC_RIGHT_I]*AUDIO_RESOLUTION),deph,test,angle*180/3.14,deph_buf);
-			}
+		}
 	}
+	//position_control(angle, max_norm_index[MIC_LEFT_I]);
+
+	/*float emit_intensity = intensity_const*((micFront_output[max_norm_index[MIC_FRONT_I]]*micFront_output[max_norm_index[MIC_FRONT_I]]*
+												micLeft_output[max_norm_index[MIC_LEFT_I]]*micLeft_output[max_norm_index[MIC_LEFT_I]])/
+												(micFront_output[max_norm_index[MIC_FRONT_I]]*micFront_output[max_norm_index[MIC_FRONT_I]]-
+												micLeft_output[max_norm_index[MIC_LEFT_I]]*micLeft_output[max_norm_index[MIC_LEFT_I]]));
+		float test_x = emit_intensity*(1/micRight_output[max_norm_index[MIC_RIGHT_I]]-1/micLeft_output[max_norm_index[MIC_LEFT_I]])/(l_x);
+		chprintf((BaseSequentialStream *) &SDU1, "\n test x %f emit int %f \n", test_x,emit_intensity);
+
+		test_x=asin(test_x);*/
 }
+
+
 /*
 *	Callback called when the demodulation of the four microphones is done.
 *	We get 160 samples per mic every 10ms (16kHz)
@@ -170,19 +191,16 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 			break;
 		}
 	}
-	//chprintf((BaseSequentialStream *) &SDU1, "\n hello traitement %d \n", samples_count);
 	if(nb_samples >= (2 * FFT_SIZE) ){
 		samples_count++;
 		nb_samples = 0;
 		if (samples_count<FREQ_TRAITEMENT) return;
 		samples_count=0;
-		//chprintf((BaseSequentialStream *) &SDU1, "\n                              hello traitement data %d \n", 1);
-
 		/*	FFT proccessing
-		*
-		*	This FFT function stores the results in the input buffer given.
-		*	This is an "In Place" function.
-		*/
+		 *
+		 *	This FFT function stores the results in the input buffer given.
+		 *	This is an "In Place" function.
+		 */
 		arm_copy_f32(micRight_cmplx_input, micRight_cmplx_input_buf, 2*FFT_SIZE);
 		arm_copy_f32(micLeft_cmplx_input, micLeft_cmplx_input_buf, 2*FFT_SIZE);
 		arm_copy_f32(micFront_cmplx_input, micFront_cmplx_input_buf, 2*FFT_SIZE);
@@ -194,12 +212,12 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		doFFT_optimized(FFT_SIZE, micBack_cmplx_input_buf);
 
 		/*	Magnitude processing
-		*
-		*	Computes the magnitude of the complex numbers and
-		*	stores them in a buffer of FFT_SIZE because it only contains
-		*	real numbers.
-		*
-		*/
+		 *
+		 *	Computes the magnitude of the complex numbers and
+		 *	stores them in a buffer of FFT_SIZE because it only contains
+		 *	real numbers.
+		 *
+		 */
 		arm_cmplx_mag_f32(micRight_cmplx_input_buf, micRight_output, FFT_SIZE);
 		arm_cmplx_mag_f32(micLeft_cmplx_input_buf, micLeft_output, FFT_SIZE);
 		arm_cmplx_mag_f32(micFront_cmplx_input_buf, micFront_output, FFT_SIZE);

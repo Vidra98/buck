@@ -145,6 +145,7 @@ build/obj/main.o: main.c \
  ../../lib/e-puck2_main-processor/src/parameter/parameter.h \
  ../../lib/e-puck2_main-processor/src/usbcfg.h \
  ../../lib/e-puck2_main-processor/ChibiOS//os/hal/lib/streams/chprintf.h \
+ ../../lib/e-puck2_main-processor/src/motors.h \
  ../../lib/e-puck2_main-processor/src/audio/microphone.h \
  ../../lib/e-puck2_main-processor/src/audio/mp45dt02_processing.h \
  ../../lib/e-puck2_main-processor/src/sensors/proximity.h \
@@ -443,6 +444,8 @@ c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-
 ../../lib/e-puck2_main-processor/src/usbcfg.h:
 
 ../../lib/e-puck2_main-processor/ChibiOS//os/hal/lib/streams/chprintf.h:
+
+../../lib/e-puck2_main-processor/src/motors.h:
 
 ../../lib/e-puck2_main-processor/src/audio/microphone.h:
 

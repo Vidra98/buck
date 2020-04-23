@@ -9,6 +9,7 @@
 #include <main.h>
 #include <usbcfg.h>
 #include <chprintf.h>
+#include <motors.h>
 #include <audio/microphone.h>
 
 #include <sensors/proximity.h>
@@ -49,7 +50,8 @@ int main(void)
     serial_start();
     //starts the USB communication
     usb_start();
-
+    //démarrage des moteurs
+    motors_init();
     //calibration des capteurs
     calibrate_ir();
 
@@ -62,7 +64,6 @@ int main(void)
 
     	traitement_data();
     	//waits 1 second
-        chThdSleepMilliseconds(1000);
     }
 }
 

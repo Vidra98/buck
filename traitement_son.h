@@ -3,7 +3,8 @@
 
 #define FFT_SIZE 			1024
 #define AUDIO_RESOLUTION   	15.23f
-#define SOUND_CONST			901.8 // =340/(2*PI*lx), lx=6cm
+#define SOUND_CONST			59.21 // =340/(2*PI*lx*AUDIO_RESOLUTION), lx=6cm
+#define SOUND_THREESHOLD    10000.0f
 //paramètre de la moyenne mobile : angle = a*angle +b*angle_buf
 #define a					0.5
 #define b					0.5
@@ -49,11 +50,14 @@ de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamai
 s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit les valeurs des capteurs)
 Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 
-#define VITESSE_LIM					350
-#define KP 							25
+#define VITESSE_LIM					400
+#define KP 							10
 #define KI							0.1
 #define MAX_SUM_ERROR 				VITESSE_LIM/8
 #define MAX_ERROR 					VITESSE_LIM/3
+
+#define ZERO_MIN					-5.0f
+#define ZERO_MAX					5.0f
 
 /*Traite les informations provenant des micro
  *

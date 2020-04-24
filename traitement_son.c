@@ -31,10 +31,6 @@ static float micBack_cmplx_input_buf[2 * FFT_SIZE];
 
 static uint8_t samples_count=0;
 
-/*pour intensity deph
- *
- static float intensity_const=10;
-static float l_x=3;*/
 static float angle=0.;
 
 #define FREQ_TRAITEMENT		1
@@ -51,52 +47,62 @@ static float angle=0.;
 #define icmul(x,y)      (x.imag * y.real - x.real * y.imag)
 
 /*
-*	Wrapper to call a very optimized fft function provided by ARM
-*	which uses a lot of tricks to optimize the computations
-*/
+ *	Wrapper to call a very optimized fft function provided by ARM
+ *	which uses a lot of tricks to optimize the computations
+ */
 void doFFT_optimized(uint16_t size, float* complex_buffer){
 	if(size == 1024)
 		arm_cfft_f32(&arm_cfft_sR_f32_len1024, complex_buffer, 0, 1);
 
 }
+void set_localisation(float angle_x,float angle_y){
+	if (angle_x>NUL && angle_y>NUL){
+		angle=(angle_x+(PI/2-angle_y))/2;
+	}
+	if (angle_x>NUL && angle_y<NUL){
+		angle=PI/2+(-angle_y+(PI/2-angle_x))/2;
+	}
+	if (angle_x<NUL && angle_y<NUL){
+		angle=PI+(-angle_x+(PI/2+angle_y))/2;
+	}
+	if (angle_x<NUL && angle_y>NUL){
+		angle=1.5*PI+(-angle_x+angle_y)/2;
+	}
+	chprintf((BaseSequentialStream *) &SD3, " angle_son = %4f  angle_x=%4f angle_y=%4f \n ",angle*180/3.14,angle_x*180/3.14,angle_y*180/3.14);
+}
 
-/*test fonction, a adapter plus tard*/
-/*void position_control(float angle, int freq_indice){
-	float error=0. ,speed=0.;
-	static float sum_error=0;
-
-	error = angle - ANGLE_MARGIN;
-	//pour eviter des emballements
-	if (error > MAX_ERROR)
-	{
-		error = MAX_ERROR;
+void position_control(float angle){
+	int16_t vitesse_rot;
+	static int16_t sum_error;
+	if (angle < ZERO_MIN){
+		sum_error += (angle-ZERO_MIN);
+		if (abs(sum_error)> MAX_SUM_ERROR) sum_error=-MAX_SUM_ERROR;
+		vitesse_rot =(angle-ZERO_MIN)*KP+(sum_error)*KI;
+		chprintf((BaseSequentialStream *) &SD3,"vitesse = %d  \n",vitesse_rot);
 	}
-	else if (error < -MAX_ERROR)
-	{
-		error = -MAX_ERROR;
-	}
-	//we set a maximum and a minimum for the sum to avoid an uncontrolled growth
-	if(sum_error > MAX_SUM_ERROR){
-		sum_error = MAX_SUM_ERROR;
-	}else if(sum_error < -MAX_SUM_ERROR){
-		sum_error = -MAX_SUM_ERROR;
-	}
-	speed = KP * error + KI * sum_error;
-	if(micLeft_output[freq_indice] < micRight_output[freq_indice]){
-		right_motor_set_speed(speed);
-		left_motor_set_speed(-speed);
+	else if (angle > ZERO_MAX){
+		sum_error += (angle-ZERO_MAX);
+		if (sum_error> MAX_SUM_ERROR) sum_error=MAX_SUM_ERROR;
+		vitesse_rot =(angle-ZERO_MAX)*KP+(sum_error)*KI;
+		chprintf((BaseSequentialStream *) &SD3,"vitesse = %d  \n",vitesse_rot);
 	}
 	else {
-		right_motor_set_speed(-speed);
-		left_motor_set_speed(speed);
+		vitesse_rot=(sum_error)*KI/3;
+		chprintf((BaseSequentialStream *) &SD3,"vitesse = %d  \n",vitesse_rot);
 	}
-}*/
+	if (vitesse_rot>VITESSE_LIM ) vitesse_rot = VITESSE_LIM;
+	if (vitesse_rot<-VITESSE_LIM) vitesse_rot = VITESSE_LIM;
+	right_motor_set_speed(vitesse_rot);
+	left_motor_set_speed(-vitesse_rot);
+
+}
 
 void traitement_data(void){
 	float max_norm[4] = {MIN_VALUE_THRESHOLD,MIN_VALUE_THRESHOLD,MIN_VALUE_THRESHOLD,MIN_VALUE_THRESHOLD};
 	int16_t max_norm_index[4] = {-1,-1,-1,-1};
-	float test_angle1,test_angle2,test,deph_buf;
-	static float deph =0.;
+	float deph_right,deph_left,test,deph_buf_x, deph_front, deph_back, deph_buf_y;
+	static float deph_x=0., deph_y=0.;
+	static float angle_y=0., angle_x=0.;
 
 	//search for the highest peak
 	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
@@ -117,53 +123,56 @@ void traitement_data(void){
 			max_norm_index[MIC_BACK_I] = i;
 		}
 	}
-
-	test_angle1= atan2f(micFront_cmplx_input_buf[2*max_norm_index[MIC_FRONT_I]+1], micFront_cmplx_input_buf[2*max_norm_index[MIC_FRONT_I]]);
-	test_angle2= atan2f(micBack_cmplx_input_buf[2*max_norm_index[MIC_BACK_I]+1], micBack_cmplx_input_buf[2*max_norm_index[MIC_BACK_I]]);
-	deph_buf=(test_angle1-test_angle2);
-	if ((-3 < deph_buf) && (deph_buf<3)){
-		deph = a*deph+b*deph_buf;
-		test = SOUND_CONST*deph/(max_norm_index[MIC_BACK_I]*AUDIO_RESOLUTION);
-		angle = asinf(test);
-		if((max_norm_index[MIC_BACK_I] == max_norm_index[MIC_FRONT_I]) && (max_norm_index[MIC_BACK_I] >MIN_FREQ)){
-			chprintf((BaseSequentialStream *) &SDU1, "\n indice = %6f | deph = %6f test %6f  || angle = %4f || deph_buf %f \n ",
-					(float)(max_norm_index[MIC_BACK_I]*AUDIO_RESOLUTION),deph,test,angle*180/3.14,deph_buf);
-			/*chprintf((BaseSequentialStream *) &SDU1, "left output %f right output %f \n\n",micLeft_output[max_norm_index[MIC_LEFT_I]],
-						micRight_output[max_norm_index[MIC_LEFT_I]]);*/
-
+	if((max_norm_index[MIC_LEFT_I] == max_norm_index[MIC_RIGHT_I]) && (max_norm_index[MIC_LEFT_I] >MIN_FREQ)
+			&& (micLeft_output[max_norm_index[MIC_LEFT_I]]>SOUND_THREESHOLD)){
+		deph_left= atan2f(micLeft_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]+1], micLeft_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]]);
+		deph_right= atan2f(micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]+1], micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]]);
+		deph_buf_x=(deph_left-deph_right);
+		if ((-3 < deph_buf_x) && (deph_buf_x<3)){
+			deph_x = a*deph_x+b*deph_buf_x;
+			test = SOUND_CONST*deph_x/(max_norm_index[MIC_LEFT_I]);
+			if (test > 1) test=1;
+			if (test < -1) test=-1;
+			angle_x = asinf(test);
+			//chprintf((BaseSequentialStream *) &SD3, "\n  indice = %6f angle_x = %4f  ",(float)(max_norm_index[MIC_BACK_I]*AUDIO_RESOLUTION),angle_x*180/3.14);
 		}
 	}
-	//position_control(angle, max_norm_index[MIC_LEFT_I]);
-
-	/*float emit_intensity = intensity_const*((micFront_output[max_norm_index[MIC_FRONT_I]]*micFront_output[max_norm_index[MIC_FRONT_I]]*
-												micLeft_output[max_norm_index[MIC_LEFT_I]]*micLeft_output[max_norm_index[MIC_LEFT_I]])/
-												(micFront_output[max_norm_index[MIC_FRONT_I]]*micFront_output[max_norm_index[MIC_FRONT_I]]-
-												micLeft_output[max_norm_index[MIC_LEFT_I]]*micLeft_output[max_norm_index[MIC_LEFT_I]]));
-		float test_x = emit_intensity*(1/micRight_output[max_norm_index[MIC_RIGHT_I]]-1/micLeft_output[max_norm_index[MIC_LEFT_I]])/(l_x);
-		chprintf((BaseSequentialStream *) &SDU1, "\n test x %f emit int %f \n", test_x,emit_intensity);
-
-		test_x=asin(test_x);*/
+	if((max_norm_index[MIC_BACK_I] == max_norm_index[MIC_FRONT_I]) && (max_norm_index[MIC_BACK_I] >MIN_FREQ)
+			&& (micFront_output[max_norm_index[MIC_FRONT_I]]>SOUND_THREESHOLD)){
+		deph_front= atan2f(micFront_cmplx_input_buf[2*max_norm_index[MIC_FRONT_I]+1], micFront_cmplx_input_buf[2*max_norm_index[MIC_FRONT_I]]);
+		deph_back= atan2f(micBack_cmplx_input_buf[2*max_norm_index[MIC_BACK_I]+1], micBack_cmplx_input_buf[2*max_norm_index[MIC_BACK_I]]);
+		deph_buf_y=(deph_front-deph_back);
+		if ((-3 < deph_buf_y) && (deph_buf_y<3)){
+			deph_y = a*deph_y+b*deph_buf_y;
+			test = SOUND_CONST*deph_y/(max_norm_index[MIC_LEFT_I]);
+			if (test > 1) test=1;
+			if (test < -1) test=-1;
+			angle_y = asinf(test);
+			//chprintf((BaseSequentialStream *) &SD3, " angle_y = %4f \n ",angle_y*180/3.14);
+		}
+	}
+	set_localisation(angle_x,angle_y);
 }
 
 
 /*
-*	Callback called when the demodulation of the four microphones is done.
-*	We get 160 samples per mic every 10ms (16kHz)
-*
-*	params :
-*	int16_t *data			Buffer containing 4 times 160 samples. the samples are sorted by micro
-*							so we have [micRight1, micLeft1, micBack1, micFront1, micRight2, etc...]
-*	uint16_t num_samples	Tells how many data we get in total (should always be 640)
-*/
+ *	Callback called when the demodulation of the four microphones is done.
+ *	We get 160 samples per mic every 10ms (16kHz)
+ *
+ *	params :
+ *	int16_t *data			Buffer containing 4 times 160 samples. the samples are sorted by micro
+ *							so we have [micRight1, micLeft1, micBack1, micFront1, micRight2, etc...]
+ *	uint16_t num_samples	Tells how many data we get in total (should always be 640)
+ */
 void processAudioData(int16_t *data, uint16_t num_samples){
 
 	/*
-	*
-	*	We get 160 samples per mic every 10ms
-	*	So we fill the samples buffers to reach
-	*	1024 samples, then we compute the FFTs.
-	*
-	*/
+	 *
+	 *	We get 160 samples per mic every 10ms
+	 *	So we fill the samples buffers to reach
+	 *	1024 samples, then we compute the FFTs.
+	 *
+	 */
 
 	static uint16_t nb_samples = 0;
 

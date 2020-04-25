@@ -9,6 +9,8 @@
 #include <main.h>
 #include <usbcfg.h>
 #include <sensors/proximity.h>
+#include <motors.h>
+#include "parcours.h"
 
 messagebus_t bus;
 MUTEX_DECL(bus_lock);

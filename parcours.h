@@ -18,8 +18,9 @@
 
 //etapes pour definir la progression du contournement d'obstacles
 #define MVT_IDLE 					0
-#define MVT_CONTOURNEMENT_DROITE	1
-#define MVT_CONTOURNEMENT_GAUCHE 	2
+#define CONTOURNEMENT				1
+#define LONGEMENT					2
+#define RETOUR_TRAJECTOIRE		 	3
 #define LIM_CONTOURNEMENT 			50
 
 /*comme la vitesse du régulateur s'ajoute à celle de l'idle (à savoir 7.5 cm/s) et que l'on souhaite pas dépasser la vitesse max
@@ -39,9 +40,9 @@ Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 #define SEC_VIRAGE 					4
 #define ERREURS_STEPS				10
 #define LIMITE_STEPS_DROITE			2310
-#define LIMITE_STEPS_PETIT_VIRAGE	3796
-#define LIMITE_STEPS_GRAND_VIRAGE 	6360
-#define VITESSE_PETIT_VIRAGE 		459
+#define LIMITE_STEPS_PETIT_VIRAGE	1613
+#define LIMITE_STEPS_GRAND_VIRAGE 	3322
+#define VITESSE_PETIT_VIRAGE 		373
 
 
 //On aura très probablement plus besoin de ces 2 fonctions
@@ -62,7 +63,7 @@ void parcours_en_infini(void);
  * Recoit en paramètre les valeurs des capteurs de devant et du coté ainsi qu'une valeur correspondant à un obstacle en contact
  * (suite aux mesures). Sort une vitesse à appliquer sur les moteurs (qui s'ajoute à la vitesse de l'idle)
  */
-int16_t pi_controller(uint32_t ecart_devant, uint32_t ecart_cote, uint32_t limite_contact);
+//int16_t pi_controller(uint32_t ecart_devant, uint32_t ecart_cote, uint32_t limite_contact);
 
 
 /* La fonction qui définit nos vitesses de moteurs selon notre environnement (correspond aux booléens qui indiquent la présence

@@ -16,17 +16,14 @@ static uint32_t val_calibrees[PROXIMITY_NB_CHANNELS];
 static bool obstacle[PROXIMITY_NB_CHANNELS];
 
 
-int16_t check_chemin(void)
+bool check_chemin(void)
 {
-	if ((!obstacle[CAPTEUR_GAUCHE]) && (!obstacle[CAPTEUR_HAUT_GAUCHE_45]))
+	if (!obstacle[CAPTEUR_GAUCHE])
 	{
-		return MVT_CONTOURNEMENT_GAUCHE;
+		return true;
 	}
 
-	else
-	{
-		return MVT_CONTOURNEMENT_DROITE;
-	}
+	return false;
 }
 
 

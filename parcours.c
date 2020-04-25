@@ -11,9 +11,9 @@
 
 static int16_t vitesse_droite;
 static int16_t vitesse_gauche;
-static int16_t etat_contournement = MVT_IDLE;
+//static int16_t etat_contournement = MVT_IDLE;
 static uint16_t etat_parcours = PREM_LIGNE_DROITE;
-static bool contournement_en_cours = false;
+
 
 
 void parcours_en_infini(void)
@@ -28,14 +28,12 @@ void parcours_en_infini(void)
 	switch(etat_parcours)
 	{
 		case PREM_LIGNE_DROITE :
-		if ((abs(compteur_droit - LIMITE_STEPS_DROITE) > ERREURS_STEPS) &&
-				(abs(compteur_gauche - LIMITE_STEPS_DROITE) > ERREURS_STEPS))
+		if ((abs(compteur_droit - LIMITE_STEPS_DROITE) < ERREURS_STEPS) ||
+				(abs(compteur_gauche - LIMITE_STEPS_DROITE) < ERREURS_STEPS))
 		{
 			etat_parcours = PREM_VIRAGE;
 			right_motor_set_pos(0);
 			left_motor_set_pos(0);
-			vitesse_droite = 0;
-			vitesse_gauche = 0;
 			break;
 		}
 		vitesse_droite = VITESSE_LIN;
@@ -44,14 +42,12 @@ void parcours_en_infini(void)
 
 
 	case PREM_VIRAGE :
-	if ((abs(compteur_droit - LIMITE_STEPS_PETIT_VIRAGE) > ERREURS_STEPS) &&
-			(abs(compteur_gauche - LIMITE_STEPS_GRAND_VIRAGE) > ERREURS_STEPS))
+	if ((abs(compteur_droit - LIMITE_STEPS_PETIT_VIRAGE) < ERREURS_STEPS) ||
+			(abs(compteur_gauche - LIMITE_STEPS_GRAND_VIRAGE) < ERREURS_STEPS))
 	{
 		etat_parcours = SEC_LIGNE_DROITE;
 		right_motor_set_pos(0);
 		left_motor_set_pos(0);
-		vitesse_droite = 0;
-		vitesse_gauche = 0;
 		break;
 	}
 	vitesse_droite = VITESSE_PETIT_VIRAGE;
@@ -59,14 +55,12 @@ void parcours_en_infini(void)
 	break;
 
 	case SEC_LIGNE_DROITE :
-		if ((abs(compteur_droit - LIMITE_STEPS_DROITE) > ERREURS_STEPS) &&
-				(abs(compteur_gauche - LIMITE_STEPS_DROITE) > ERREURS_STEPS))
+		if ((abs(compteur_droit - LIMITE_STEPS_DROITE) < ERREURS_STEPS) ||
+				(abs(compteur_gauche - LIMITE_STEPS_DROITE) < ERREURS_STEPS))
 		{
 			etat_parcours = SEC_VIRAGE;
 			right_motor_set_pos(0);
 			left_motor_set_pos(0);
-			vitesse_droite = 0;
-			vitesse_gauche = 0;
 			break;
 		}
 		vitesse_droite = VITESSE_LIN;
@@ -74,23 +68,22 @@ void parcours_en_infini(void)
 		break;
 
 	case SEC_VIRAGE :
-	if ((abs(compteur_gauche - LIMITE_STEPS_PETIT_VIRAGE) > ERREURS_STEPS) &&
-			(abs(compteur_droit - LIMITE_STEPS_GRAND_VIRAGE) > ERREURS_STEPS))
+	if ((abs(compteur_gauche - LIMITE_STEPS_PETIT_VIRAGE) < ERREURS_STEPS) ||
+			(abs(compteur_droit - LIMITE_STEPS_GRAND_VIRAGE) < ERREURS_STEPS))
 	{
 		etat_parcours = PREM_LIGNE_DROITE;
 		right_motor_set_pos(0);
 		left_motor_set_pos(0);
-		vitesse_droite = 0;
-		vitesse_gauche = 0;
 		break;
 	}
 	vitesse_droite = VITESSE_LIN;
 	vitesse_gauche = VITESSE_PETIT_VIRAGE;
 	break;
 	}
+
 }
 
-
+/*
 int16_t pi_controller(uint32_t ecart_devant, uint32_t ecart_cote, uint32_t limite_contact)
 {
 	float error = 0;
@@ -124,79 +117,112 @@ int16_t pi_controller(uint32_t ecart_devant, uint32_t ecart_cote, uint32_t limit
 
 	return (int16_t)speed;
 
-}
+}*/
 
 
 
 
 void definir_vitesse(bool obstacle1, bool obstacle2, bool obstacle3)
 {
-	int16_t vitesse_pi = 0;
-	uint32_t valeur_capteur_devant = 0;
-	uint32_t valeur_capteur_cote = 0;
-	static int16_t compteur = 0;
+	//int16_t vitesse_pi = 0;
+	//uint32_t valeur_capteur_devant = 0;
+	//uint32_t valeur_capteur_cote = 0;
+	static int16_t etat_contournement = MVT_IDLE;
+	static int32_t compteur_droite = 0;
+	static int32_t compteur_gauche = 0;
+	static bool tourner_a_gauche = false;
+	static bool obstacle_cote_90 = false;
 
-   //1er cas : pas d'obstacle on est dans le cas de l'idle (on avance à 7.5 cm/s)
-	if ((!obstacle1) && (!obstacle2) && (!obstacle3) && (!contournement_en_cours))
+	switch(etat_contournement)
 	{
-		vitesse_droite = VITESSE_IDLE;
-		vitesse_gauche = VITESSE_IDLE;
-		etat_contournement = MVT_IDLE;
-	}
-
-	//2eme cas : un obstacle mais on l'a contourné et on souhaite retourner dans la trajectoire initiale
-	// il y a plus rien devant ou sur les côtés à 45 deg
-	else if ((!obstacle1) && (!obstacle2) && (!obstacle3) && (contournement_en_cours))
-	{
-		switch(etat_contournement)
+		case MVT_IDLE :
+		if ((!obstacle1) && (!obstacle2) && (!obstacle3))
 		{
-			case MVT_CONTOURNEMENT_GAUCHE :
-			vitesse_droite = VITESSE_LIN - VITESSE_LIM; //env 7.5cm/s
-			vitesse_gauche = VITESSE_LIN + VITESSE_LIM; //env 12 cm/s
-			break;
-
-			case MVT_CONTOURNEMENT_DROITE :
-			vitesse_droite = VITESSE_LIN + VITESSE_LIM;
-			vitesse_gauche = VITESSE_LIN - VITESSE_LIM;
-			break;
+			vitesse_droite = VITESSE_IDLE;
+			vitesse_gauche = VITESSE_IDLE;
 		}
 
-	// ce compteur indique combien de temps on reste en situation de retour de trajectoire
-	// comme le thread est à 100 Hz, une incrémentation correspond à idéalement 10 ms
-	// on souhaite faire ce retour de trajectoire à une demi seconde (fixé arbitrairement et peut être modifié)
-		compteur++;
-		if (compteur > LIM_CONTOURNEMENT)
+		else
 		{
+			etat_contournement = CONTOURNEMENT;
+		}
+		break;
+
+		case CONTOURNEMENT :
+		if ((!obstacle1) && (!obstacle2) && (!obstacle3))
+		{
+			etat_contournement = LONGEMENT;
+		}
+		else
+		{
+			tourner_a_gauche = check_chemin();
+			if (tourner_a_gauche)
+			{
+				//valeur_capteur_devant = get_valeur_capteur(CAPTEUR_HAUT_DROITE);
+				//valeur_capteur_cote = get_valeur_capteur(CAPTEUR_HAUT_DROITE_45);
+				//vitesse_pi = pi_controller(valeur_capteur_devant, valeur_capteur_cote, OBSTACLE_EN_CONTACT);
+				vitesse_droite = VITESSE_IDLE;
+				vitesse_gauche = -VITESSE_IDLE;
+			}
+
+			else
+			{
+				//valeur_capteur_devant = get_valeur_capteur(CAPTEUR_HAUT_GAUCHE);
+				//valeur_capteur_cote = get_valeur_capteur(CAPTEUR_HAUT_GAUCHE_45);
+				//vitesse_pi = pi_controller(valeur_capteur_devant, valeur_capteur_cote, OBSTACLE_EN_CONTACT);
+				vitesse_droite = -VITESSE_IDLE;
+				vitesse_gauche = VITESSE_IDLE;
+			}
+			compteur_droite = right_motor_get_pos();
+			compteur_gauche = left_motor_get_pos();
+
+		}
+		break;
+
+		case LONGEMENT:
+		if (tourner_a_gauche)
+		{
+			obstacle_cote_90 = get_obstacle_condition(CAPTEUR_DROITE);
+		}
+		else
+		{
+			obstacle_cote_90 = get_obstacle_condition(CAPTEUR_GAUCHE);
+		}
+		if (obstacle_cote_90)
+		{
+			vitesse_droite = VITESSE_IDLE;
+			vitesse_gauche = VITESSE_IDLE;
+		}
+		else
+		{
+			etat_contournement = RETOUR_TRAJECTOIRE;
+			right_motor_set_pos(0);
+			left_motor_set_pos(0);
+
+		}
+		break;
+
+		case RETOUR_TRAJECTOIRE:
+		if (tourner_a_gauche)
+		{
+			vitesse_droite = -VITESSE_IDLE;
+			vitesse_gauche = VITESSE_IDLE;
+		}
+		else
+		{
+			vitesse_droite = VITESSE_IDLE;
+			vitesse_gauche = -VITESSE_IDLE;
+		}
+		if (abs(right_motor_get_pos() - compteur_droite) < ERREURS_STEPS ||
+				abs(left_motor_get_pos() - compteur_gauche) < ERREURS_STEPS)
+		{
+			tourner_a_gauche = false;
+			obstacle_cote_90 = false;
 			etat_contournement = MVT_IDLE;
-			compteur = 0;
-			contournement_en_cours = false;
+			compteur_droite = 0;
+			compteur_gauche = 0;
 		}
-	}
-
-	//3eme cas : il y a un obstacle en approche, on active la régulation pour s'en éloigner
-	else
-	{
-		contournement_en_cours = true;
-		etat_contournement = check_chemin();
-		switch(etat_contournement)
-		{
-
-			case MVT_CONTOURNEMENT_GAUCHE :
-			valeur_capteur_devant = get_valeur_capteur(CAPTEUR_HAUT_DROITE);
-			valeur_capteur_cote = get_valeur_capteur(CAPTEUR_HAUT_DROITE_45);
-			vitesse_pi = pi_controller(valeur_capteur_devant, valeur_capteur_cote, OBSTACLE_EN_CONTACT);
-			vitesse_droite = VITESSE_LIN + vitesse_pi;
-			vitesse_gauche = VITESSE_LIN - 2*vitesse_pi;
-			break;
-
-			case MVT_CONTOURNEMENT_DROITE :
-			valeur_capteur_devant = get_valeur_capteur(CAPTEUR_HAUT_GAUCHE);
-			valeur_capteur_cote = get_valeur_capteur(CAPTEUR_HAUT_GAUCHE_45);
-			vitesse_pi = pi_controller(valeur_capteur_devant, valeur_capteur_cote, OBSTACLE_EN_CONTACT);
-			vitesse_droite = VITESSE_LIN - 2*vitesse_pi;
-			vitesse_gauche = VITESSE_LIN + vitesse_pi;
-			break;
-		}
+		break;
 	}
 }
 

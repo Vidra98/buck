@@ -33,7 +33,7 @@
 /* Fonction qui détermine le chemin à prendre (contournement par la droite ou la gauche)
  * J'ai mis par défaut (ie pas d'obstacle sur les cotés) le contournement par la gauche
  */
-int16_t check_chemin(void);
+bool check_chemin(void);
 
 // Fonction qui renvoie une valeur calibrée d'un capteur, pour le PI
 // Est appelée uniquement si nécessaire

@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 1
+>>>>>>> Stashed changes
 
 
    1              		.cpu cortex-m4
@@ -58,7 +62,11 @@ ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
   55              	.L7:
   56              		.align	2
   57              	.L6:
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 2
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 2
+>>>>>>> Stashed changes
 
 
   58 001c 00000000 		.word	__stack_chk_guard
@@ -118,7 +126,11 @@ ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
  112              	__default_exit:
  113              	.LFB2:
  114              		.loc 1 68 0
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 3
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 3
+>>>>>>> Stashed changes
 
 
  115              		.cfi_startproc
@@ -178,7 +190,11 @@ ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
  169 0045 05       		.uleb128 0x5
  170 0046 3D000000 		.4byte	0x3d
  171 004a 00000000 		.4byte	.LFB0
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 4
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 4
+>>>>>>> Stashed changes
 
 
  172 004e 20000000 		.4byte	.LFE0-.LFB0
@@ -238,7 +254,11 @@ ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
  226 0029 9742     		.uleb128 0x2117
  227 002b 19       		.uleb128 0x19
  228 002c 00       		.byte	0
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 5
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 5
+>>>>>>> Stashed changes
 
 
  229 002d 00       		.byte	0
@@ -298,7 +318,11 @@ ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
  283 0066 01       		.uleb128 0x1
  284 0067 31       		.uleb128 0x31
  285 0068 13       		.uleb128 0x13
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 6
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 6
+>>>>>>> Stashed changes
 
 
  286 0069 00       		.byte	0
@@ -358,7 +382,11 @@ ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
  329      782F636F 
  329      6D70696C 
  330              	.LASF5:
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 7
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 7
+>>>>>>> Stashed changes
 
 
  331 0056 5F5F6561 		.ascii	"__early_init\000"
@@ -418,7 +446,11 @@ ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
  346      73696F6E 
  346      2D636F6E 
  346      7374616E 
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 8
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 8
+>>>>>>> Stashed changes
 
 
  346      7400
@@ -428,11 +460,16 @@ ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 1
  348      745F6578 
  348      697400
  349              		.ident	"GCC: (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 7.2.1 20170904 (release) [ARM
+<<<<<<< Updated upstream
 ARM GAS  C:\Users\41786\AppData\Local\Temp\ccSeB97j.s 			page 9
+=======
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cccpst8M.s 			page 9
+>>>>>>> Stashed changes
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 crt1.c
+<<<<<<< Updated upstream
 C:\Users\41786\AppData\Local\Temp\ccSeB97j.s:18     .text.__early_init:00000000 $t
 C:\Users\41786\AppData\Local\Temp\ccSeB97j.s:26     .text.__early_init:00000000 __early_init
 C:\Users\41786\AppData\Local\Temp\ccSeB97j.s:58     .text.__early_init:0000001c $d
@@ -442,6 +479,17 @@ C:\Users\41786\AppData\Local\Temp\ccSeB97j.s:99     .text.__late_init:0000001c $
 C:\Users\41786\AppData\Local\Temp\ccSeB97j.s:104    .text.__default_exit:00000000 $t
 C:\Users\41786\AppData\Local\Temp\ccSeB97j.s:112    .text.__default_exit:00000000 __default_exit
 C:\Users\41786\AppData\Local\Temp\ccSeB97j.s:132    .text.__default_exit:0000000c $d
+=======
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:18     .text.__early_init:00000000 $t
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:26     .text.__early_init:00000000 __early_init
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:58     .text.__early_init:0000001c $d
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:63     .text.__late_init:00000000 $t
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:71     .text.__late_init:00000000 __late_init
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:99     .text.__late_init:0000001c $d
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:104    .text.__default_exit:00000000 $t
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:112    .text.__default_exit:00000000 __default_exit
+C:\Users\41786\AppData\Local\Temp\cccpst8M.s:132    .text.__default_exit:0000000c $d
+>>>>>>> Stashed changes
 
 UNDEFINED SYMBOLS
 __stack_chk_fail

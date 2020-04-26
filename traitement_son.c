@@ -43,32 +43,31 @@ static float angle=0.;
  *a revoir quelque modif
  */
 void sound_tracking(int sound_index){
-	int16_t vitesse_rot;
+	int16_t vitesse_rot,vitesse_d,vitesse_g;
 	float c_angle,s_angle;
 	static int16_t sum_error;
 	c_angle=cosf(angle);
 	s_angle=sinf(angle);
-	chprintf((BaseSequentialStream *) &SD3, "sound_index %d freq %f\n", sound_index, sound_index*AUDIO_RESOLUTION);
 	if ((sound_index>23)&&(sound_index<33)){
-		chprintf((BaseSequentialStream *) &SD3, "viens\n");
 		sum_error += (COS_AVANT-c_angle);
 		if (abs(sum_error)> MAX_SUM_ERROR) sum_error=MAX_SUM_ERROR;
-		vitesse_rot=(COS_AVANT-c_angle)*KP+(sum_error)*KI;
-		if ((COS_AVANT-c_angle)<COS_MARGE) vitesse_rot=0;
-		if (s_angle > NUL){
-			right_motor_set_speed(vitesse_rot);
-			left_motor_set_speed(-vitesse_rot);
+		vitesse_d=(COS_AVANT-c_angle)*KP+(sum_error)*KI+KA*c_angle;
+		vitesse_g=-((COS_AVANT-c_angle)*KP+(sum_error)*KI)+KA*c_angle;
+	    if (s_angle > NUL){
+			right_motor_set_speed(vitesse_d);
+			left_motor_set_speed(vitesse_g);
 		}
 		else {
-			right_motor_set_speed(-vitesse_rot);
-			left_motor_set_speed(vitesse_rot);
+			right_motor_set_speed(vitesse_g);
+			left_motor_set_speed(vitesse_d);
 		}
+		//chprintf((BaseSequentialStream *) &SD3, "d %d, g %d s_angle %\n", vitesse_d, vitesse_g, s_angle);
+
 	}
 	else if ((sound_index>33)&&(sound_index<43)){
 		sum_error += (COS_ARRIERE-c_angle);
 		if (abs(sum_error)> MAX_SUM_ERROR) sum_error=-MAX_SUM_ERROR;
 		vitesse_rot=(COS_ARRIERE-c_angle)*KP+(sum_error)*KI;
-		//if ((COS_ARRIERE-c_angle)<-COS_MARGE) vitesse_rot=0;
 		if (s_angle > NUL){
 			right_motor_set_speed(vitesse_rot);
 			left_motor_set_speed(-vitesse_rot);
@@ -77,7 +76,7 @@ void sound_tracking(int sound_index){
 			right_motor_set_speed(-vitesse_rot);
 			left_motor_set_speed(vitesse_rot);
 		}
-		chprintf((BaseSequentialStream *) &SD3, "fuis %d\n",(COS_ARRIERE-c_angle));
+		//chprintf((BaseSequentialStream *) &SD3, "fuis %d\n",(COS_ARRIERE-c_angle));
 	}
 	else {
 		right_motor_set_speed(NUL);

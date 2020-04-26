@@ -51,14 +51,15 @@ s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit
 Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 
 #define VITESSE_LIM					600
-#define KP 							300
-#define KI							10
-#define MAX_SUM_ERROR 				VITESSE_LIM/8
-#define MAX_ERROR 					VITESSE_LIM/3
+#define KP 							200
+#define KA 							400
+#define KI							15
+#define MAX_SUM_ERROR 				VITESSE_LIM/4
+#define MAX_ERROR 					VITESSE_LIM
 
 #define COS_AVANT					1.0f
 #define COS_ARRIERE					-1.0f
-#define COS_MARGE					0.1f
+#define COS_MARGE					0.05f
 
 /*Traite les informations provenant des micro
  *

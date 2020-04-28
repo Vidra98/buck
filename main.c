@@ -11,7 +11,8 @@
 #include <chprintf.h>
 #include <motors.h>
 #include <audio/microphone.h>
-
+#include <leds.h>
+#include <spi_comm.h>
 #include <sensors/proximity.h>
 #include <traitement_son.h>
 
@@ -45,6 +46,8 @@ int main(void)
     //initialistion des capteurs IR
     proximity_start();
 
+    spi_comm_start();
+
     //initialisation des modules de communication
     //starts the serial communication
     serial_start();
@@ -61,7 +64,9 @@ int main(void)
     while (1) {
     	wait_traitement_data();
 		//chprintf((BaseSequentialStream *) &SDU1, "\n hello main %d \n", 1);
+    	clear_leds();
 
+    	set_body_led(0);
     	traitement_data();
     	//waits 1 second
     }

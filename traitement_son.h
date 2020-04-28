@@ -34,32 +34,24 @@ typedef enum {
 	MIC_FRONT_I
 } INDEX_MICROPHONE;
 
-/*define provenant de parcours.h, a supprimer quand on mergera les fichier
- *
- */
-// pour une vitesse d'environ 7.5 cm/s qui correspond à l'idle (tant que pas d'obstacle, buck avance à une vitesse de 7.5cm/s)
-#define VITESSE_IDLE 				577
 
-//etapes pour definir la progression du contournement d'obstacles
-#define MVT_IDLE 					0
-#define MVT_CONTOURNEMENT_DROITE	1
-#define MVT_CONTOURNEMENT_GAUCHE 	2
-#define ANGLE_MARGIN				6.
 /*comme la vitesse du régulateur s'ajoute à celle de l'idle (à savoir 7.5 cm/s) et que l'on souhaite pas dépasser la vitesse max
 de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamais dépasser. ceci évite ainsi que le régulateur
 s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit les valeurs des capteurs)
 Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 
-#define VITESSE_LIM					600
-#define KP 							200
-#define KA 							400
-#define KI							15
-#define MAX_SUM_ERROR 				VITESSE_LIM/4
+#define VITESSE_LIM					900
+#define KP 							400
+#define KA 							800
+#define KI							5
+#define MAX_SUM_ERROR 				VITESSE_LIM/6
 #define MAX_ERROR 					VITESSE_LIM
 
 #define COS_AVANT					1.0f
 #define COS_ARRIERE					-1.0f
 #define COS_MARGE					0.05f
+
+#define FREQ_STAB_IND				3
 
 /*Traite les informations provenant des micro
  *

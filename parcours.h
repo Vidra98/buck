@@ -28,7 +28,7 @@ de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamai
 s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit les valeurs des capteurs)
 Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 
-#define VITESSE_LIM					230
+#define VITESSE_LIM					400
 #define KP 							5
 #define KI							0.1
 #define MAX_SUM_ERROR 				VITESSE_LIM/KI

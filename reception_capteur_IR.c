@@ -18,7 +18,7 @@ static bool obstacle[PROXIMITY_NB_CHANNELS];
 
 bool check_chemin(void)
 {
-	if (!obstacle[CAPTEUR_GAUCHE])
+	if (!obstacle[CAPTEUR_HAUT_GAUCHE_45])
 	{
 		return true;
 	}

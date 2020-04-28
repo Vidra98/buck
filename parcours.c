@@ -83,14 +83,14 @@ void parcours_en_infini(void)
 
 }
 
-/*
-int16_t pi_controller(uint32_t ecart_devant, uint32_t ecart_cote, uint32_t limite_contact)
+
+int16_t pi_controller(int32_t objectif, int32_t pos_actuelle)
 {
 	float error = 0;
 	float speed = 0;
 	static float sum_error = 0;
 
-	error = 2*ecart_devant + ecart_cote - limite_contact;
+	error = abs(pos_actuelle) - abs(objectif);
 	//pour eviter des emballements
 	if (error > MAX_ERROR)
 	{
@@ -117,7 +117,7 @@ int16_t pi_controller(uint32_t ecart_devant, uint32_t ecart_cote, uint32_t limit
 
 	return (int16_t)speed;
 
-}*/
+}
 
 
 
@@ -127,6 +127,8 @@ void definir_vitesse(bool obstacle1, bool obstacle2, bool obstacle3)
 	//int16_t vitesse_pi = 0;
 	//uint32_t valeur_capteur_devant = 0;
 	//uint32_t valeur_capteur_cote = 0;
+	int16_t vitesse_pi_r = 0;
+	int16_t vitesse_pi_l = 0;
 	static int16_t etat_contournement = MVT_IDLE;
 	static int32_t compteur_droite = 0;
 	static int32_t compteur_gauche = 0;
@@ -145,6 +147,8 @@ void definir_vitesse(bool obstacle1, bool obstacle2, bool obstacle3)
 		else
 		{
 			etat_contournement = CONTOURNEMENT;
+			right_motor_set_pos(0);
+			left_motor_set_pos(0);
 		}
 		break;
 
@@ -203,18 +207,19 @@ void definir_vitesse(bool obstacle1, bool obstacle2, bool obstacle3)
 		break;
 
 		case RETOUR_TRAJECTOIRE:
+		vitesse_pi_r = pi_controller(compteur_droite, right_motor_get_pos());
+		vitesse_pi_l = pi_controller(compteur_gauche, left_motor_get_pos());
 		if (tourner_a_gauche)
 		{
-			vitesse_droite = -VITESSE_IDLE;
-			vitesse_gauche = VITESSE_IDLE;
+			vitesse_droite = VITESSE_IDLE - vitesse_pi_r;
+			vitesse_gauche = VITESSE_IDLE + vitesse_pi_l;
 		}
 		else
 		{
-			vitesse_droite = VITESSE_IDLE;
-			vitesse_gauche = -VITESSE_IDLE;
+			vitesse_droite = VITESSE_IDLE + vitesse_pi_r;
+			vitesse_gauche = VITESSE_IDLE - vitesse_pi_l;
 		}
-		if (abs(right_motor_get_pos() - compteur_droite) < ERREURS_STEPS ||
-				abs(left_motor_get_pos() - compteur_gauche) < ERREURS_STEPS)
+		if (abs(vitesse_pi_r) < 50 || abs(vitesse_pi_l) < 50)
 		{
 			tourner_a_gauche = false;
 			obstacle_cote_90 = false;

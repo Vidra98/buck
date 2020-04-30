@@ -11,6 +11,8 @@
 #include <arm_math.h>
 #include <arm_const_structs.h>
 
+#include<parcours.h>
+
 //semaphore
 static BSEMAPHORE_DECL(traitement, TRUE);
 

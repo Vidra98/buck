@@ -40,12 +40,12 @@ de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamai
 s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit les valeurs des capteurs)
 Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 
-#define VITESSE_LIM					900
+/*#define VITESSE_LIM					900
 #define KP 							400
-#define KA 							800
 #define KI							5
 #define MAX_SUM_ERROR 				VITESSE_LIM/6
-#define MAX_ERROR 					VITESSE_LIM
+#define MAX_ERROR 					VITESSE_LIM*/
+#define KA 							800
 
 #define COS_AVANT					1.0f
 #define COS_ARRIERE					-1.0f

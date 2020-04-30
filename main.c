@@ -15,6 +15,11 @@
 #include <spi_comm.h>
 #include <sensors/proximity.h>
 #include <traitement_son.h>
+=======
+#include <sensors/proximity.h>
+#include <motors.h>
+#include "parcours.h"
+>>>>>>> origin/Capteur_IR
 
 messagebus_t bus;
 MUTEX_DECL(bus_lock);
@@ -53,12 +58,23 @@ int main(void)
     serial_start();
     //starts the USB communication
     usb_start();
+<<<<<<< HEAD
     //démarrage des moteurs
     motors_init();
     //calibration des capteurs
     calibrate_ir();
 
     mic_start(&processAudioData);
+=======
+
+    //démarrage des moteurs
+    motors_init();
+
+    //calibration des capteurs
+    calibrate_ir();
+
+    parcours_start();
+>>>>>>> origin/Capteur_IR
 
     /* Infinite loop. */
     while (1) {
@@ -66,9 +82,13 @@ int main(void)
 		//chprintf((BaseSequentialStream *) &SDU1, "\n hello main %d \n", 1);
     	clear_leds();
 
+<<<<<<< HEAD
     	set_body_led(0);
     	traitement_data();
     	//waits 1 second
+=======
+        chThdSleepMilliseconds(1000);
+>>>>>>> origin/Capteur_IR
     }
 }
 

@@ -22,7 +22,6 @@ bool check_chemin(void)
 	{
 		return true;
 	}
-
 	return false;
 }
 
@@ -43,7 +42,6 @@ void valeurs_ambiantes(void)
 	for (int i = 0; i < PROXIMITY_NB_CHANNELS; i++)
 	{
 		val_ambiantes[i] = get_ambient_light(i);
-		//chprintf((BaseSequentialStream *)&SDU1, "lumiere ambiante du capteur %d : %d\n",i, val_ambiantes[i]);
 	}
 }
 
@@ -52,7 +50,6 @@ void valeurs_absolues(void)
 	for (int i = 0; i < PROXIMITY_NB_CHANNELS; i++)
 	{
 		val_absolues[i] = get_prox(i);
-		//chprintf((BaseSequentialStream *)&SDU1, "valeurs absolues du capteur %d : %d \n", i, val_absolues);
 	}
 }
 
@@ -71,7 +68,6 @@ void valeurs_calibrees(void)
 		{
 			obstacle[i] = false;
 		}
-		//chprintf((BaseSequentialStream *)&SDU1, "valeurs calibrees du capteur %d : %d \n", i, val_calibrees[i]);
 	}
 }
 

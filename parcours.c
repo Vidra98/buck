@@ -11,18 +11,14 @@
 
 static int16_t vitesse_droite;
 static int16_t vitesse_gauche;
-//static int16_t etat_contournement = MVT_IDLE;
-static uint16_t etat_parcours = PREM_LIGNE_DROITE;
 
 
 
 void parcours_en_infini(void)
 {
-	int32_t compteur_droit = 0;
-	int32_t compteur_gauche = 0;
-	compteur_droit = right_motor_get_pos();
-	compteur_gauche = left_motor_get_pos();
-
+	int32_t compteur_droit = right_motor_get_pos();
+	int32_t compteur_gauche = left_motor_get_pos();
+	static uint8_t etat_parcours = PREM_LIGNE_DROITE;
 	//séquence ligne droite - virage - ligne droite - virage que l'on répète en boucle
 	// le passage d'une étape à l'autre s'effectue avec l'actualisation de la position des moteurs
 	switch(etat_parcours)
@@ -39,7 +35,6 @@ void parcours_en_infini(void)
 		vitesse_droite = VITESSE_LIN;
 		vitesse_gauche = VITESSE_LIN;
 		break;
-
 
 	case PREM_VIRAGE :
 	if ((abs(compteur_droit - LIMITE_STEPS_PETIT_VIRAGE) < ERREURS_STEPS) ||
@@ -80,7 +75,6 @@ void parcours_en_infini(void)
 	vitesse_gauche = VITESSE_PETIT_VIRAGE;
 	break;
 	}
-
 }
 
 
@@ -101,35 +95,25 @@ int16_t pi_controller(int32_t objectif, int32_t pos_actuelle)
 	{
 		error = -MAX_ERROR;
 	}
-
-
 	sum_error += error;
-
 	//we set a maximum and a minimum for the sum to avoid an uncontrolled growth
 	if(sum_error > MAX_SUM_ERROR){
 		sum_error = MAX_SUM_ERROR;
 	}else if(sum_error < -MAX_SUM_ERROR){
 		sum_error = -MAX_SUM_ERROR;
 	}
-
-
 	speed = KP * error + KI * sum_error;
-
 	return (int16_t)speed;
-
 }
 
 
 
 
-void definir_vitesse(bool obstacle1, bool obstacle2, bool obstacle3)
+void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obstacle_gauche_45)
 {
-	//int16_t vitesse_pi = 0;
-	//uint32_t valeur_capteur_devant = 0;
-	//uint32_t valeur_capteur_cote = 0;
 	int16_t vitesse_pi_r = 0;
 	int16_t vitesse_pi_l = 0;
-	static int16_t etat_contournement = MVT_IDLE;
+	static uint8_t etat_contournement = MVT_IDLE;
 	static int32_t compteur_droite = 0;
 	static int32_t compteur_gauche = 0;
 	static bool tourner_a_gauche = false;
@@ -138,7 +122,7 @@ void definir_vitesse(bool obstacle1, bool obstacle2, bool obstacle3)
 	switch(etat_contournement)
 	{
 		case MVT_IDLE :
-		if ((!obstacle1) && (!obstacle2) && (!obstacle3))
+		if ((!obstacle_devant) && (!obstacle_droite_45) && (!obstacle_gauche_45))
 		{
 			vitesse_droite = VITESSE_IDLE;
 			vitesse_gauche = VITESSE_IDLE;
@@ -153,56 +137,62 @@ void definir_vitesse(bool obstacle1, bool obstacle2, bool obstacle3)
 		break;
 
 		case CONTOURNEMENT :
-		if ((!obstacle1) && (!obstacle2) && (!obstacle3))
+		if ((!obstacle_devant) && (!obstacle_droite_45) && (!obstacle_gauche_45))
 		{
 			etat_contournement = LONGEMENT;
 		}
 		else
 		{
-			tourner_a_gauche = check_chemin();
+			if (compteur_droite == 0 && compteur_gauche == 0)
+			{
+				tourner_a_gauche = check_chemin();
+			}
 			if (tourner_a_gauche)
 			{
-				//valeur_capteur_devant = get_valeur_capteur(CAPTEUR_HAUT_DROITE);
-				//valeur_capteur_cote = get_valeur_capteur(CAPTEUR_HAUT_DROITE_45);
-				//vitesse_pi = pi_controller(valeur_capteur_devant, valeur_capteur_cote, OBSTACLE_EN_CONTACT);
 				vitesse_droite = VITESSE_IDLE;
 				vitesse_gauche = -VITESSE_IDLE;
 			}
 
 			else
 			{
-				//valeur_capteur_devant = get_valeur_capteur(CAPTEUR_HAUT_GAUCHE);
-				//valeur_capteur_cote = get_valeur_capteur(CAPTEUR_HAUT_GAUCHE_45);
-				//vitesse_pi = pi_controller(valeur_capteur_devant, valeur_capteur_cote, OBSTACLE_EN_CONTACT);
 				vitesse_droite = -VITESSE_IDLE;
 				vitesse_gauche = VITESSE_IDLE;
 			}
 			compteur_droite = right_motor_get_pos();
 			compteur_gauche = left_motor_get_pos();
-
 		}
 		break;
 
 		case LONGEMENT:
-		if (tourner_a_gauche)
+		if (!obstacle_devant)
 		{
-			obstacle_cote_90 = get_obstacle_condition(CAPTEUR_DROITE);
+			if (tourner_a_gauche)
+			{
+				obstacle_cote_90 = get_obstacle_condition(CAPTEUR_DROITE);
+			}
+			else
+			{
+				obstacle_cote_90 = get_obstacle_condition(CAPTEUR_GAUCHE);
+			}
+			if (obstacle_cote_90)
+			{
+				vitesse_droite = VITESSE_IDLE;
+				vitesse_gauche = VITESSE_IDLE;
+			}
+			else
+			{
+				etat_contournement = RETOUR_TRAJECTOIRE;
+				right_motor_set_pos(0);
+				left_motor_set_pos(0);
+			}
 		}
 		else
 		{
-			obstacle_cote_90 = get_obstacle_condition(CAPTEUR_GAUCHE);
-		}
-		if (obstacle_cote_90)
-		{
-			vitesse_droite = VITESSE_IDLE;
-			vitesse_gauche = VITESSE_IDLE;
-		}
-		else
-		{
-			etat_contournement = RETOUR_TRAJECTOIRE;
+			etat_contournement = CONTOURNEMENT;
 			right_motor_set_pos(0);
 			left_motor_set_pos(0);
-
+			compteur_droite = 0;
+			compteur_gauche = 0;
 		}
 		break;
 
@@ -211,15 +201,15 @@ void definir_vitesse(bool obstacle1, bool obstacle2, bool obstacle3)
 		vitesse_pi_l = pi_controller(compteur_gauche, left_motor_get_pos());
 		if (tourner_a_gauche)
 		{
-			vitesse_droite = VITESSE_IDLE - vitesse_pi_r;
-			vitesse_gauche = VITESSE_IDLE + vitesse_pi_l;
-		}
-		else
-		{
 			vitesse_droite = VITESSE_IDLE + vitesse_pi_r;
 			vitesse_gauche = VITESSE_IDLE - vitesse_pi_l;
 		}
-		if (abs(vitesse_pi_r) < 50 || abs(vitesse_pi_l) < 50)
+		else
+		{
+			vitesse_droite = VITESSE_IDLE - vitesse_pi_r;
+			vitesse_gauche = VITESSE_IDLE + vitesse_pi_l;
+		}
+		if (abs(vitesse_pi_r) < 10 || abs(vitesse_pi_l) < 10)
 		{
 			tourner_a_gauche = false;
 			obstacle_cote_90 = false;
@@ -241,25 +231,19 @@ static THD_FUNCTION(Parcours, arg)
 
 	systime_t time;
 	bool obstacle_devant = false;
-	bool obstacle_cote_droit = false;
-	bool obstacle_cote_gauche = false;
+	bool obstacle_devant_droit = false;
+	bool obstacle_devant_gauche = false;
 
 	while (1)
 	{
 		time = chVTGetSystemTime();
-		//chprintf((BaseSequentialStream *)&SD3, "je rentre dans la fonction capteur \n");
-
-		/* Enregistrement des valeurs issues des 8 capteurs (même si on travaillera qu'avec les 4 de devant)
-		 * Les 3 booléens nous permettra de sortir de l'idle (car obstacle dans les alentours)
-		 * J'estime que pas besoin de vérifier les capteurs sur les côtés
-		 */
 		valeurs_calibrees();
 		obstacle_devant = get_obstacle_condition(CAPTEUR_HAUT_DROITE);
-		obstacle_cote_droit = get_obstacle_condition(CAPTEUR_HAUT_DROITE_45);
-		obstacle_cote_gauche = get_obstacle_condition(CAPTEUR_HAUT_GAUCHE_45);
+		obstacle_devant_droit = get_obstacle_condition(CAPTEUR_HAUT_DROITE_45);
+		obstacle_devant_gauche = get_obstacle_condition(CAPTEUR_HAUT_GAUCHE_45);
 
 
-		definir_vitesse(obstacle_devant, obstacle_cote_droit, obstacle_cote_gauche);
+		parcours_obstacle(obstacle_devant, obstacle_devant_droit, obstacle_devant_gauche);
 		right_motor_set_speed(vitesse_droite);
 		left_motor_set_speed(vitesse_gauche);
 

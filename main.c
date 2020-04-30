@@ -50,7 +50,6 @@ int main(void)
 
     spi_comm_start();
 
-    //initialisation des modules de communication
     //starts the serial communication
     serial_start();
     //starts the USB communication
@@ -62,18 +61,26 @@ int main(void)
     //calibration des capteurs
     calibrate_ir();
 
+    //Envoie les données du micro a la fonction process audio
     mic_start(&processAudioData);
 
     parcours_start();
 
-
     /* Infinite loop. */
     while (1) {
+    	systime_t time1,time2,time3;
+    	time1 = chVTGetSystemTime();
+
     	wait_traitement_data();
-		//chprintf((BaseSequentialStream *) &SDU1, "\n hello main %d \n", 1);
+    	time2 = chVTGetSystemTime();
+
     	clear_leds();
     	set_body_led(0);
+    	set_front_led(0);
+
     	traitement_data();
+    	time3 = chVTGetSystemTime();
+    	//chprintf((BaseSequentialStream*) &SD3, "time wait %d traitement %d tout %d\n",time2-time1,time3-time2,time3-time1);
     	//waits 1 second
     }
 }

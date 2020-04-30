@@ -34,22 +34,23 @@ typedef enum {
 	MIC_FRONT_I
 } INDEX_MICROPHONE;
 
+#define MIN_FREQ			10		//we don't analyze before this index to not use resources for nothing
+#define AVANT_FREQ_MIN		17		//258hz
+#define AVANT_FREQ_MAX		27		//411hz
+#define ARRIERE_FREQ_MIN	27		//411hz
+#define ARRIERE_FREQ_MAX	37		//563hz
+#define DROITE_FREQ_MIN		37		//563
+#define DROITE_FREQ_MAX		47		//715
+#define GAUCHE_FREQ_MIN		47		//715
+#define GAUCHE_FREQ_MAX		57		//868
+#define MAX_FREQ			130		//we don't analyze after this index to not use resources for nothing
 
 /*comme la vitesse du régulateur s'ajoute à celle de l'idle (à savoir 7.5 cm/s) et que l'on souhaite pas dépasser la vitesse max
 de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamais dépasser. ceci évite ainsi que le régulateur
 s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit les valeurs des capteurs)
 Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
 
-/*#define VITESSE_LIM					900
-#define KP 							400
-#define KI							5
-#define MAX_SUM_ERROR 				VITESSE_LIM/6
-#define MAX_ERROR 					VITESSE_LIM*/
-#define KA 							800
 
-#define COS_AVANT					1.0f
-#define COS_ARRIERE					-1.0f
-#define COS_MARGE					0.05f
 
 #define FREQ_STAB_IND				3
 
@@ -69,5 +70,9 @@ void wait_traitement_data(void);
 float* get_audio_buffer_ptr(BUFFER_NAME_t name);
 
 void traitement_data(void);
+
+float get_angle(void);
+
+float get_freq(void);
 
 #endif

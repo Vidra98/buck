@@ -29,6 +29,17 @@ s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit
 #define MAX_ERROR 					VITESSE_LIM/KP
 #define VITESSE_MIN_PI				10
 
+#define VITESSE_LIM_PI_SON			900
+#define KP_SON						400
+#define KI_SON						5
+#define MAX_SUM_ERROR_SON 			VITESSE_LIM/6
+#define MAX_ERROR_SON 				VITESSE_LIM
+#define KA_SON						800
+
+#define COS_AVANT					1.0f
+#define COS_ARRIERE					-1.0f
+#define COS_MARGE					0.05f
+
 #define PREM_LIGNE_DROITE			1
 #define PREM_VIRAGE 				2
 #define SEC_LIGNE_DROITE 			3

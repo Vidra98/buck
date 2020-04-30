@@ -32,89 +32,13 @@ static float micRight_cmplx_input_buf[2 * FFT_SIZE];
 static float micFront_cmplx_input_buf[2 * FFT_SIZE];
 static float micBack_cmplx_input_buf[2 * FFT_SIZE];
 
-static uint8_t samples_count=0,freq_samples=0;
-static float angle=0., freq_buf;
+static uint8_t samples_count=0;
+static float angle=0., freq_buf=0., freq=0.;
 
-#define FREQ_TRAITEMENT		1
+#define FREQ_TRAITEMENT		10
 #define MIN_VALUE_THRESHOLD	3000
 
-#define MIN_FREQ			10		//we don't analyze before this index to not use resources for nothing
-#define AVANT_FREQ_MIN		17		//258hz
-#define AVANT_FREQ_MAX		27		//411hz
-#define ARRIERE_FREQ_MIN	27		//411hz
-#define ARRIERE_FREQ_MAX	37		//563hz
-#define DROITE_FREQ_MIN		37		//563
-#define DROITE_FREQ_MAX		47		//715
-#define GAUCHE_FREQ_MIN		47		//715
-#define GAUCHE_FREQ_MAX		57		//868
-#define MAX_FREQ			130		//we don't analyze after this index to not use resources for nothing
 
-
-/*
- * Allume les leds pour indiquer la direction de provenance du son
- */
-void set_direction_led(void){
-	if ((angle<2*PI/8) || (angle>14*PI/8))   set_led(LED1,1);
-	if ((PI/8<angle) && (3*PI/8>angle))		 set_rgb_led(LED8,255,0,0);
-	if ((2*PI/8<angle) && (6*PI/8>angle))    set_led(LED7,1);
-	if ((5*PI/8<angle) && (7*PI/8>angle))	 set_rgb_led(LED6,255,0,0);
-	if ((6*PI/8<angle) && (10*PI/8>angle))   set_led(LED5,1);
-	if ((9*PI/8<angle) && (11*PI/8>angle))	 set_rgb_led(LED4,255,0,0);
-	if ((10*PI/8<angle) && (14*PI/8>angle))  set_led(LED3,1);
-	if ((13*PI/8<angle) && (15*PI/8>angle))	 set_rgb_led(LED2,255,0,0);
-}
-/*Oriente le robot dans la direction du son
- *a revoir quelque modif
- */
-void sound_response(int sound_index){
-	int16_t vitesse_d,vitesse_g;
-	float c_angle,s_angle;
-	static int16_t sum_error;
-	c_angle=cosf(angle);
-	s_angle=sinf(angle);
-	// dirige le robot vers la source de son pour les fréquences [260,]Hz
-	if ((sound_index>AVANT_FREQ_MIN)&&(sound_index<AVANT_FREQ_MAX)){
-		sum_error += (COS_AVANT-c_angle);
-		if (abs(sum_error)> MAX_SUM_ERROR) sum_error=MAX_SUM_ERROR;
-		vitesse_d=(COS_AVANT-c_angle)*KP+(sum_error)*KI+KA*c_angle;
-		vitesse_g=-((COS_AVANT-c_angle)*KP+(sum_error)*KI)+KA*c_angle;
-	    if (s_angle > NUL){
-			right_motor_set_speed(vitesse_d);
-			left_motor_set_speed(vitesse_g);
-		}
-		else {
-			right_motor_set_speed(vitesse_g);
-			left_motor_set_speed(vitesse_d);
-		}
-	    set_direction_led();
-	    set_front_led(1);
-	}
-	//dirige le robot à l'inverse de la source de son pour les frequence []Hz
-	else if ((sound_index>ARRIERE_FREQ_MIN)&&(sound_index<ARRIERE_FREQ_MAX)){
-		sum_error += (COS_ARRIERE-c_angle);
-		if (abs(sum_error)> MAX_SUM_ERROR) sum_error=-MAX_SUM_ERROR;
-		vitesse_d=(COS_ARRIERE-c_angle)*KP+(sum_error)*KI-KA*c_angle;
-		vitesse_g=-((COS_ARRIERE-c_angle)*KP+(sum_error)*KI)-KA*c_angle;
-		if (s_angle > NUL){
-			right_motor_set_speed(vitesse_d);
-			left_motor_set_speed(vitesse_g);
-		}
-		else {
-			right_motor_set_speed(vitesse_g);
-			left_motor_set_speed(vitesse_d);
-		}
-		set_direction_led();
-		set_front_led(1);
-	}
-	//pas de mouvement sinon
-	else {
-		right_motor_set_speed(NUL);
-		left_motor_set_speed(NUL);
-	}
-	/*chprintf((BaseSequentialStream *) &SD3,"front %6f back %6f delta %f\n",micFront_output[sound_index],micFront_output[sound_index],
-																		 micFront_output[sound_index]-micFront_output[sound_index]);
-	*/
-}
 
 /*fonction determinant l'angle d'incidence du son par rapport à l'axe x du robot
  *Définie positif dans le sens inverse des aiguilles d'une montre de [0,2*PI]
@@ -191,12 +115,14 @@ void traitement_data(void){
 			angle_y = asinf(test);
 		}
 	}
-	/*if ((max_norm_index[MIC_LEFT_I] == max_norm_index[MIC_RIGHT_I])&&(max_norm_index[MIC_BACK_I] == max_norm_index[MIC_FRONT_I])){
+	if ((max_norm_index[MIC_LEFT_I] == max_norm_index[MIC_RIGHT_I])&&(max_norm_index[MIC_BACK_I] == max_norm_index[MIC_FRONT_I])){
 			freq_buf=max_norm_index[MIC_LEFT_I];
-	}*/
+	}
+	freq = max_norm_index[MIC_LEFT_I];
+	chprintf((BaseSequentialStream *) &SD3, " traitement :  angle %f freq %f  \n\n  ", angle,max_norm_index[MIC_RIGHT_I] );
+
 	//if (freq_samples == FREQ_STAB_IND){
 	set_localisation(angle_x,angle_y);
-	sound_response(max_norm_index[MIC_LEFT_I]);
 	//}
 }
 
@@ -282,6 +208,14 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		chBSemSignal(&traitement);
 
 	}
+}
+
+float get_angle(void){
+	return angle;
+}
+
+float get_freq(void){
+	return freq;
 }
 
 void wait_traitement_data(void){

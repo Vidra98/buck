@@ -7,12 +7,82 @@
 #include "reception_capteur_IR.h"
 #include <sensors/proximity.h>
 #include <math.h>
+#include <traitement_son.h>
+#include <leds.h>
 
+#define PI					3.14159265358979f
 
 static int16_t vitesse_droite;
 static int16_t vitesse_gauche;
 
+/*
+ * Allume les leds pour indiquer la direction de provenance du son
+ */
+void set_direction_led(void){
+	float angle = get_angle();
+	if ((angle<2*PI/8) || (angle>14*PI/8))   set_led(LED1,1);
+	if ((PI/8<angle) && (3*PI/8>angle))		 set_rgb_led(LED8,255,0,0);
+	if ((2*PI/8<angle) && (6*PI/8>angle))    set_led(LED7,1);
+	if ((5*PI/8<angle) && (7*PI/8>angle))	 set_rgb_led(LED6,255,0,0);
+	if ((6*PI/8<angle) && (10*PI/8>angle))   set_led(LED5,1);
+	if ((9*PI/8<angle) && (11*PI/8>angle))	 set_rgb_led(LED4,255,0,0);
+	if ((10*PI/8<angle) && (14*PI/8>angle))  set_led(LED3,1);
+	if ((13*PI/8<angle) && (15*PI/8>angle))	 set_rgb_led(LED2,255,0,0);
+}
 
+/*Oriente le robot dans la direction du son
+ *a revoir quelque modif
+ */
+void reponse_sonore(void){
+
+	int16_t vitesse_d,vitesse_g;
+	float angle, sound_index,c_angle,s_angle;
+	static int16_t sum_error;
+	angle = get_angle();
+	sound_index = get_freq();
+	chprintf((BaseSequentialStream *) &SD3, " parcours :  angle %f freq %f    ", angle, sound_index*AUDIO_RESOLUTION );
+	c_angle=cosf(angle);
+	s_angle=sinf(angle);
+	// dirige le robot vers la source de son pour les fréquences [260,400]Hz
+	if ((sound_index>AVANT_FREQ_MIN)&&(sound_index<AVANT_FREQ_MAX)){
+		sum_error += (COS_AVANT-c_angle);
+		if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
+		vitesse_d=(COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON+KA_SON*c_angle;
+		vitesse_g=-((COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON)+KA_SON*c_angle;
+	    if (s_angle > NUL){
+			vitesse_droite=vitesse_d;
+			vitesse_gauche=vitesse_g;
+		}
+		else {
+			vitesse_droite=vitesse_g;
+			vitesse_gauche=vitesse_d;
+		}
+	    set_direction_led();
+	    set_front_led(1);
+	}
+	//dirige le robot à l'inverse de la source de son pour les frequence [400,555]Hz
+	else if ((sound_index>ARRIERE_FREQ_MIN)&&(sound_index<ARRIERE_FREQ_MAX)){
+		sum_error += (COS_ARRIERE-c_angle);
+		if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
+		vitesse_d=(COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON-KA_SON*c_angle;
+		vitesse_g=-((COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON)-KA_SON*c_angle;
+		if (s_angle > NUL){
+			vitesse_droite=vitesse_d;
+			vitesse_gauche=vitesse_g;
+		}
+		else {
+			vitesse_droite=vitesse_g;
+			vitesse_gauche=vitesse_d;
+		}
+		set_direction_led();
+		set_front_led(1);
+	}
+	//pas de mouvement sinon
+	else {
+		vitesse_droite=0;
+		vitesse_gauche=0;
+	}
+}
 
 void parcours_en_infini(void)
 {
@@ -124,8 +194,9 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 		case MVT_IDLE :
 		if ((!obstacle_devant) && (!obstacle_droite_45) && (!obstacle_gauche_45))
 		{
-			vitesse_droite = VITESSE_IDLE;
-			vitesse_gauche = VITESSE_IDLE;
+			reponse_sonore();
+			float angle =get_angle();
+			//chprintf((BaseSequentialStream *) &SD3, "je suis le son %f\n", angle);
 		}
 
 		else
@@ -133,10 +204,13 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 			etat_contournement = CONTOURNEMENT;
 			right_motor_set_pos(0);
 			left_motor_set_pos(0);
+
 		}
 		break;
 
 		case CONTOURNEMENT :
+			//chprintf((BaseSequentialStream *) &SD3, "contournement\n");
+
 		if ((!obstacle_devant) && (!obstacle_droite_45) && (!obstacle_gauche_45))
 		{
 			etat_contournement = LONGEMENT;
@@ -164,6 +238,8 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 		break;
 
 		case LONGEMENT:
+			//chprintf((BaseSequentialStream *) &SD3, "longement\n");
+
 		if (!obstacle_devant)
 		{
 			if (tourner_a_gauche)
@@ -199,6 +275,9 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 		case RETOUR_TRAJECTOIRE:
 		vitesse_pi_r = pi_controller(compteur_droite, right_motor_get_pos());
 		vitesse_pi_l = pi_controller(compteur_gauche, left_motor_get_pos());
+		//chprintf((BaseSequentialStream *) &SD3, "trajectoire compt droi %d, compt gauc %d || vitesse r %d vitesse l %d \n",
+			//									compteur_droite, compteur_gauche, vitesse_pi_r, vitesse_pi_l);
+
 		if (tourner_a_gauche)
 		{
 			vitesse_droite = VITESSE_IDLE + vitesse_pi_r;
@@ -209,13 +288,15 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 			vitesse_droite = VITESSE_IDLE - vitesse_pi_r;
 			vitesse_gauche = VITESSE_IDLE + vitesse_pi_l;
 		}
-		if (abs(vitesse_pi_r) < 10 || abs(vitesse_pi_l) < 10)
+		if (abs(vitesse_pi_r) < 25 || abs(vitesse_pi_l) < 25)
 		{
 			tourner_a_gauche = false;
 			obstacle_cote_90 = false;
 			etat_contournement = MVT_IDLE;
 			compteur_droite = 0;
 			compteur_gauche = 0;
+			//chprintf((BaseSequentialStream *) &SD3, "RETOURRRRRRRRRRRRRRRRRRR %d\n", etat_contournement);
+
 		}
 		break;
 	}
@@ -253,5 +334,5 @@ static THD_FUNCTION(Parcours, arg)
 }
 
 void parcours_start(void){
-	chThdCreateStatic(waParcours, sizeof(waParcours), NORMALPRIO, Parcours, NULL);
+	chThdCreateStatic(waParcours, sizeof(waParcours), NORMALPRIO+3, Parcours, NULL);
 }

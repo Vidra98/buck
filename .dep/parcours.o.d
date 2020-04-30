@@ -138,7 +138,8 @@ build/obj/parcours.o: parcours.c parcours.h \
  c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdarg.h \
  ../../lib/e-puck2_main-processor/src/motors.h reception_capteur_IR.h \
  ../../lib/e-puck2_main-processor/src/sensors/proximity.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\math.h
+ c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\math.h \
+ traitement_son.h ../../lib/e-puck2_main-processor/src/leds.h
 
 parcours.h:
 
@@ -425,3 +426,7 @@ reception_capteur_IR.h:
 ../../lib/e-puck2_main-processor/src/sensors/proximity.h:
 
 c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\math.h:
+
+traitement_son.h:
+
+../../lib/e-puck2_main-processor/src/leds.h:

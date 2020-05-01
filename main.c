@@ -74,7 +74,11 @@ int main(void)
     	wait_traitement_data();
     	//time2 = chVTGetSystemTime();
 
-    	clear_leds();
+    	//j'ai mis ça à la place des clears leds sinon ça buggait avec le toggle
+    	set_led(LED1, 0);
+    	set_led(LED3, 0);
+    	set_led(LED5, 0);
+    	set_led(LED7, 0);
     	set_body_led(0);
     	set_front_led(0);
 

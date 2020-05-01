@@ -9,27 +9,13 @@
 #include <math.h>
 #include <traitement_son.h>
 #include <leds.h>
+#include "animations.h"
 
-#define PI					3.14159265358979f
 
 static int16_t vitesse_droite;
 static int16_t vitesse_gauche;
-
-/*
- * Allume les leds pour indiquer la direction de provenance du son
- */
-void set_direction_led(void){
-	float angle = get_angle();
-	if ((angle<2*PI/8) || (angle>14*PI/8))   set_led(LED1,1);
-	if ((PI/8<angle) && (3*PI/8>angle))		 set_rgb_led(LED8,255,0,0);
-	if ((2*PI/8<angle) && (6*PI/8>angle))    set_led(LED7,1);
-	if ((5*PI/8<angle) && (7*PI/8>angle))	 set_rgb_led(LED6,255,0,0);
-	if ((6*PI/8<angle) && (10*PI/8>angle))   set_led(LED5,1);
-	if ((9*PI/8<angle) && (11*PI/8>angle))	 set_rgb_led(LED4,255,0,0);
-	if ((10*PI/8<angle) && (14*PI/8>angle))  set_led(LED3,1);
-	if ((13*PI/8<angle) && (15*PI/8>angle))	 set_rgb_led(LED2,255,0,0);
-}
-
+static bool aller_en_avant = false;
+static bool aller_en_arriere = false;
 /*Oriente le robot dans la direction du son
  *a revoir quelque modif
  */
@@ -45,6 +31,13 @@ void reponse_sonore(void){
 	s_angle=sinf(angle);
 	// dirige le robot vers la source de son pour les fréquences [260,400]Hz
 	if ((sound_index>AVANT_FREQ_MIN)&&(sound_index<AVANT_FREQ_MAX)){
+		aller_en_arriere = false;
+		if(!aller_en_avant)
+		{
+			validation_commande();
+			aller_en_avant = true;
+		}
+		else{
 		sum_error += (COS_AVANT-c_angle);
 		if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
 		vitesse_d=(COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON+KA_SON*c_angle;
@@ -57,11 +50,19 @@ void reponse_sonore(void){
 			vitesse_droite=vitesse_g;
 			vitesse_gauche=vitesse_d;
 		}
-	    set_direction_led();
+	    set_direction_led(angle);
 	    set_front_led(1);
+		}
 	}
 	//dirige le robot à l'inverse de la source de son pour les frequence [400,555]Hz
 	else if ((sound_index>ARRIERE_FREQ_MIN)&&(sound_index<ARRIERE_FREQ_MAX)){
+		aller_en_avant = false;
+		if (!aller_en_arriere)
+		{
+			validation_commande();
+			aller_en_arriere = true;
+		}
+		else {
 		sum_error += (COS_ARRIERE-c_angle);
 		if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
 		vitesse_d=(COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON-KA_SON*c_angle;
@@ -74,11 +75,14 @@ void reponse_sonore(void){
 			vitesse_droite=vitesse_g;
 			vitesse_gauche=vitesse_d;
 		}
-		set_direction_led();
+		set_direction_led(angle);
 		set_front_led(1);
+		}
 	}
 	//pas de mouvement sinon
 	else {
+		aller_en_avant = false;
+		aller_en_arriere = false;
 		vitesse_droite=0;
 		vitesse_gauche=0;
 	}
@@ -91,6 +95,7 @@ void parcours_en_infini(void)
 	static uint8_t etat_parcours = PREM_LIGNE_DROITE;
 	//séquence ligne droite - virage - ligne droite - virage que l'on répète en boucle
 	// le passage d'une étape à l'autre s'effectue avec l'actualisation de la position des moteurs
+	animation_leds(etat_parcours, false);
 	switch(etat_parcours)
 	{
 		case PREM_LIGNE_DROITE :
@@ -188,6 +193,7 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 	static int32_t compteur_gauche = 0;
 	static bool tourner_a_gauche = false;
 	static bool obstacle_cote_90 = false;
+	animation_leds(etat_contournement, false);
 
 	switch(etat_contournement)
 	{
@@ -195,8 +201,6 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 		if ((!obstacle_devant) && (!obstacle_droite_45) && (!obstacle_gauche_45))
 		{
 			reponse_sonore();
-			float angle =get_angle();
-			//chprintf((BaseSequentialStream *) &SD3, "je suis le son %f\n", angle);
 		}
 
 		else
@@ -204,16 +208,16 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 			etat_contournement = CONTOURNEMENT;
 			right_motor_set_pos(0);
 			left_motor_set_pos(0);
-
+			animation_leds(etat_contournement, true);
 		}
 		break;
 
 		case CONTOURNEMENT :
-			//chprintf((BaseSequentialStream *) &SD3, "contournement\n");
 
 		if ((!obstacle_devant) && (!obstacle_droite_45) && (!obstacle_gauche_45))
 		{
 			etat_contournement = LONGEMENT;
+			animation_leds(etat_contournement, true);
 		}
 		else
 		{
@@ -238,7 +242,6 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 		break;
 
 		case LONGEMENT:
-			//chprintf((BaseSequentialStream *) &SD3, "longement\n");
 
 		if (!obstacle_devant)
 		{
@@ -260,6 +263,7 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 				etat_contournement = RETOUR_TRAJECTOIRE;
 				right_motor_set_pos(0);
 				left_motor_set_pos(0);
+				animation_leds(etat_contournement, true);
 			}
 		}
 		else
@@ -269,14 +273,13 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 			left_motor_set_pos(0);
 			compteur_droite = 0;
 			compteur_gauche = 0;
+			animation_leds(etat_contournement, true);
 		}
 		break;
 
 		case RETOUR_TRAJECTOIRE:
 		vitesse_pi_r = pi_controller(compteur_droite, right_motor_get_pos());
 		vitesse_pi_l = pi_controller(compteur_gauche, left_motor_get_pos());
-		//chprintf((BaseSequentialStream *) &SD3, "trajectoire compt droi %d, compt gauc %d || vitesse r %d vitesse l %d \n",
-			//									compteur_droite, compteur_gauche, vitesse_pi_r, vitesse_pi_l);
 
 		if (tourner_a_gauche)
 		{
@@ -295,8 +298,7 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 			etat_contournement = MVT_IDLE;
 			compteur_droite = 0;
 			compteur_gauche = 0;
-			//chprintf((BaseSequentialStream *) &SD3, "RETOURRRRRRRRRRRRRRRRRRR %d\n", etat_contournement);
-
+			animation_leds(etat_contournement, true);
 		}
 		break;
 	}

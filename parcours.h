@@ -4,6 +4,8 @@
 #include <stdbool.h>
 
 
+
+
 //pour une vitesse lineaire de 10cm/s avec la conversion de 1 tour/s = 1000 steps/s et r = 13/(2pi)
 #define VITESSE_LIN 				769
 
@@ -16,6 +18,10 @@
 #define CONTOURNEMENT				1
 #define LONGEMENT					2
 #define RETOUR_TRAJECTOIRE		 	3
+#define PREM_LIGNE_DROITE			4
+#define PREM_VIRAGE 				5
+#define SEC_LIGNE_DROITE 			6
+#define SEC_VIRAGE 					7
 
 /*comme la vitesse du régulateur s'ajoute à celle de l'idle (à savoir 7.5 cm/s) et que l'on souhaite pas dépasser la vitesse max
 de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamais dépasser. ceci évite ainsi que le régulateur
@@ -36,14 +42,12 @@ s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit
 #define MAX_ERROR_SON 				VITESSE_LIM
 #define KA_SON						800
 
+#define PI							3.14159265358979f
 #define COS_AVANT					1.0f
 #define COS_ARRIERE					-1.0f
 #define COS_MARGE					0.05f
 
-#define PREM_LIGNE_DROITE			1
-#define PREM_VIRAGE 				2
-#define SEC_LIGNE_DROITE 			3
-#define SEC_VIRAGE 					4
+
 #define ERREURS_STEPS				10
 #define LIMITE_STEPS_DROITE			2310
 #define LIMITE_STEPS_PETIT_VIRAGE	1613

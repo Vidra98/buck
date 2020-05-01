@@ -68,20 +68,18 @@ int main(void)
 
     /* Infinite loop. */
     while (1) {
-    	systime_t time1,time2,time3;
-    	time1 = chVTGetSystemTime();
+    	//systime_t time1,time2,time3;
+    	//time1 = chVTGetSystemTime();
 
     	wait_traitement_data();
-    	time2 = chVTGetSystemTime();
+    	//time2 = chVTGetSystemTime();
 
     	clear_leds();
     	set_body_led(0);
     	set_front_led(0);
 
     	traitement_data();
-    	time3 = chVTGetSystemTime();
-    	//chprintf((BaseSequentialStream*) &SD3, "time wait %d traitement %d tout %d\n",time2-time1,time3-time2,time3-time1);
-    	//waits 1 second
+    	//time3 = chVTGetSystemTime();
     }
 }
 

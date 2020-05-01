@@ -1,22 +1,22 @@
 build/obj/vl53l0x_i2c_platform.o: \
  ../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/vl53l0x_i2c_platform.c \
  ../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../inc/vl53l0x_i2c_platform.h \
- ../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../inc/../../core/inc/vl53l0x_def.h \
- ../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../inc/../../core/inc/vl53l0x_device.h \
- ../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../inc/../../core/inc/vl53l0x_types.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdint.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\stdint.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\machine\_default_types.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\features.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\_newlib_version.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\_intsup.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\_stdint.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stddef.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdarg.h \
+ c:\users\guill\microinfo_tp\lib\e-puck2_main-processor\src\sensors\vl53l0x\api\core\inc\vl53l0x_def.h \
+ c:\users\guill\microinfo_tp\lib\e-puck2_main-processor\src\sensors\vl53l0x\api\core\inc\vl53l0x_device.h \
+ c:\users\guill\microinfo_tp\lib\e-puck2_main-processor\src\sensors\vl53l0x\api\core\inc\vl53l0x_types.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdint.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\stdint.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\machine\_default_types.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\features.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\_newlib_version.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\_intsup.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\_stdint.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stddef.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdarg.h \
  ../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../../core/inc/vl53l0x_def.h \
  ../../lib/e-puck2_main-processor/ChibiOS//os/hal/include/hal.h \
  ../../lib/e-puck2_main-processor/ChibiOS//os/hal/osal/rt/osal.h \
- c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdbool.h \
+ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdbool.h \
  ../../lib/e-puck2_main-processor/ChibiOS//os/rt/include/ch.h \
  ../../lib/e-puck2_main-processor/ChibiOS//os/rt/ports/ARMCMx/compilers/GCC/chtypes.h \
  ../../lib/e-puck2_main-processor/src/chconf.h \
@@ -111,29 +111,29 @@ build/obj/vl53l0x_i2c_platform.o: \
 
 ../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../inc/vl53l0x_i2c_platform.h:
 
-../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../inc/../../core/inc/vl53l0x_def.h:
+c:\users\guill\microinfo_tp\lib\e-puck2_main-processor\src\sensors\vl53l0x\api\core\inc\vl53l0x_def.h:
 
-../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../inc/../../core/inc/vl53l0x_device.h:
+c:\users\guill\microinfo_tp\lib\e-puck2_main-processor\src\sensors\vl53l0x\api\core\inc\vl53l0x_device.h:
 
-../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../inc/../../core/inc/vl53l0x_types.h:
+c:\users\guill\microinfo_tp\lib\e-puck2_main-processor\src\sensors\vl53l0x\api\core\inc\vl53l0x_types.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdint.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdint.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\stdint.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\stdint.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\machine\_default_types.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\machine\_default_types.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\features.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\features.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\_newlib_version.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\_newlib_version.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\_intsup.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\_intsup.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\_stdint.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\_stdint.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stddef.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stddef.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdarg.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdarg.h:
 
 ../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/platform/src/../../core/inc/vl53l0x_def.h:
 
@@ -141,7 +141,7 @@ c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-
 
 ../../lib/e-puck2_main-processor/ChibiOS//os/hal/osal/rt/osal.h:
 
-c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdbool.h:
+c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\gcc\arm-none-eabi\7.2.1\include\stdbool.h:
 
 ../../lib/e-puck2_main-processor/ChibiOS//os/rt/include/ch.h:
 

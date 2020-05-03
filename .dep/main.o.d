@@ -151,7 +151,7 @@ build/obj/main.o: main.c \
  ../../lib/e-puck2_main-processor/src/leds.h \
  ../../lib/e-puck2_main-processor/src/spi_comm.h \
  ../../lib/e-puck2_main-processor/src/sensors/proximity.h \
- traitement_son.h parcours.h
+ traitement_son.h parcours.h animations.h
 
 c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\stdio.h:
 
@@ -462,3 +462,5 @@ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-n
 traitement_son.h:
 
 parcours.h:
+
+animations.h:

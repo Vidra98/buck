@@ -20,6 +20,7 @@ static bool aller_en_avant = false;
 static bool aller_en_arriere = false;
 static float angle;
 
+
 /*Oriente le robot dans la direction du son
  *a revoir quelque modif
  */
@@ -48,53 +49,49 @@ void reponse_sonore(void){
 // avant d'avancer ou de s'éloigner du son, buck devrait bipper et allumer ses body leds
 //routine appelée dans le thread d'animations
 //ça permet de dire qu'il a compris la commande
-		if(nouvelle_commande && get_animation_commande_validee())
+		if(nouvelle_commande && get_animations_commande_validee())
 		{
 			nouvelle_commande = false;
 		}
-		else{
-		nouvelle_commande = false;
-		sum_error += (COS_AVANT-c_angle);
-		if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
-		vitesse_d=(COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON+KA_SON*c_angle;
-		vitesse_g=-((COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON)+KA_SON*c_angle;
-	    if (s_angle > NUL){
-			vitesse_droite=vitesse_d;
-			vitesse_gauche=vitesse_g;
-		}
-		else {
-			vitesse_droite=vitesse_g;
-			vitesse_gauche=vitesse_d;
-		}
-	    set_direction_led(angle);
-	    set_front_led(1);
+		else
+		{
+			sum_error += (COS_AVANT-c_angle);
+			if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
+			vitesse_d=(COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON+KA_SON*c_angle;
+			vitesse_g=-((COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON)+KA_SON*c_angle;
+			if (s_angle > NUL){
+				vitesse_droite=vitesse_d;
+				vitesse_gauche=vitesse_g;
+			}
+			else {
+				vitesse_droite=vitesse_g;
+				vitesse_gauche=vitesse_d;
+			}
 		}
 	}
 	//dirige le robot à l'inverse de la source de son pour les frequence [400,555]Hz
 	//else if ((sound_index>ARRIERE_FREQ_MIN)&&(sound_index<ARRIERE_FREQ_MAX))
-	else if (aller_en_arriere && get_animation_commande_validee())
+	else if (aller_en_arriere)
 	{
 		aller_en_avant = false;
-		if (nouvelle_commande)
+		if (nouvelle_commande && get_animations_commande_validee())
 		{
 			nouvelle_commande = false;
 		}
-		else {
-		nouvelle_commande = false;
-		sum_error += (COS_ARRIERE-c_angle);
-		if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
-		vitesse_d=(COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON-KA_SON*c_angle;
-		vitesse_g=-((COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON)-KA_SON*c_angle;
-		if (s_angle > NUL){
-			vitesse_droite=vitesse_d;
-			vitesse_gauche=vitesse_g;
-		}
-		else {
-			vitesse_droite=vitesse_g;
-			vitesse_gauche=vitesse_d;
-		}
-		set_direction_led(angle);
-		set_front_led(1);
+		else
+		{
+			sum_error += (COS_ARRIERE-c_angle);
+			if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
+			vitesse_d=(COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON-KA_SON*c_angle;
+			vitesse_g=-((COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON)-KA_SON*c_angle;
+			if (s_angle > NUL){
+				vitesse_droite=vitesse_d;
+				vitesse_gauche=vitesse_g;
+			}
+			else {
+				vitesse_droite=vitesse_g;
+				vitesse_gauche=vitesse_d;
+			}
 		}
 	}
 	//pas de mouvement sinon
@@ -350,19 +347,17 @@ bool commande_recu(float freq)
 	}
 }
 
-bool lancement_idle(systime_t temps, float indice_freq, bool idle)
+bool lancement_idle(systime_t temps, systime_t temps_prime, bool commande, bool idle)
 {
-	static systime_t delta_t = 0;
-	systime_t temps_prime = chVTGetSystemTime();
+
 	//buck ne bouge pas quand il reçoit pas de commande
-	if (!commande_recu(indice_freq))
+	if (!commande)
 	{
 		if (!idle)
 		{
-			delta_t = temps_prime - temps;
+			systime_t delta_t = temps - temps_prime;
 			if (ST2S(delta_t) >= TEMPS_IDLE)
 			{
-				delta_t = 0;
 				return true;
 			}
 			else return false;
@@ -397,34 +392,45 @@ static THD_FUNCTION(Parcours, arg)
 	(void)arg;
 
 	systime_t time;
+	static systime_t time_start;
 	bool obstacle_devant = false;
 	bool obstacle_devant_droit = false;
 	bool obstacle_devant_gauche = false;
 	static bool idle_lance = false;
 	float freq_indice = 0.;
+	static bool temps_retenu = false;
 	while (1)
 	{
+//pour faire le timer de 5 secondes, on enregistre une seule fois un 2ème time puis on le compare avec time
 		time = chVTGetSystemTime();
-		freq_indice = get_freq();
-		valeurs_calibrees();
-		obstacle_devant = get_obstacle_condition(CAPTEUR_HAUT_DROITE);
-		obstacle_devant_droit = get_obstacle_condition(CAPTEUR_HAUT_DROITE_45);
-		obstacle_devant_gauche = get_obstacle_condition(CAPTEUR_HAUT_GAUCHE_45);
-
+		if(!temps_retenu)
+		{
+			time_start = chVTGetSystemTime();
+			temps_retenu = true;
+		}
+//reset l'enregistrement du 2ème time à chaque fois qu'on reçoit du son (permet de reset le 2ème time au prochain appel du thread)
+		if(commande_recu(freq_indice))
+		{
+			temps_retenu = false;
+		}
 //implémentation de l'idle si les conditions sont respectées (attente de 5 secondes et pas de commande reçue)
-		idle_lance = lancement_idle(time, freq_indice, idle_lance);
+		idle_lance = lancement_idle(time, time_start, commande_recu(freq_indice), idle_lance);
 		if (idle_lance)
 		{
 			parcours_en_infini();
 		}
 		else
 		{
+			freq_indice = get_freq();
+			valeurs_calibrees();
+			obstacle_devant = get_obstacle_condition(CAPTEUR_HAUT_DROITE);
+			obstacle_devant_droit = get_obstacle_condition(CAPTEUR_HAUT_DROITE_45);
+			obstacle_devant_gauche = get_obstacle_condition(CAPTEUR_HAUT_GAUCHE_45);
 		//les routines d'animations sont appelées dans cette fonction
 			parcours_obstacle(obstacle_devant, obstacle_devant_droit, obstacle_devant_gauche);
 		}
 		right_motor_set_speed(vitesse_droite);
 		left_motor_set_speed(vitesse_gauche);
-
 		chThdSleepUntilWindowed(time, time + MS2ST(10)); //chgt : mise à une freq de 100Hz
 		//baisser la fréquence du thread (ie augmenter le temps de sleep) si karnel panic
 	}

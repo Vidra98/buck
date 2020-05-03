@@ -65,6 +65,7 @@ int main(void)
     mic_start(&processAudioData);
 
     parcours_start();
+    animations_start();
 
     /* Infinite loop. */
     while (1) {

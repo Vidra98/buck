@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 
-
+#define TEMPS_IDLE					5
 
 //pour une vitesse lineaire de 10cm/s avec la conversion de 1 tour/s = 1000 steps/s et r = 13/(2pi)
 #define VITESSE_LIN 				769
@@ -56,6 +56,13 @@ s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit
 
 
 
+bool commande_recu(float freq);
+
+uint8_t get_parcours_etat(void);
+
+bool get_parcours_nouvelle_commande(void);
+
+float get_parcours_angle(void);
 /* Définit un parcours de buck selon le symbôle infini (un 8 couché)
  * Parcours composé de 2 lignes droites de 30 cm et de 2 virages d'un rayon de 21cm
  * (15.7cm pour la roue intérieure et 26.3cm pour la roue extérieure)

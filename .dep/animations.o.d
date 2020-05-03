@@ -139,7 +139,7 @@ build/obj/animations.o: animations.c animations.h \
  ../../lib/e-puck2_main-processor/src/spi_comm.h \
  ../../lib/e-puck2_main-processor/src/leds.h \
  ../../lib/e-puck2_main-processor/src/usbcfg.h \
- ../../lib/e-puck2_main-processor/src/audio/play_melody.h
+ ../../lib/e-puck2_main-processor/src/audio/play_melody.h parcours.h
 
 animations.h:
 
@@ -426,3 +426,5 @@ c:\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\lib\g
 ../../lib/e-puck2_main-processor/src/usbcfg.h:
 
 ../../lib/e-puck2_main-processor/src/audio/play_melody.h:
+
+parcours.h:

@@ -12,8 +12,12 @@
  */
 void set_direction_led(float angle);
 
-void animation_leds(uint8_t etat_parcours, bool nvelle_action);
+void animation_leds(uint8_t etat_parcours);
 
 void validation_commande(void);
+
+bool get_animations_commande_validee(void);
+
+void animations_start(void);
 
 #endif

@@ -15,46 +15,38 @@
 static int16_t vitesse_droite;
 static int16_t vitesse_gauche;
 static uint8_t etat_contournement = MVT_IDLE;
-static bool nouvelle_commande = false;
-static bool aller_en_avant = false;
-static bool aller_en_arriere = false;
-static float angle;
+static bool nouvelle_commande = false, aller_en_avant = false, aller_en_arriere = false;
+static systime_t time_start;
 
-
-/*Oriente le robot dans la direction du son
- *a revoir quelque modif
+/*
+ * modifs de guigui : j'ai mis l'angle en variable globale car le fichier animations en a besoin pour les leds
+ * j'ai retiré sound_index pour le mettre dans une autre fonction (qui nous permet de dire si on a reçu une commande)
+ * du coup j'ai remplacé les conditions "si la freq est dans l'intervalle" par des booléens qui sont définies dans la même fonction
+ * vas checker la fonction commande_recu
  */
-
-//modifs de guigui : j'ai mis l'angle en variable globale car le fichier animations en a besoin pour les leds
-// j'ai retiré sound_index pour le mettre dans une autre fonction (qui nous permet de dire si on a reçu une commande)
-// du coup j'ai remplacé les conditions "si la freq est dans l'intervalle" par des booléens qui sont définies dans la même fonction
-// vas checker la fonction commande_recu
 void reponse_sonore(void){
-
-
 	int16_t vitesse_d,vitesse_g;
-	//float angle, sound_index,c_angle,s_angle;
-	float c_angle, s_angle;
+	float c_angle, s_angle, angle;
 	static int16_t sum_error;
 	angle = get_angle();
-	//sound_index = get_freq();
-	//chprintf((BaseSequentialStream *) &SD3, " parcours :  angle %f freq %f    ", angle, sound_index*AUDIO_RESOLUTION );
 	c_angle=cosf(angle);
 	s_angle=sinf(angle);
 	// dirige le robot vers la source de son pour les fréquences [260,400]Hz
-	//if ((sound_index>AVANT_FREQ_MIN)&&(sound_index<AVANT_FREQ_MAX))
 	if(aller_en_avant)
 	{
+		time_start = chVTGetSystemTime();
 		aller_en_arriere = false;
-// avant d'avancer ou de s'éloigner du son, buck devrait bipper et allumer ses body leds
-//routine appelée dans le thread d'animations
-//ça permet de dire qu'il a compris la commande
+		/*
+		 *avant d'avancer ou de s'éloigner du son, buck devrait bipper et allumer ses body leds
+		 *routine appelée dans le thread d'animations
+		 *ça permet de dire qu'il a compris la commande
+		 */
 		if(nouvelle_commande && get_animations_commande_validee())
 		{
 			nouvelle_commande = false;
 		}
-		else
-		{
+		//else if (nouvelle_commande ==false)
+		//{
 			sum_error += (COS_AVANT-c_angle);
 			if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
 			vitesse_d=(COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON+KA_SON*c_angle;
@@ -67,19 +59,21 @@ void reponse_sonore(void){
 				vitesse_droite=vitesse_g;
 				vitesse_gauche=vitesse_d;
 			}
-		}
+		set_tracking_leds(angle);
+		//}
 	}
 	//dirige le robot à l'inverse de la source de son pour les frequence [400,555]Hz
 	//else if ((sound_index>ARRIERE_FREQ_MIN)&&(sound_index<ARRIERE_FREQ_MAX))
 	else if (aller_en_arriere)
 	{
+		time_start = chVTGetSystemTime();
 		aller_en_avant = false;
 		if (nouvelle_commande && get_animations_commande_validee())
 		{
 			nouvelle_commande = false;
 		}
-		else
-		{
+		//else if (nouvelle_commande == false)
+		//{
 			sum_error += (COS_ARRIERE-c_angle);
 			if (abs(sum_error)> MAX_SUM_ERROR_SON) sum_error=MAX_SUM_ERROR_SON;
 			vitesse_d=(COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON-KA_SON*c_angle;
@@ -92,10 +86,14 @@ void reponse_sonore(void){
 				vitesse_droite=vitesse_g;
 				vitesse_gauche=vitesse_d;
 			}
-		}
+			set_tracking_leds(angle);
+		//}
 	}
 	//pas de mouvement sinon
 	else {
+
+		//set parametre pour mesurer le temps d'attente
+
 		nouvelle_commande = false;
 		vitesse_droite=0;
 		vitesse_gauche=0;
@@ -111,7 +109,7 @@ void parcours_en_infini(void)
 	// le passage d'une étape à l'autre s'effectue avec l'actualisation de la position des moteurs
 	switch(etat_parcours)
 	{
-		case PREM_LIGNE_DROITE :
+	case PREM_LIGNE_DROITE :
 		if ((abs(compteur_droit - LIMITE_STEPS_DROITE) < ERREURS_STEPS) ||
 				(abs(compteur_gauche - LIMITE_STEPS_DROITE) < ERREURS_STEPS))
 		{
@@ -125,17 +123,17 @@ void parcours_en_infini(void)
 		break;
 
 	case PREM_VIRAGE :
-	if ((abs(compteur_droit - LIMITE_STEPS_PETIT_VIRAGE) < ERREURS_STEPS) ||
-			(abs(compteur_gauche - LIMITE_STEPS_GRAND_VIRAGE) < ERREURS_STEPS))
-	{
-		etat_parcours = SEC_LIGNE_DROITE;
-		right_motor_set_pos(0);
-		left_motor_set_pos(0);
+		if ((abs(compteur_droit - LIMITE_STEPS_PETIT_VIRAGE) < ERREURS_STEPS) ||
+				(abs(compteur_gauche - LIMITE_STEPS_GRAND_VIRAGE) < ERREURS_STEPS))
+		{
+			etat_parcours = SEC_LIGNE_DROITE;
+			right_motor_set_pos(0);
+			left_motor_set_pos(0);
+			break;
+		}
+		vitesse_droite = VITESSE_PETIT_VIRAGE;
+		vitesse_gauche = VITESSE_LIN;
 		break;
-	}
-	vitesse_droite = VITESSE_PETIT_VIRAGE;
-	vitesse_gauche = VITESSE_LIN;
-	break;
 
 	case SEC_LIGNE_DROITE :
 		if ((abs(compteur_droit - LIMITE_STEPS_DROITE) < ERREURS_STEPS) ||
@@ -151,17 +149,17 @@ void parcours_en_infini(void)
 		break;
 
 	case SEC_VIRAGE :
-	if ((abs(compteur_gauche - LIMITE_STEPS_PETIT_VIRAGE) < ERREURS_STEPS) ||
-			(abs(compteur_droit - LIMITE_STEPS_GRAND_VIRAGE) < ERREURS_STEPS))
-	{
-		etat_parcours = PREM_LIGNE_DROITE;
-		right_motor_set_pos(0);
-		left_motor_set_pos(0);
+		if ((abs(compteur_gauche - LIMITE_STEPS_PETIT_VIRAGE) < ERREURS_STEPS) ||
+				(abs(compteur_droit - LIMITE_STEPS_GRAND_VIRAGE) < ERREURS_STEPS))
+		{
+			etat_parcours = PREM_LIGNE_DROITE;
+			right_motor_set_pos(0);
+			left_motor_set_pos(0);
+			break;
+		}
+		vitesse_droite = VITESSE_LIN;
+		vitesse_gauche = VITESSE_PETIT_VIRAGE;
 		break;
-	}
-	vitesse_droite = VITESSE_LIN;
-	vitesse_gauche = VITESSE_PETIT_VIRAGE;
-	break;
 	}
 }
 
@@ -211,8 +209,8 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 
 	switch(etat_contournement)
 	{
-		//si pas d'obstacle notre epuck suit ou s'éloigne du son, sinon il l'évite
-		case MVT_IDLE :
+	//si pas d'obstacle notre epuck suit ou s'éloigne du son, sinon il l'évite
+	case MVT_IDLE :
 		if ((!obstacle_devant) && (!obstacle_droite_45) && (!obstacle_gauche_45))
 		{
 			reponse_sonore();
@@ -226,7 +224,7 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 		}
 		break;
 
-		case CONTOURNEMENT :
+	case CONTOURNEMENT :
 
 		if ((!obstacle_devant) && (!obstacle_droite_45) && (!obstacle_gauche_45))
 		{
@@ -254,7 +252,7 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 		}
 		break;
 
-		case LONGEMENT:
+	case LONGEMENT:
 
 		if (!obstacle_devant)
 		{
@@ -288,7 +286,7 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 		}
 		break;
 
-		case RETOUR_TRAJECTOIRE:
+	case RETOUR_TRAJECTOIRE:
 		vitesse_pi_r = pi_controller(compteur_droite, right_motor_get_pos());
 		vitesse_pi_l = pi_controller(compteur_gauche, left_motor_get_pos());
 
@@ -309,6 +307,7 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 			etat_contournement = MVT_IDLE;
 			compteur_droite = 0;
 			compteur_gauche = 0;
+			time_start = chVTGetSystemTime();
 		}
 		break;
 	}
@@ -317,54 +316,52 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 //j'ai un peu changé ta fonction reponse sonore et j'ai mis les conditions ici
 //ça me permettait d'interpréter les receptions de commandes selon les fréquences
 // et donc de pouvoir aussi lancer l'idle au cas où
-bool commande_recu(float freq)
+void commande_recu(void)
 {
-	if ((freq>AVANT_FREQ_MIN)&&(freq<AVANT_FREQ_MAX))
+
+	float freq=get_freq(), amp=get_amp();
+	if ((freq>AVANT_FREQ_MIN)&&(freq<AVANT_FREQ_MAX)&&(amp>MIN_INTENSITY_TRACKING))
 	{
 		if (!aller_en_avant)
 		{
 			aller_en_avant = true;
 			nouvelle_commande = true;
 		}
-		return true;
 	}
 
-	else if ((freq>ARRIERE_FREQ_MIN)&&(freq<ARRIERE_FREQ_MAX))
+	else if ((freq>ARRIERE_FREQ_MIN)&&(freq<ARRIERE_FREQ_MAX)&&(amp>MIN_INTENSITY_TRACKING))
 	{
 		if(!aller_en_arriere)
 		{
 			aller_en_arriere = true;
 			nouvelle_commande = true;
 		}
-		return true;
 	}
 
 	else
 	{
 		aller_en_avant = false;
 		aller_en_arriere = false;
-		return false;
 	}
 }
 
-bool lancement_idle(systime_t temps, systime_t temps_prime, bool commande, bool idle)
+bool lancement_idle(void)
 {
-
+	systime_t time, delta_t;
 	//buck ne bouge pas quand il reçoit pas de commande
-	if (!commande)
+	if (etat_contournement==MVT_IDLE)
 	{
-		if (!idle)
+		if ((aller_en_avant==false)&&(aller_en_arriere==false))
 		{
-			systime_t delta_t = temps - temps_prime;
+			time=chVTGetSystemTime();
+			 delta_t = time - time_start;
 			if (ST2S(delta_t) >= TEMPS_IDLE)
 			{
 				return true;
 			}
-			else return false;
 		}
-		else return true;
 	}
-	else return false;
+	return false;
 }
 
 //focntions qui sont appelées par animations pour faire les différentes animations
@@ -378,16 +375,15 @@ bool get_parcours_nouvelle_commande(void)
 	return nouvelle_commande;
 }
 
-float get_parcours_angle(void)
-{
-	return angle;
+bool get_idle_state(void){
+	if ((aller_en_avant==true) || (aller_en_arriere==true)) return true;
+	return false;
 }
-
 
 // Thread avec les routines controlant les moteurs
 static THD_WORKING_AREA(waParcours, 256);
 static THD_FUNCTION(Parcours, arg)
-{
+		{
 	chRegSetThreadName(__FUNCTION__);
 	(void)arg;
 
@@ -401,41 +397,24 @@ static THD_FUNCTION(Parcours, arg)
 	static bool temps_retenu = false;
 	while (1)
 	{
-//pour faire le timer de 5 secondes, on enregistre une seule fois un 2ème time puis on le compare avec time
 		time = chVTGetSystemTime();
-		if(!temps_retenu)
-		{
-			time_start = chVTGetSystemTime();
-			temps_retenu = true;
-		}
-//reset l'enregistrement du 2ème time à chaque fois qu'on reçoit du son (permet de reset le 2ème time au prochain appel du thread)
-		if(commande_recu(freq_indice))
-		{
-			temps_retenu = false;
-		}
-//implémentation de l'idle si les conditions sont respectées (attente de 5 secondes et pas de commande reçue)
-		idle_lance = lancement_idle(time, time_start, commande_recu(freq_indice), idle_lance);
-		if (idle_lance)
-		{
-			parcours_en_infini();
-		}
-		else
-		{
-			freq_indice = get_freq();
-			valeurs_calibrees();
-			obstacle_devant = get_obstacle_condition(CAPTEUR_HAUT_DROITE);
-			obstacle_devant_droit = get_obstacle_condition(CAPTEUR_HAUT_DROITE_45);
-			obstacle_devant_gauche = get_obstacle_condition(CAPTEUR_HAUT_GAUCHE_45);
+		commande_recu();
+		valeurs_calibrees();
+		obstacle_devant = get_obstacle_condition(CAPTEUR_HAUT_DROITE);
+		obstacle_devant_droit = get_obstacle_condition(CAPTEUR_HAUT_DROITE_45);
+		obstacle_devant_gauche = get_obstacle_condition(CAPTEUR_HAUT_GAUCHE_45);
 		//les routines d'animations sont appelées dans cette fonction
-			parcours_obstacle(obstacle_devant, obstacle_devant_droit, obstacle_devant_gauche);
-		}
+		parcours_obstacle(obstacle_devant, obstacle_devant_droit, obstacle_devant_gauche);
+
+		if (lancement_idle()) parcours_en_infini();
+
 		right_motor_set_speed(vitesse_droite);
 		left_motor_set_speed(vitesse_gauche);
 		chThdSleepUntilWindowed(time, time + MS2ST(10)); //chgt : mise à une freq de 100Hz
 		//baisser la fréquence du thread (ie augmenter le temps de sleep) si karnel panic
 	}
-}
+		}
 
 void parcours_start(void){
-	chThdCreateStatic(waParcours, sizeof(waParcours), NORMALPRIO+3, Parcours, NULL);
+	chThdCreateStatic(waParcours, sizeof(waParcours), NORMALPRIO+1, Parcours, NULL);
 }

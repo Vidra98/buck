@@ -22,10 +22,6 @@ typedef enum {
 	BACK_OUTPUT
 } BUFFER_NAME_t;
 
-typedef struct complex_float{
-	float real;
-	float imag;
-}complex_float;
 
 typedef enum {
 	MIC_RIGHT_I = 0,
@@ -44,6 +40,10 @@ typedef enum {
 #define GAUCHE_FREQ_MIN		47		//715
 #define GAUCHE_FREQ_MAX		57		//868
 #define MAX_FREQ			130		//we don't analyze after this index to not use resources for nothing
+
+#define MIN_VALUE_THRESHOLD		5000
+#define MIN_INTENSITY_TRACKING	10000
+
 
 /*comme la vitesse du régulateur s'ajoute à celle de l'idle (à savoir 7.5 cm/s) et que l'on souhaite pas dépasser la vitesse max
 de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamais dépasser. ceci évite ainsi que le régulateur

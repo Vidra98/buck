@@ -72,13 +72,7 @@ int main(void)
     while (1) {
     	//systime_t time1,time2,time3;
     	//time1 = chVTGetSystemTime();
-
     	wait_traitement_data();
-    	//time2 = chVTGetSystemTime();
-
-    	//j'ai mis ça à la place des clears leds sinon ça buggait avec le toggle
-    	reset_leds();
-
     	traitement_data();
     	//time3 = chVTGetSystemTime();
     }

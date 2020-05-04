@@ -11,7 +11,7 @@
 #include <arm_math.h>
 #include <arm_const_structs.h>
 
-#include<parcours.h>
+#include <parcours.h>
 
 //semaphore
 static BSEMAPHORE_DECL(traitement, TRUE);
@@ -33,10 +33,9 @@ static float micFront_cmplx_input_buf[2 * FFT_SIZE];
 static float micBack_cmplx_input_buf[2 * FFT_SIZE];
 
 static uint8_t samples_count=0;
-static float angle=0., freq_buf=0., freq=0.;
+static float angle=0., amp=0., freq_buf=0., freq=0.;
 
-#define FREQ_TRAITEMENT		10
-#define MIN_VALUE_THRESHOLD	3000
+#define FREQ_TRAITEMENT		1
 
 
 
@@ -118,12 +117,9 @@ void traitement_data(void){
 	if ((max_norm_index[MIC_LEFT_I] == max_norm_index[MIC_RIGHT_I])&&(max_norm_index[MIC_BACK_I] == max_norm_index[MIC_FRONT_I])){
 			freq_buf=max_norm_index[MIC_LEFT_I];
 	}
+	amp =micFront_output[max_norm_index[MIC_FRONT_I]];
 	freq = max_norm_index[MIC_LEFT_I];
-	chprintf((BaseSequentialStream *) &SD3, " traitement :  angle %f freq %f  \n\n  ", angle,max_norm_index[MIC_RIGHT_I] );
-
-	//if (freq_samples == FREQ_STAB_IND){
 	set_localisation(angle_x,angle_y);
-	//}
 }
 
 
@@ -216,6 +212,10 @@ float get_angle(void){
 
 float get_freq(void){
 	return freq;
+}
+
+float get_amp(void){
+	return amp;
 }
 
 void wait_traitement_data(void){

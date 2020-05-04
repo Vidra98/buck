@@ -14,14 +14,16 @@
 #define VITESSE_IDLE 				577
 
 //etapes pour definir la progression du contournement d'obstacles
-#define MVT_IDLE 					0
-#define CONTOURNEMENT				1
-#define LONGEMENT					2
-#define RETOUR_TRAJECTOIRE		 	3
-#define PREM_LIGNE_DROITE			4
-#define PREM_VIRAGE 				5
-#define SEC_LIGNE_DROITE 			6
-#define SEC_VIRAGE 					7
+typedef enum{
+	MVT_IDLE = 0,
+	CONTOURNEMENT,
+	LONGEMENT,
+	RETOUR_TRAJECTOIRE,
+	PREM_LIGNE_DROITE,
+	PREM_VIRAGE,
+	SEC_LIGNE_DROITE,
+	SEC_VIRAGE
+} BUCK_STATE;
 
 /*comme la vitesse du régulateur s'ajoute à celle de l'idle (à savoir 7.5 cm/s) et que l'on souhaite pas dépasser la vitesse max
 de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamais dépasser. ceci évite ainsi que le régulateur
@@ -56,7 +58,9 @@ s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit
 
 
 
-bool commande_recu(float freq);
+void commande_recu(void);
+
+bool get_idle_state(void);
 
 uint8_t get_parcours_etat(void);
 

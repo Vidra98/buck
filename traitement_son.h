@@ -41,18 +41,12 @@ typedef enum {
 #define GAUCHE_FREQ_MAX		57		//868
 #define MAX_FREQ			130		//we don't analyze after this index to not use resources for nothing
 
-#define MIN_VALUE_THRESHOLD		5000
+//intensity min du son pour ne pas etre traité comme bruit
+#define MIN_VALUE_THREESHOLD		5000
+//intensity min du son pour etre tracké
 #define MIN_INTENSITY_TRACKING	10000
 
 
-/*comme la vitesse du régulateur s'ajoute à celle de l'idle (à savoir 7.5 cm/s) et que l'on souhaite pas dépasser la vitesse max
-de 13 cm/s on définit une vitesse limite sur le regulateur que l'on pourra jamais dépasser. ceci évite ainsi que le régulateur
-s'emballe avec des valeurs d'erreur qui sont trop élevées (surtout quand on voit les valeurs des capteurs)
-Tu peux essayer avec plusieurs valeurs de KP et KI pour voir ce que ça donne*/
-
-
-
-#define FREQ_STAB_IND				3
 
 /*Traite les informations provenant des micro
  *
@@ -74,5 +68,7 @@ void traitement_data(void);
 float get_angle(void);
 
 float get_freq(void);
+
+float get_amp(void);
 
 #endif

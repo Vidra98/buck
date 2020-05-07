@@ -7,7 +7,7 @@
 #define SEC					1000
 #define TEMPS_SON			200
 #define TOGGLE				2
-#define VALIDATION			2
+#define VALIDATION			4
 
 #define NB_RGB_LED			4
 #define RGB_LED2	   		0
@@ -21,7 +21,7 @@
 /* Allume une des 8 leds sur le haut de buck selon la direction du son incident
  *
  */
-void reset_leds(void);
+void set_nouvelle_commande(void);
 
 void set_tracking_leds(float angle);
 

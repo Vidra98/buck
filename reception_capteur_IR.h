@@ -4,15 +4,17 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-//numérotation des capteurs
-#define CAPTEUR_HAUT_DROITE 	0
-#define CAPTEUR_HAUT_DROITE_45	1
-#define CAPTEUR_DROITE			2
-#define CAPTEUR_BAS_DROITE 		3
-#define CAPTEUR_BAS_GAUCHE 		4
-#define CAPTEUR_GAUCHE 			5
-#define CAPTEUR_HAUT_GAUCHE_45	6
-#define CAPTEUR_HAUT_GAUCHE 	7
+
+typedef enum{
+	CAPTEUR_HAUT_DROITE=0,
+	CAPTEUR_HAUT_DROITE_45,
+	CAPTEUR_DROITE,
+	CAPTEUR_BAS_DROITE,
+	CAPTEUR_BAS_GAUCHE,
+	CAPTEUR_GAUCHE,
+	CAPTEUR_HAUT_GAUCHE,
+	CAPTEUR_HAUT_GAUCHE_45
+}CAPTEUR_NUMEROTATION;
 
 //en vue des différentes valeurs aléatoires qui pouvait arriver sur les capteurs
 //nous avons décidé d'interpreter l'arrivée d'un obstacle comme 3 valeurs d'affilée sur un capteur dépassant les valeurs seuil
@@ -20,9 +22,6 @@
 #define OBSTACLE_ENV_5CM		150
 #define OBSTACLE_ENV_2CM		600
 #define OBSTACLE_EN_CONTACT 	2000
-
-
-//valeurs mesurées avec un fond blanc en s'approchant des capteurs
 
 
 //les capteurs sont numerotées dans le sens horaire en commencant par celui en haut a droite.

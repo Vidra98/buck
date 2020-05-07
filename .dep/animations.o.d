@@ -139,8 +139,7 @@ build/obj/animations.o: animations.c animations.h \
  ../../lib/e-puck2_main-processor/src/spi_comm.h \
  ../../lib/e-puck2_main-processor/src/leds.h \
  ../../lib/e-puck2_main-processor/src/usbcfg.h \
- ../../lib/e-puck2_main-processor/src/audio/play_melody.h parcours.h \
- traitement_son.h
+ ../../lib/e-puck2_main-processor/src/audio/play_melody.h parcours.h
 
 animations.h:
 
@@ -429,5 +428,3 @@ c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-
 ../../lib/e-puck2_main-processor/src/audio/play_melody.h:
 
 parcours.h:
-
-traitement_son.h:

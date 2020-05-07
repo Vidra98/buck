@@ -143,12 +143,9 @@ build/obj/main.o: main.c \
  c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\unistd.h \
  c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-2017-q4-major-win32\arm-none-eabi\include\sys\unistd.h \
  ../../lib/e-puck2_main-processor/src/parameter/parameter.h \
- ../../lib/e-puck2_main-processor/src/usbcfg.h \
- ../../lib/e-puck2_main-processor/ChibiOS//os/hal/lib/streams/chprintf.h \
  ../../lib/e-puck2_main-processor/src/motors.h \
  ../../lib/e-puck2_main-processor/src/audio/microphone.h \
  ../../lib/e-puck2_main-processor/src/audio/mp45dt02_processing.h \
- ../../lib/e-puck2_main-processor/src/leds.h \
  ../../lib/e-puck2_main-processor/src/spi_comm.h \
  ../../lib/e-puck2_main-processor/src/sensors/proximity.h \
  traitement_son.h parcours.h animations.h
@@ -443,17 +440,11 @@ c:\users\41786\desktop\epfl\microinfo\eclipse_e-puck2\tools\gcc-arm-none-eabi-7-
 
 ../../lib/e-puck2_main-processor/src/parameter/parameter.h:
 
-../../lib/e-puck2_main-processor/src/usbcfg.h:
-
-../../lib/e-puck2_main-processor/ChibiOS//os/hal/lib/streams/chprintf.h:
-
 ../../lib/e-puck2_main-processor/src/motors.h:
 
 ../../lib/e-puck2_main-processor/src/audio/microphone.h:
 
 ../../lib/e-puck2_main-processor/src/audio/mp45dt02_processing.h:
-
-../../lib/e-puck2_main-processor/src/leds.h:
 
 ../../lib/e-puck2_main-processor/src/spi_comm.h:
 

@@ -1,11 +1,5 @@
 #include "reception_capteur_IR.h"
-#include "ch.h"
-#include "hal.h"
-#include <main.h>
-#include <usbcfg.h>
-#include <chprintf.h>
 #include <sensors/proximity.h>
-#include "parcours.h"
 
 static uint32_t val_ambiantes[PROXIMITY_NB_CHANNELS];
 

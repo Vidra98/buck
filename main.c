@@ -7,11 +7,8 @@
 #include "hal.h"
 #include "memory_protection.h"
 #include <main.h>
-#include <usbcfg.h>
-#include <chprintf.h>
 #include <motors.h>
 #include <audio/microphone.h>
-#include <leds.h>
 #include <spi_comm.h>
 #include <sensors/proximity.h>
 #include <traitement_son.h>
@@ -19,7 +16,6 @@
 #include "parcours.h"
 #include "animations.h"
 
-//a quoi ils servent deja ?
 messagebus_t bus;
 MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
@@ -39,12 +35,6 @@ int main(void)
 
     //
     spi_comm_start();
-
-    //starts the serial communication
-    //serial_start();
-
-    //starts the USB communication
-    usb_start();
 
     //démarrage des moteurs
     motors_init();
@@ -68,10 +58,8 @@ int main(void)
     }
 }
 
-//a quoi ça sert
 #define STACK_CHK_GUARD 0xe2dee396
 uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
-
 void __stack_chk_fail(void)
 {
     chSysHalt("Stack smashing detected");

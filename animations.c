@@ -3,17 +3,19 @@
 #include <chprintf.h>
 #include <spi_comm.h>
 #include <leds.h>
-#include <usbcfg.h>
 #include "ch.h"
-#include "hal.h"
-#include <audio/play_melody.h>
 #include "parcours.h"
 
 static bool commande_validee = false,nouvelle_commande = false;
 
+void animation_leds(void);
+
+bool get_animations_commande_validee(void){
+	return commande_validee;
+}
+
 void set_nouvelle_commande(void){
 	nouvelle_commande=true;
-	//chprintf((BaseSequentialStream*)&SD3,"nouvelle commande true");
 }
 
 void set_tracking_leds(float angle){
@@ -33,10 +35,8 @@ void animation_leds(void)
 {
 	static uint8_t etat_parcours_buf = MVT_IDLE;
 
-
 	uint8_t etat_parcours = get_parcours_etat();
-	switch(etat_parcours)
-	{
+	switch(etat_parcours){
 	case TRACKING:
 		clear_leds();
 		break;
@@ -94,25 +94,20 @@ void animation_leds(void)
 	etat_parcours_buf=etat_parcours;
 }
 
-bool get_animations_commande_validee(void)
-{
-	return commande_validee;
-}
 
-static THD_WORKING_AREA(waAnimations, 128);
+
+static THD_WORKING_AREA(waAnimations, 64);
 static THD_FUNCTION(Animations, arg){
 	chRegSetThreadName(__FUNCTION__);
 	(void)arg;
 
 	systime_t time;
-	uint8_t etat_buck = 0;
-	bool new_commande = false;
-
 	static uint8_t compteur_validation = 1;
 
 	while(1)
 	{
 		time = chVTGetSystemTime();
+		//fais clignoter la body led si un son est tracké/fuis
 		if(nouvelle_commande)
 		{
 			commande_validee=false;

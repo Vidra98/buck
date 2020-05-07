@@ -6,8 +6,8 @@
 #define SOUND_CONST			59.21 // =340/(2*PI*lx*AUDIO_RESOLUTION), lx=6cm
 #define SOUND_THREESHOLD    10000.0f
 //paramètre de la moyenne mobile : angle = a*angle +b*angle_buf
-#define A					0.5f
-#define B					0.5f
+#define A					0.7f
+#define B					0.3f
 
 typedef enum {
 	//2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
@@ -35,11 +35,7 @@ typedef enum {
 #define AVANT_FREQ_MAX		27		//411hz
 #define ARRIERE_FREQ_MIN	27		//411hz
 #define ARRIERE_FREQ_MAX	37		//563hz
-#define DROITE_FREQ_MIN		37		//563
-#define DROITE_FREQ_MAX		47		//715
-#define GAUCHE_FREQ_MIN		47		//715
-#define GAUCHE_FREQ_MAX		57		//868
-#define MAX_FREQ			130		//we don't analyze after this index to not use resources for nothing
+#define MAX_FREQ			40		//we don't analyze after this index to not use resources for nothing
 
 //intensity min du son pour ne pas etre traité comme bruit
 #define MIN_VALUE_THREESHOLD		5000
@@ -48,21 +44,13 @@ typedef enum {
 
 
 
-/*Traite les informations provenant des micro
- *
- */
-void processAudioData(int16_t *data, uint16_t num_samples);
+//Traite les informations provenant des micro
+ void processAudioData(int16_t *data, uint16_t num_samples);
 
-/*
-*	put the invoking thread into sleep until it can process the audio datas
-*/
+//put the invoking thread into sleep until it can process the audio datas
 void wait_traitement_data(void);
 
-/*
-*	Returns the pointer to the BUFFER_NAME_t buffer asked
-*/
-float* get_audio_buffer_ptr(BUFFER_NAME_t name);
-
+//localise le son selon l'axe x et y
 void traitement_data(void);
 
 float get_angle(void);

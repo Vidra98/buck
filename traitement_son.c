@@ -1,17 +1,8 @@
-#include "ch.h"
-#include "hal.h"
-#include <main.h>
-#include <usbcfg.h>
-#include <chprintf.h>
-
-#include <leds.h>
-#include <motors.h>
 #include <audio/microphone.h>
 #include <traitement_son.h>
 #include <arm_math.h>
 #include <arm_const_structs.h>
 
-#include <parcours.h>
 
 //semaphore
 static BSEMAPHORE_DECL(traitement, TRUE);
@@ -33,27 +24,31 @@ static float micFront_cmplx_input_buf[2 * FFT_SIZE];
 static float micBack_cmplx_input_buf[2 * FFT_SIZE];
 
 static uint8_t samples_count=0;
-static float angle=0., amp=0., freq_buf=0., freq=0.;
+
+static float angle=0., amp=0., freq=0.;
 
 //definie la fréquence du traitement sonore
 #define FREQ_TRAITEMENT		1
 
 
 
-/*fonction determinant l'angle d'incidence du son par rapport à l'axe x du robot
+/*
+ *fonction determinant l'angle d'incidence du son par rapport à l'axe x du robot
  *Définie positif dans le sens inverse des aiguilles d'une montre de [0,2*PI]
  */
+void set_localisation(float angle_x,float angle_y);
+
 void set_localisation(float angle_x,float angle_y){
-	if (angle_x>NUL && angle_y>NUL){
+	if (angle_x>0 && angle_y>0){
 		angle=(angle_x+(PI/2-angle_y))/2;
 	}
-	if (angle_x>NUL && angle_y<NUL){
+	if (angle_x>0 && angle_y<0){
 		angle=PI/2+(-angle_y+(PI/2-angle_x))/2;
 	}
-	if (angle_x<NUL && angle_y<NUL){
+	if (angle_x<0 && angle_y<0){
 		angle=PI+(-angle_x+(PI/2+angle_y))/2;
 	}
-	if (angle_x<NUL && angle_y>NUL){
+	if (angle_x<0 && angle_y>0){
 		angle=1.5*PI+(PI/2+angle_x+angle_y)/2;
 	}
 }
@@ -87,7 +82,8 @@ void traitement_data(void){
 	}
 
 	if((max_norm_index[MIC_LEFT_I] == max_norm_index[MIC_RIGHT_I]) && (max_norm_index[MIC_LEFT_I] >MIN_FREQ)
-			&& (micLeft_output[max_norm_index[MIC_LEFT_I]]>MIN_VALUE_THREESHOLD)){
+			&& (micLeft_output[max_norm_index[MIC_LEFT_I]]>MIN_VALUE_THREESHOLD))
+	{
 		deph_left= atan2f(micLeft_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]+1], micLeft_cmplx_input_buf[2*max_norm_index[MIC_LEFT_I]]);
 		deph_right= atan2f(micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]+1], micRight_cmplx_input_buf[2*max_norm_index[MIC_RIGHT_I]]);
 		deph_buf_x=(deph_left-deph_right);
@@ -102,7 +98,8 @@ void traitement_data(void){
 		}
 	}
 	if((max_norm_index[MIC_BACK_I] == max_norm_index[MIC_FRONT_I]) && (max_norm_index[MIC_BACK_I] >MIN_FREQ)
-			 && (micFront_output[max_norm_index[MIC_FRONT_I]]>MIN_VALUE_THREESHOLD)){
+			 && (micFront_output[max_norm_index[MIC_FRONT_I]]>MIN_VALUE_THREESHOLD))
+	{
 		deph_front= atan2f(micFront_cmplx_input_buf[2*max_norm_index[MIC_FRONT_I]+1], micFront_cmplx_input_buf[2*max_norm_index[MIC_FRONT_I]]);
 		deph_back= atan2f(micBack_cmplx_input_buf[2*max_norm_index[MIC_BACK_I]+1], micBack_cmplx_input_buf[2*max_norm_index[MIC_BACK_I]]);
 		deph_buf_y=(deph_front-deph_back);
@@ -116,9 +113,9 @@ void traitement_data(void){
 	}
 
 	if ((max_norm_index[MIC_LEFT_I] == max_norm_index[MIC_RIGHT_I])&&(max_norm_index[MIC_BACK_I] == max_norm_index[MIC_FRONT_I])){
-			freq_buf=max_norm_index[MIC_LEFT_I];
+			freq=max_norm_index[MIC_LEFT_I];
 	}
-	amp =micFront_output[max_norm_index[MIC_FRONT_I]];
+	amp=micFront_output[max_norm_index[MIC_FRONT_I]];
 
 	set_localisation(angle_x,angle_y);
 }
@@ -202,7 +199,7 @@ float get_angle(void){
 }
 
 float get_freq(void){
-	return freq_buf;
+	return freq;
 }
 
 float get_amp(void){

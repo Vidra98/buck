@@ -1,0 +1,1046 @@
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"traitement_capteur.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.check_chemin,"ax",%progbits
+  18              		.align	1
+  19              		.p2align 4,,15
+  20              		.global	check_chemin
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  25              		.type	check_chemin, %function
+  26              	check_chemin:
+  27              	.LFB0:
+  28              		.file 1 "traitement_capteur.c"
+  29              		.loc 1 16 0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 8
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 00B5     		push	{lr}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 084B     		ldr	r3, .L6
+  37              		.loc 1 17 0
+  38 0004 0849     		ldr	r1, .L6+4
+  39              		.loc 1 16 0
+  40 0006 1A68     		ldr	r2, [r3]
+  41              		.loc 1 17 0
+  42 0008 8879     		ldrb	r0, [r1, #6]	@ zero_extendqisi2
+  43              		.loc 1 16 0
+  44 000a 83B0     		sub	sp, sp, #12
+  45              		.cfi_def_cfa_offset 16
+  46              		.loc 1 16 0
+  47 000c 0192     		str	r2, [sp, #4]
+  48              		.loc 1 18 0
+  49 000e 019A     		ldr	r2, [sp, #4]
+  50 0010 1B68     		ldr	r3, [r3]
+  51 0012 9A42     		cmp	r2, r3
+  52 0014 04D1     		bne	.L5
+  53 0016 80F00100 		eor	r0, r0, #1
+  54 001a 03B0     		add	sp, sp, #12
+  55              		.cfi_remember_state
+  56              		.cfi_def_cfa_offset 4
+  57              		@ sp needed
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 2
+
+
+  58 001c 5DF804FB 		ldr	pc, [sp], #4
+  59              	.L5:
+  60              		.cfi_restore_state
+  61 0020 FFF7FEFF 		bl	__stack_chk_fail
+  62              	.LVL0:
+  63              	.L7:
+  64              		.align	2
+  65              	.L6:
+  66 0024 00000000 		.word	__stack_chk_guard
+  67 0028 00000000 		.word	.LANCHOR0
+  68              		.cfi_endproc
+  69              	.LFE0:
+  70              		.size	check_chemin, .-check_chemin
+  71              		.section	.text.get_obstacle_condition,"ax",%progbits
+  72              		.align	1
+  73              		.p2align 4,,15
+  74              		.global	get_obstacle_condition
+  75              		.syntax unified
+  76              		.thumb
+  77              		.thumb_func
+  78              		.fpu fpv4-sp-d16
+  79              		.type	get_obstacle_condition, %function
+  80              	get_obstacle_condition:
+  81              	.LFB1:
+  82              		.loc 1 21 0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 8
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              	.LVL1:
+  87 0000 00B5     		push	{lr}
+  88              		.cfi_def_cfa_offset 4
+  89              		.cfi_offset 14, -4
+  90 0002 074B     		ldr	r3, .L12
+  91              		.loc 1 22 0
+  92 0004 0749     		ldr	r1, .L12+4
+  93              		.loc 1 21 0
+  94 0006 1A68     		ldr	r2, [r3]
+  95              		.loc 1 23 0
+  96 0008 085C     		ldrb	r0, [r1, r0]	@ zero_extendqisi2
+  97              	.LVL2:
+  98              		.loc 1 21 0
+  99 000a 83B0     		sub	sp, sp, #12
+ 100              		.cfi_def_cfa_offset 16
+ 101              		.loc 1 21 0
+ 102 000c 0192     		str	r2, [sp, #4]
+ 103              		.loc 1 23 0
+ 104 000e 019A     		ldr	r2, [sp, #4]
+ 105 0010 1B68     		ldr	r3, [r3]
+ 106 0012 9A42     		cmp	r2, r3
+ 107 0014 02D1     		bne	.L11
+ 108 0016 03B0     		add	sp, sp, #12
+ 109              		.cfi_remember_state
+ 110              		.cfi_def_cfa_offset 4
+ 111              		@ sp needed
+ 112 0018 5DF804FB 		ldr	pc, [sp], #4
+ 113              	.L11:
+ 114              		.cfi_restore_state
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 3
+
+
+ 115 001c FFF7FEFF 		bl	__stack_chk_fail
+ 116              	.LVL3:
+ 117              	.L13:
+ 118              		.align	2
+ 119              	.L12:
+ 120 0020 00000000 		.word	__stack_chk_guard
+ 121 0024 00000000 		.word	.LANCHOR0
+ 122              		.cfi_endproc
+ 123              	.LFE1:
+ 124              		.size	get_obstacle_condition, .-get_obstacle_condition
+ 125              		.section	.text.actualisation_capteurs,"ax",%progbits
+ 126              		.align	1
+ 127              		.p2align 4,,15
+ 128              		.global	actualisation_capteurs
+ 129              		.syntax unified
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.fpu fpv4-sp-d16
+ 133              		.type	actualisation_capteurs, %function
+ 134              	actualisation_capteurs:
+ 135              	.LFB2:
+ 136              		.loc 1 27 0
+ 137              		.cfi_startproc
+ 138              		@ args = 0, pretend = 0, frame = 8
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 141              		.cfi_def_cfa_offset 24
+ 142              		.cfi_offset 4, -24
+ 143              		.cfi_offset 5, -20
+ 144              		.cfi_offset 6, -16
+ 145              		.cfi_offset 7, -12
+ 146              		.cfi_offset 8, -8
+ 147              		.cfi_offset 14, -4
+ 148 0004 DFF84080 		ldr	r8, .L22+4
+ 149 0008 0E4F     		ldr	r7, .L22
+ 150 000a D8F80030 		ldr	r3, [r8]
+ 151 000e 82B0     		sub	sp, sp, #8
+ 152              		.cfi_def_cfa_offset 32
+ 153              	.LBB2:
+ 154              		.loc 1 30 0
+ 155 0010 0024     		movs	r4, #0
+ 156              	.LBE2:
+ 157              		.loc 1 27 0
+ 158 0012 0193     		str	r3, [sp, #4]
+ 159              	.LVL4:
+ 160              	.LBB3:
+ 161              		.loc 1 41 0
+ 162 0014 2646     		mov	r6, r4
+ 163              		.loc 1 36 0
+ 164 0016 0125     		movs	r5, #1
+ 165              	.LVL5:
+ 166              	.L17:
+ 167              		.loc 1 33 0
+ 168 0018 2046     		mov	r0, r4
+ 169 001a FFF7FEFF 		bl	get_calibrated_prox
+ 170              	.LVL6:
+ 171              		.loc 1 36 0
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 4
+
+
+ 172 001e 9628     		cmp	r0, #150
+ 173 0020 34BF     		ite	cc
+ 174 0022 3346     		movcc	r3, r6
+ 175 0024 2B46     		movcs	r3, r5
+ 176 0026 3B55     		strb	r3, [r7, r4]
+ 177              		.loc 1 30 0
+ 178 0028 0134     		adds	r4, r4, #1
+ 179              	.LVL7:
+ 180 002a 082C     		cmp	r4, #8
+ 181 002c F4D1     		bne	.L17
+ 182              	.LBE3:
+ 183              		.loc 1 44 0
+ 184 002e 019A     		ldr	r2, [sp, #4]
+ 185 0030 D8F80030 		ldr	r3, [r8]
+ 186 0034 9A42     		cmp	r2, r3
+ 187 0036 02D1     		bne	.L21
+ 188 0038 02B0     		add	sp, sp, #8
+ 189              		.cfi_remember_state
+ 190              		.cfi_def_cfa_offset 24
+ 191              		@ sp needed
+ 192 003a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 193              	.LVL8:
+ 194              	.L21:
+ 195              		.cfi_restore_state
+ 196 003e FFF7FEFF 		bl	__stack_chk_fail
+ 197              	.LVL9:
+ 198              	.L23:
+ 199 0042 00BF     		.align	2
+ 200              	.L22:
+ 201 0044 00000000 		.word	.LANCHOR0
+ 202 0048 00000000 		.word	__stack_chk_guard
+ 203              		.cfi_endproc
+ 204              	.LFE2:
+ 205              		.size	actualisation_capteurs, .-actualisation_capteurs
+ 206              		.section	.bss.obstacle,"aw",%nobits
+ 207              		.align	2
+ 208              		.set	.LANCHOR0,. + 0
+ 209              		.type	obstacle, %object
+ 210              		.size	obstacle, 8
+ 211              	obstacle:
+ 212 0000 00000000 		.space	8
+ 212      00000000 
+ 213              		.text
+ 214              	.Letext0:
+ 215              		.file 2 "c:\\microinfo\\eclipse_e-puck2\\tools\\gcc-arm-none-eabi-7-2017-q4-major-win32\\arm-none-
+ 216              		.file 3 "c:\\microinfo\\eclipse_e-puck2\\tools\\gcc-arm-none-eabi-7-2017-q4-major-win32\\arm-none-
+ 217              		.file 4 "traitement_capteur.h"
+ 218              		.file 5 "../../lib/e-puck2_main-processor/src/sensors/proximity.h"
+ 219              		.section	.debug_info,"",%progbits
+ 220              	.Ldebug_info0:
+ 221 0000 B9010000 		.4byte	0x1b9
+ 222 0004 0400     		.2byte	0x4
+ 223 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 224 000a 04       		.byte	0x4
+ 225 000b 01       		.uleb128 0x1
+ 226 000c 17010000 		.4byte	.LASF24
+ 227 0010 0C       		.byte	0xc
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 5
+
+
+ 228 0011 B1020000 		.4byte	.LASF25
+ 229 0015 05030000 		.4byte	.LASF26
+ 230 0019 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 231 001d 00000000 		.4byte	0
+ 232 0021 00000000 		.4byte	.Ldebug_line0
+ 233 0025 02       		.uleb128 0x2
+ 234 0026 01       		.byte	0x1
+ 235 0027 06       		.byte	0x6
+ 236 0028 2D030000 		.4byte	.LASF0
+ 237 002c 02       		.uleb128 0x2
+ 238 002d 01       		.byte	0x1
+ 239 002e 08       		.byte	0x8
+ 240 002f 67000000 		.4byte	.LASF1
+ 241 0033 02       		.uleb128 0x2
+ 242 0034 02       		.byte	0x2
+ 243 0035 05       		.byte	0x5
+ 244 0036 DA020000 		.4byte	.LASF2
+ 245 003a 02       		.uleb128 0x2
+ 246 003b 02       		.byte	0x2
+ 247 003c 07       		.byte	0x7
+ 248 003d B2000000 		.4byte	.LASF3
+ 249 0041 02       		.uleb128 0x2
+ 250 0042 04       		.byte	0x4
+ 251 0043 05       		.byte	0x5
+ 252 0044 FC020000 		.4byte	.LASF4
+ 253 0048 03       		.uleb128 0x3
+ 254 0049 03010000 		.4byte	.LASF9
+ 255 004d 02       		.byte	0x2
+ 256 004e 4F       		.byte	0x4f
+ 257 004f 53000000 		.4byte	0x53
+ 258 0053 02       		.uleb128 0x2
+ 259 0054 04       		.byte	0x4
+ 260 0055 07       		.byte	0x7
+ 261 0056 8C000000 		.4byte	.LASF5
+ 262 005a 02       		.uleb128 0x2
+ 263 005b 08       		.byte	0x8
+ 264 005c 05       		.byte	0x5
+ 265 005d A3020000 		.4byte	.LASF6
+ 266 0061 02       		.uleb128 0x2
+ 267 0062 08       		.byte	0x8
+ 268 0063 07       		.byte	0x7
+ 269 0064 79020000 		.4byte	.LASF7
+ 270 0068 04       		.uleb128 0x4
+ 271 0069 04       		.byte	0x4
+ 272 006a 05       		.byte	0x5
+ 273 006b 696E7400 		.ascii	"int\000"
+ 274 006f 02       		.uleb128 0x2
+ 275 0070 04       		.byte	0x4
+ 276 0071 07       		.byte	0x7
+ 277 0072 5B020000 		.4byte	.LASF8
+ 278 0076 03       		.uleb128 0x3
+ 279 0077 F3020000 		.4byte	.LASF10
+ 280 007b 03       		.byte	0x3
+ 281 007c 30       		.byte	0x30
+ 282 007d 48000000 		.4byte	0x48
+ 283 0081 05       		.uleb128 0x5
+ 284 0082 07       		.byte	0x7
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 6
+
+
+ 285 0083 01       		.byte	0x1
+ 286 0084 2C000000 		.4byte	0x2c
+ 287 0088 04       		.byte	0x4
+ 288 0089 08       		.byte	0x8
+ 289 008a BF000000 		.4byte	0xbf
+ 290 008e 06       		.uleb128 0x6
+ 291 008f C6020000 		.4byte	.LASF11
+ 292 0093 00       		.byte	0
+ 293 0094 06       		.uleb128 0x6
+ 294 0095 75000000 		.4byte	.LASF12
+ 295 0099 01       		.byte	0x1
+ 296 009a 06       		.uleb128 0x6
+ 297 009b 25000000 		.4byte	.LASF13
+ 298 009f 02       		.byte	0x2
+ 299 00a0 06       		.uleb128 0x6
+ 300 00a1 90020000 		.4byte	.LASF14
+ 301 00a5 03       		.byte	0x3
+ 302 00a6 06       		.uleb128 0x6
+ 303 00a7 C5000000 		.4byte	.LASF15
+ 304 00ab 04       		.byte	0x4
+ 305 00ac 06       		.uleb128 0x6
+ 306 00ad E4020000 		.4byte	.LASF16
+ 307 00b1 05       		.byte	0x5
+ 308 00b2 06       		.uleb128 0x6
+ 309 00b3 EC000000 		.4byte	.LASF17
+ 310 00b7 06       		.byte	0x6
+ 311 00b8 06       		.uleb128 0x6
+ 312 00b9 D8000000 		.4byte	.LASF18
+ 313 00bd 07       		.byte	0x7
+ 314 00be 00       		.byte	0
+ 315 00bf 03       		.uleb128 0x3
+ 316 00c0 3F030000 		.4byte	.LASF19
+ 317 00c4 04       		.byte	0x4
+ 318 00c5 11       		.byte	0x11
+ 319 00c6 81000000 		.4byte	0x81
+ 320 00ca 07       		.uleb128 0x7
+ 321 00cb DA000000 		.4byte	0xda
+ 322 00cf DA000000 		.4byte	0xda
+ 323 00d3 08       		.uleb128 0x8
+ 324 00d4 6F000000 		.4byte	0x6f
+ 325 00d8 07       		.byte	0x7
+ 326 00d9 00       		.byte	0
+ 327 00da 02       		.uleb128 0x2
+ 328 00db 01       		.byte	0x1
+ 329 00dc 02       		.byte	0x2
+ 330 00dd 39030000 		.4byte	.LASF20
+ 331 00e1 09       		.uleb128 0x9
+ 332 00e2 0E010000 		.4byte	.LASF21
+ 333 00e6 01       		.byte	0x1
+ 334 00e7 0C       		.byte	0xc
+ 335 00e8 CA000000 		.4byte	0xca
+ 336 00ec 05       		.uleb128 0x5
+ 337 00ed 03       		.byte	0x3
+ 338 00ee 00000000 		.4byte	obstacle
+ 339 00f2 0A       		.uleb128 0xa
+ 340 00f3 0E000000 		.4byte	.LASF27
+ 341 00f7 01       		.byte	0x1
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 7
+
+
+ 342 00f8 1A       		.byte	0x1a
+ 343 00f9 00000000 		.4byte	.LFB2
+ 344 00fd 4C000000 		.4byte	.LFE2-.LFB2
+ 345 0101 01       		.uleb128 0x1
+ 346 0102 9C       		.byte	0x9c
+ 347 0103 43010000 		.4byte	0x143
+ 348 0107 0B       		.uleb128 0xb
+ 349 0108 00000000 		.4byte	.LASF28
+ 350 010c 01       		.byte	0x1
+ 351 010d 1C       		.byte	0x1c
+ 352 010e 43010000 		.4byte	0x143
+ 353 0112 0C       		.uleb128 0xc
+ 354 0113 00000000 		.4byte	.Ldebug_ranges0+0
+ 355 0117 39010000 		.4byte	0x139
+ 356 011b 0D       		.uleb128 0xd
+ 357 011c 6900     		.ascii	"i\000"
+ 358 011e 01       		.byte	0x1
+ 359 011f 1E       		.byte	0x1e
+ 360 0120 68000000 		.4byte	0x68
+ 361 0124 00000000 		.4byte	.LLST1
+ 362 0128 0E       		.uleb128 0xe
+ 363 0129 1E000000 		.4byte	.LVL6
+ 364 012d A8010000 		.4byte	0x1a8
+ 365 0131 0F       		.uleb128 0xf
+ 366 0132 01       		.uleb128 0x1
+ 367 0133 50       		.byte	0x50
+ 368 0134 02       		.uleb128 0x2
+ 369 0135 74       		.byte	0x74
+ 370 0136 00       		.sleb128 0
+ 371 0137 00       		.byte	0
+ 372 0138 00       		.byte	0
+ 373 0139 10       		.uleb128 0x10
+ 374 013a 42000000 		.4byte	.LVL9
+ 375 013e B3010000 		.4byte	0x1b3
+ 376 0142 00       		.byte	0
+ 377 0143 07       		.uleb128 0x7
+ 378 0144 76000000 		.4byte	0x76
+ 379 0148 53010000 		.4byte	0x153
+ 380 014c 08       		.uleb128 0x8
+ 381 014d 6F000000 		.4byte	0x6f
+ 382 0151 07       		.byte	0x7
+ 383 0152 00       		.byte	0
+ 384 0153 11       		.uleb128 0x11
+ 385 0154 41000000 		.4byte	.LASF22
+ 386 0158 01       		.byte	0x1
+ 387 0159 14       		.byte	0x14
+ 388 015a DA000000 		.4byte	0xda
+ 389 015e 00000000 		.4byte	.LFB1
+ 390 0162 28000000 		.4byte	.LFE1-.LFB1
+ 391 0166 01       		.uleb128 0x1
+ 392 0167 9C       		.byte	0x9c
+ 393 0168 85010000 		.4byte	0x185
+ 394 016c 12       		.uleb128 0x12
+ 395 016d 58000000 		.4byte	.LASF29
+ 396 0171 01       		.byte	0x1
+ 397 0172 14       		.byte	0x14
+ 398 0173 BF000000 		.4byte	0xbf
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 8
+
+
+ 399 0177 1F000000 		.4byte	.LLST0
+ 400 017b 10       		.uleb128 0x10
+ 401 017c 20000000 		.4byte	.LVL3
+ 402 0180 B3010000 		.4byte	0x1b3
+ 403 0184 00       		.byte	0
+ 404 0185 11       		.uleb128 0x11
+ 405 0186 34000000 		.4byte	.LASF23
+ 406 018a 01       		.byte	0x1
+ 407 018b 0F       		.byte	0xf
+ 408 018c DA000000 		.4byte	0xda
+ 409 0190 00000000 		.4byte	.LFB0
+ 410 0194 2C000000 		.4byte	.LFE0-.LFB0
+ 411 0198 01       		.uleb128 0x1
+ 412 0199 9C       		.byte	0x9c
+ 413 019a A8010000 		.4byte	0x1a8
+ 414 019e 10       		.uleb128 0x10
+ 415 019f 24000000 		.4byte	.LVL0
+ 416 01a3 B3010000 		.4byte	0x1b3
+ 417 01a7 00       		.byte	0
+ 418 01a8 13       		.uleb128 0x13
+ 419 01a9 9E000000 		.4byte	.LASF30
+ 420 01ad 9E000000 		.4byte	.LASF30
+ 421 01b1 05       		.byte	0x5
+ 422 01b2 37       		.byte	0x37
+ 423 01b3 14       		.uleb128 0x14
+ 424 01b4 68020000 		.4byte	.LASF31
+ 425 01b8 68020000 		.4byte	.LASF31
+ 426 01bc 00       		.byte	0
+ 427              		.section	.debug_abbrev,"",%progbits
+ 428              	.Ldebug_abbrev0:
+ 429 0000 01       		.uleb128 0x1
+ 430 0001 11       		.uleb128 0x11
+ 431 0002 01       		.byte	0x1
+ 432 0003 25       		.uleb128 0x25
+ 433 0004 0E       		.uleb128 0xe
+ 434 0005 13       		.uleb128 0x13
+ 435 0006 0B       		.uleb128 0xb
+ 436 0007 03       		.uleb128 0x3
+ 437 0008 0E       		.uleb128 0xe
+ 438 0009 1B       		.uleb128 0x1b
+ 439 000a 0E       		.uleb128 0xe
+ 440 000b 55       		.uleb128 0x55
+ 441 000c 17       		.uleb128 0x17
+ 442 000d 11       		.uleb128 0x11
+ 443 000e 01       		.uleb128 0x1
+ 444 000f 10       		.uleb128 0x10
+ 445 0010 17       		.uleb128 0x17
+ 446 0011 00       		.byte	0
+ 447 0012 00       		.byte	0
+ 448 0013 02       		.uleb128 0x2
+ 449 0014 24       		.uleb128 0x24
+ 450 0015 00       		.byte	0
+ 451 0016 0B       		.uleb128 0xb
+ 452 0017 0B       		.uleb128 0xb
+ 453 0018 3E       		.uleb128 0x3e
+ 454 0019 0B       		.uleb128 0xb
+ 455 001a 03       		.uleb128 0x3
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 9
+
+
+ 456 001b 0E       		.uleb128 0xe
+ 457 001c 00       		.byte	0
+ 458 001d 00       		.byte	0
+ 459 001e 03       		.uleb128 0x3
+ 460 001f 16       		.uleb128 0x16
+ 461 0020 00       		.byte	0
+ 462 0021 03       		.uleb128 0x3
+ 463 0022 0E       		.uleb128 0xe
+ 464 0023 3A       		.uleb128 0x3a
+ 465 0024 0B       		.uleb128 0xb
+ 466 0025 3B       		.uleb128 0x3b
+ 467 0026 0B       		.uleb128 0xb
+ 468 0027 49       		.uleb128 0x49
+ 469 0028 13       		.uleb128 0x13
+ 470 0029 00       		.byte	0
+ 471 002a 00       		.byte	0
+ 472 002b 04       		.uleb128 0x4
+ 473 002c 24       		.uleb128 0x24
+ 474 002d 00       		.byte	0
+ 475 002e 0B       		.uleb128 0xb
+ 476 002f 0B       		.uleb128 0xb
+ 477 0030 3E       		.uleb128 0x3e
+ 478 0031 0B       		.uleb128 0xb
+ 479 0032 03       		.uleb128 0x3
+ 480 0033 08       		.uleb128 0x8
+ 481 0034 00       		.byte	0
+ 482 0035 00       		.byte	0
+ 483 0036 05       		.uleb128 0x5
+ 484 0037 04       		.uleb128 0x4
+ 485 0038 01       		.byte	0x1
+ 486 0039 3E       		.uleb128 0x3e
+ 487 003a 0B       		.uleb128 0xb
+ 488 003b 0B       		.uleb128 0xb
+ 489 003c 0B       		.uleb128 0xb
+ 490 003d 49       		.uleb128 0x49
+ 491 003e 13       		.uleb128 0x13
+ 492 003f 3A       		.uleb128 0x3a
+ 493 0040 0B       		.uleb128 0xb
+ 494 0041 3B       		.uleb128 0x3b
+ 495 0042 0B       		.uleb128 0xb
+ 496 0043 01       		.uleb128 0x1
+ 497 0044 13       		.uleb128 0x13
+ 498 0045 00       		.byte	0
+ 499 0046 00       		.byte	0
+ 500 0047 06       		.uleb128 0x6
+ 501 0048 28       		.uleb128 0x28
+ 502 0049 00       		.byte	0
+ 503 004a 03       		.uleb128 0x3
+ 504 004b 0E       		.uleb128 0xe
+ 505 004c 1C       		.uleb128 0x1c
+ 506 004d 0B       		.uleb128 0xb
+ 507 004e 00       		.byte	0
+ 508 004f 00       		.byte	0
+ 509 0050 07       		.uleb128 0x7
+ 510 0051 01       		.uleb128 0x1
+ 511 0052 01       		.byte	0x1
+ 512 0053 49       		.uleb128 0x49
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 10
+
+
+ 513 0054 13       		.uleb128 0x13
+ 514 0055 01       		.uleb128 0x1
+ 515 0056 13       		.uleb128 0x13
+ 516 0057 00       		.byte	0
+ 517 0058 00       		.byte	0
+ 518 0059 08       		.uleb128 0x8
+ 519 005a 21       		.uleb128 0x21
+ 520 005b 00       		.byte	0
+ 521 005c 49       		.uleb128 0x49
+ 522 005d 13       		.uleb128 0x13
+ 523 005e 2F       		.uleb128 0x2f
+ 524 005f 0B       		.uleb128 0xb
+ 525 0060 00       		.byte	0
+ 526 0061 00       		.byte	0
+ 527 0062 09       		.uleb128 0x9
+ 528 0063 34       		.uleb128 0x34
+ 529 0064 00       		.byte	0
+ 530 0065 03       		.uleb128 0x3
+ 531 0066 0E       		.uleb128 0xe
+ 532 0067 3A       		.uleb128 0x3a
+ 533 0068 0B       		.uleb128 0xb
+ 534 0069 3B       		.uleb128 0x3b
+ 535 006a 0B       		.uleb128 0xb
+ 536 006b 49       		.uleb128 0x49
+ 537 006c 13       		.uleb128 0x13
+ 538 006d 02       		.uleb128 0x2
+ 539 006e 18       		.uleb128 0x18
+ 540 006f 00       		.byte	0
+ 541 0070 00       		.byte	0
+ 542 0071 0A       		.uleb128 0xa
+ 543 0072 2E       		.uleb128 0x2e
+ 544 0073 01       		.byte	0x1
+ 545 0074 3F       		.uleb128 0x3f
+ 546 0075 19       		.uleb128 0x19
+ 547 0076 03       		.uleb128 0x3
+ 548 0077 0E       		.uleb128 0xe
+ 549 0078 3A       		.uleb128 0x3a
+ 550 0079 0B       		.uleb128 0xb
+ 551 007a 3B       		.uleb128 0x3b
+ 552 007b 0B       		.uleb128 0xb
+ 553 007c 27       		.uleb128 0x27
+ 554 007d 19       		.uleb128 0x19
+ 555 007e 11       		.uleb128 0x11
+ 556 007f 01       		.uleb128 0x1
+ 557 0080 12       		.uleb128 0x12
+ 558 0081 06       		.uleb128 0x6
+ 559 0082 40       		.uleb128 0x40
+ 560 0083 18       		.uleb128 0x18
+ 561 0084 9742     		.uleb128 0x2117
+ 562 0086 19       		.uleb128 0x19
+ 563 0087 01       		.uleb128 0x1
+ 564 0088 13       		.uleb128 0x13
+ 565 0089 00       		.byte	0
+ 566 008a 00       		.byte	0
+ 567 008b 0B       		.uleb128 0xb
+ 568 008c 34       		.uleb128 0x34
+ 569 008d 00       		.byte	0
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 11
+
+
+ 570 008e 03       		.uleb128 0x3
+ 571 008f 0E       		.uleb128 0xe
+ 572 0090 3A       		.uleb128 0x3a
+ 573 0091 0B       		.uleb128 0xb
+ 574 0092 3B       		.uleb128 0x3b
+ 575 0093 0B       		.uleb128 0xb
+ 576 0094 49       		.uleb128 0x49
+ 577 0095 13       		.uleb128 0x13
+ 578 0096 00       		.byte	0
+ 579 0097 00       		.byte	0
+ 580 0098 0C       		.uleb128 0xc
+ 581 0099 0B       		.uleb128 0xb
+ 582 009a 01       		.byte	0x1
+ 583 009b 55       		.uleb128 0x55
+ 584 009c 17       		.uleb128 0x17
+ 585 009d 01       		.uleb128 0x1
+ 586 009e 13       		.uleb128 0x13
+ 587 009f 00       		.byte	0
+ 588 00a0 00       		.byte	0
+ 589 00a1 0D       		.uleb128 0xd
+ 590 00a2 34       		.uleb128 0x34
+ 591 00a3 00       		.byte	0
+ 592 00a4 03       		.uleb128 0x3
+ 593 00a5 08       		.uleb128 0x8
+ 594 00a6 3A       		.uleb128 0x3a
+ 595 00a7 0B       		.uleb128 0xb
+ 596 00a8 3B       		.uleb128 0x3b
+ 597 00a9 0B       		.uleb128 0xb
+ 598 00aa 49       		.uleb128 0x49
+ 599 00ab 13       		.uleb128 0x13
+ 600 00ac 02       		.uleb128 0x2
+ 601 00ad 17       		.uleb128 0x17
+ 602 00ae 00       		.byte	0
+ 603 00af 00       		.byte	0
+ 604 00b0 0E       		.uleb128 0xe
+ 605 00b1 898201   		.uleb128 0x4109
+ 606 00b4 01       		.byte	0x1
+ 607 00b5 11       		.uleb128 0x11
+ 608 00b6 01       		.uleb128 0x1
+ 609 00b7 31       		.uleb128 0x31
+ 610 00b8 13       		.uleb128 0x13
+ 611 00b9 00       		.byte	0
+ 612 00ba 00       		.byte	0
+ 613 00bb 0F       		.uleb128 0xf
+ 614 00bc 8A8201   		.uleb128 0x410a
+ 615 00bf 00       		.byte	0
+ 616 00c0 02       		.uleb128 0x2
+ 617 00c1 18       		.uleb128 0x18
+ 618 00c2 9142     		.uleb128 0x2111
+ 619 00c4 18       		.uleb128 0x18
+ 620 00c5 00       		.byte	0
+ 621 00c6 00       		.byte	0
+ 622 00c7 10       		.uleb128 0x10
+ 623 00c8 898201   		.uleb128 0x4109
+ 624 00cb 00       		.byte	0
+ 625 00cc 11       		.uleb128 0x11
+ 626 00cd 01       		.uleb128 0x1
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 12
+
+
+ 627 00ce 31       		.uleb128 0x31
+ 628 00cf 13       		.uleb128 0x13
+ 629 00d0 00       		.byte	0
+ 630 00d1 00       		.byte	0
+ 631 00d2 11       		.uleb128 0x11
+ 632 00d3 2E       		.uleb128 0x2e
+ 633 00d4 01       		.byte	0x1
+ 634 00d5 3F       		.uleb128 0x3f
+ 635 00d6 19       		.uleb128 0x19
+ 636 00d7 03       		.uleb128 0x3
+ 637 00d8 0E       		.uleb128 0xe
+ 638 00d9 3A       		.uleb128 0x3a
+ 639 00da 0B       		.uleb128 0xb
+ 640 00db 3B       		.uleb128 0x3b
+ 641 00dc 0B       		.uleb128 0xb
+ 642 00dd 27       		.uleb128 0x27
+ 643 00de 19       		.uleb128 0x19
+ 644 00df 49       		.uleb128 0x49
+ 645 00e0 13       		.uleb128 0x13
+ 646 00e1 11       		.uleb128 0x11
+ 647 00e2 01       		.uleb128 0x1
+ 648 00e3 12       		.uleb128 0x12
+ 649 00e4 06       		.uleb128 0x6
+ 650 00e5 40       		.uleb128 0x40
+ 651 00e6 18       		.uleb128 0x18
+ 652 00e7 9742     		.uleb128 0x2117
+ 653 00e9 19       		.uleb128 0x19
+ 654 00ea 01       		.uleb128 0x1
+ 655 00eb 13       		.uleb128 0x13
+ 656 00ec 00       		.byte	0
+ 657 00ed 00       		.byte	0
+ 658 00ee 12       		.uleb128 0x12
+ 659 00ef 05       		.uleb128 0x5
+ 660 00f0 00       		.byte	0
+ 661 00f1 03       		.uleb128 0x3
+ 662 00f2 0E       		.uleb128 0xe
+ 663 00f3 3A       		.uleb128 0x3a
+ 664 00f4 0B       		.uleb128 0xb
+ 665 00f5 3B       		.uleb128 0x3b
+ 666 00f6 0B       		.uleb128 0xb
+ 667 00f7 49       		.uleb128 0x49
+ 668 00f8 13       		.uleb128 0x13
+ 669 00f9 02       		.uleb128 0x2
+ 670 00fa 17       		.uleb128 0x17
+ 671 00fb 00       		.byte	0
+ 672 00fc 00       		.byte	0
+ 673 00fd 13       		.uleb128 0x13
+ 674 00fe 2E       		.uleb128 0x2e
+ 675 00ff 00       		.byte	0
+ 676 0100 3F       		.uleb128 0x3f
+ 677 0101 19       		.uleb128 0x19
+ 678 0102 3C       		.uleb128 0x3c
+ 679 0103 19       		.uleb128 0x19
+ 680 0104 6E       		.uleb128 0x6e
+ 681 0105 0E       		.uleb128 0xe
+ 682 0106 03       		.uleb128 0x3
+ 683 0107 0E       		.uleb128 0xe
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 13
+
+
+ 684 0108 3A       		.uleb128 0x3a
+ 685 0109 0B       		.uleb128 0xb
+ 686 010a 3B       		.uleb128 0x3b
+ 687 010b 0B       		.uleb128 0xb
+ 688 010c 00       		.byte	0
+ 689 010d 00       		.byte	0
+ 690 010e 14       		.uleb128 0x14
+ 691 010f 2E       		.uleb128 0x2e
+ 692 0110 00       		.byte	0
+ 693 0111 3F       		.uleb128 0x3f
+ 694 0112 19       		.uleb128 0x19
+ 695 0113 3C       		.uleb128 0x3c
+ 696 0114 19       		.uleb128 0x19
+ 697 0115 6E       		.uleb128 0x6e
+ 698 0116 0E       		.uleb128 0xe
+ 699 0117 03       		.uleb128 0x3
+ 700 0118 0E       		.uleb128 0xe
+ 701 0119 00       		.byte	0
+ 702 011a 00       		.byte	0
+ 703 011b 00       		.byte	0
+ 704              		.section	.debug_loc,"",%progbits
+ 705              	.Ldebug_loc0:
+ 706              	.LLST1:
+ 707 0000 14000000 		.4byte	.LVL4
+ 708 0004 18000000 		.4byte	.LVL5
+ 709 0008 0200     		.2byte	0x2
+ 710 000a 30       		.byte	0x30
+ 711 000b 9F       		.byte	0x9f
+ 712 000c 18000000 		.4byte	.LVL5
+ 713 0010 4C000000 		.4byte	.LFE2
+ 714 0014 0100     		.2byte	0x1
+ 715 0016 54       		.byte	0x54
+ 716 0017 00000000 		.4byte	0
+ 717 001b 00000000 		.4byte	0
+ 718              	.LLST0:
+ 719 001f 00000000 		.4byte	.LVL1
+ 720 0023 0A000000 		.4byte	.LVL2
+ 721 0027 0100     		.2byte	0x1
+ 722 0029 50       		.byte	0x50
+ 723 002a 0A000000 		.4byte	.LVL2
+ 724 002e 28000000 		.4byte	.LFE1
+ 725 0032 0400     		.2byte	0x4
+ 726 0034 F3       		.byte	0xf3
+ 727 0035 01       		.uleb128 0x1
+ 728 0036 50       		.byte	0x50
+ 729 0037 9F       		.byte	0x9f
+ 730 0038 00000000 		.4byte	0
+ 731 003c 00000000 		.4byte	0
+ 732              		.section	.debug_aranges,"",%progbits
+ 733 0000 2C000000 		.4byte	0x2c
+ 734 0004 0200     		.2byte	0x2
+ 735 0006 00000000 		.4byte	.Ldebug_info0
+ 736 000a 04       		.byte	0x4
+ 737 000b 00       		.byte	0
+ 738 000c 0000     		.2byte	0
+ 739 000e 0000     		.2byte	0
+ 740 0010 00000000 		.4byte	.LFB0
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 14
+
+
+ 741 0014 2C000000 		.4byte	.LFE0-.LFB0
+ 742 0018 00000000 		.4byte	.LFB1
+ 743 001c 28000000 		.4byte	.LFE1-.LFB1
+ 744 0020 00000000 		.4byte	.LFB2
+ 745 0024 4C000000 		.4byte	.LFE2-.LFB2
+ 746 0028 00000000 		.4byte	0
+ 747 002c 00000000 		.4byte	0
+ 748              		.section	.debug_ranges,"",%progbits
+ 749              	.Ldebug_ranges0:
+ 750 0000 10000000 		.4byte	.LBB2
+ 751 0004 12000000 		.4byte	.LBE2
+ 752 0008 14000000 		.4byte	.LBB3
+ 753 000c 2E000000 		.4byte	.LBE3
+ 754 0010 00000000 		.4byte	0
+ 755 0014 00000000 		.4byte	0
+ 756 0018 00000000 		.4byte	.LFB0
+ 757 001c 2C000000 		.4byte	.LFE0
+ 758 0020 00000000 		.4byte	.LFB1
+ 759 0024 28000000 		.4byte	.LFE1
+ 760 0028 00000000 		.4byte	.LFB2
+ 761 002c 4C000000 		.4byte	.LFE2
+ 762 0030 00000000 		.4byte	0
+ 763 0034 00000000 		.4byte	0
+ 764              		.section	.debug_line,"",%progbits
+ 765              	.Ldebug_line0:
+ 766 0000 BB010000 		.section	.debug_str,"MS",%progbits,1
+ 766      02006E01 
+ 766      00000201 
+ 766      FB0E0D00 
+ 766      01010101 
+ 767              	.LASF28:
+ 768 0000 76616C5F 		.ascii	"val_calibrees\000"
+ 768      63616C69 
+ 768      62726565 
+ 768      7300
+ 769              	.LASF27:
+ 770 000e 61637475 		.ascii	"actualisation_capteurs\000"
+ 770      616C6973 
+ 770      6174696F 
+ 770      6E5F6361 
+ 770      70746575 
+ 771              	.LASF13:
+ 772 0025 43415054 		.ascii	"CAPTEUR_DROITE\000"
+ 772      4555525F 
+ 772      44524F49 
+ 772      544500
+ 773              	.LASF23:
+ 774 0034 63686563 		.ascii	"check_chemin\000"
+ 774      6B5F6368 
+ 774      656D696E 
+ 774      00
+ 775              	.LASF22:
+ 776 0041 6765745F 		.ascii	"get_obstacle_condition\000"
+ 776      6F627374 
+ 776      61636C65 
+ 776      5F636F6E 
+ 776      64697469 
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 15
+
+
+ 777              	.LASF29:
+ 778 0058 6E756D65 		.ascii	"numero_capteur\000"
+ 778      726F5F63 
+ 778      61707465 
+ 778      757200
+ 779              	.LASF1:
+ 780 0067 756E7369 		.ascii	"unsigned char\000"
+ 780      676E6564 
+ 780      20636861 
+ 780      7200
+ 781              	.LASF12:
+ 782 0075 43415054 		.ascii	"CAPTEUR_HAUT_DROITE_45\000"
+ 782      4555525F 
+ 782      48415554 
+ 782      5F44524F 
+ 782      4954455F 
+ 783              	.LASF5:
+ 784 008c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 784      20756E73 
+ 784      69676E65 
+ 784      6420696E 
+ 784      7400
+ 785              	.LASF30:
+ 786 009e 6765745F 		.ascii	"get_calibrated_prox\000"
+ 786      63616C69 
+ 786      62726174 
+ 786      65645F70 
+ 786      726F7800 
+ 787              	.LASF3:
+ 788 00b2 73686F72 		.ascii	"short unsigned int\000"
+ 788      7420756E 
+ 788      7369676E 
+ 788      65642069 
+ 788      6E7400
+ 789              	.LASF15:
+ 790 00c5 43415054 		.ascii	"CAPTEUR_BAS_GAUCHE\000"
+ 790      4555525F 
+ 790      4241535F 
+ 790      47415543 
+ 790      484500
+ 791              	.LASF18:
+ 792 00d8 43415054 		.ascii	"CAPTEUR_HAUT_GAUCHE\000"
+ 792      4555525F 
+ 792      48415554 
+ 792      5F474155 
+ 792      43484500 
+ 793              	.LASF17:
+ 794 00ec 43415054 		.ascii	"CAPTEUR_HAUT_GAUCHE_45\000"
+ 794      4555525F 
+ 794      48415554 
+ 794      5F474155 
+ 794      4348455F 
+ 795              	.LASF9:
+ 796 0103 5F5F7569 		.ascii	"__uint32_t\000"
+ 796      6E743332 
+ 796      5F7400
+ 797              	.LASF21:
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 16
+
+
+ 798 010e 6F627374 		.ascii	"obstacle\000"
+ 798      61636C65 
+ 798      00
+ 799              	.LASF24:
+ 800 0117 474E5520 		.ascii	"GNU C11 7.2.1 20170904 (release) [ARM/embedded-7-br"
+ 800      43313120 
+ 800      372E322E 
+ 800      31203230 
+ 800      31373039 
+ 801 014a 616E6368 		.ascii	"anch revision 255204] -mcpu=cortex-m4 -mfloat-abi=h"
+ 801      20726576 
+ 801      6973696F 
+ 801      6E203235 
+ 801      35323034 
+ 802 017d 61726420 		.ascii	"ard -mfpu=fpv4-sp-d16 -mno-thumb-interwork -mthumb "
+ 802      2D6D6670 
+ 802      753D6670 
+ 802      76342D73 
+ 802      702D6431 
+ 803 01b0 2D676764 		.ascii	"-ggdb -O2 -fomit-frame-pointer -falign-functions=16"
+ 803      62202D4F 
+ 803      32202D66 
+ 803      6F6D6974 
+ 803      2D667261 
+ 804 01e3 202D666E 		.ascii	" -fno-strict-aliasing -fstack-protector-all -ffunct"
+ 804      6F2D7374 
+ 804      72696374 
+ 804      2D616C69 
+ 804      6173696E 
+ 805 0216 696F6E2D 		.ascii	"ion-sections -fdata-sections -fno-common -fsingle-p"
+ 805      73656374 
+ 805      696F6E73 
+ 805      202D6664 
+ 805      6174612D 
+ 806 0249 72656369 		.ascii	"recision-constant\000"
+ 806      73696F6E 
+ 806      2D636F6E 
+ 806      7374616E 
+ 806      7400
+ 807              	.LASF8:
+ 808 025b 756E7369 		.ascii	"unsigned int\000"
+ 808      676E6564 
+ 808      20696E74 
+ 808      00
+ 809              	.LASF31:
+ 810 0268 5F5F7374 		.ascii	"__stack_chk_fail\000"
+ 810      61636B5F 
+ 810      63686B5F 
+ 810      6661696C 
+ 810      00
+ 811              	.LASF7:
+ 812 0279 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 812      206C6F6E 
+ 812      6720756E 
+ 812      7369676E 
+ 812      65642069 
+ 813              	.LASF14:
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 17
+
+
+ 814 0290 43415054 		.ascii	"CAPTEUR_BAS_DROITE\000"
+ 814      4555525F 
+ 814      4241535F 
+ 814      44524F49 
+ 814      544500
+ 815              	.LASF6:
+ 816 02a3 6C6F6E67 		.ascii	"long long int\000"
+ 816      206C6F6E 
+ 816      6720696E 
+ 816      7400
+ 817              	.LASF25:
+ 818 02b1 74726169 		.ascii	"traitement_capteur.c\000"
+ 818      74656D65 
+ 818      6E745F63 
+ 818      61707465 
+ 818      75722E63 
+ 819              	.LASF11:
+ 820 02c6 43415054 		.ascii	"CAPTEUR_HAUT_DROITE\000"
+ 820      4555525F 
+ 820      48415554 
+ 820      5F44524F 
+ 820      49544500 
+ 821              	.LASF2:
+ 822 02da 73686F72 		.ascii	"short int\000"
+ 822      7420696E 
+ 822      7400
+ 823              	.LASF16:
+ 824 02e4 43415054 		.ascii	"CAPTEUR_GAUCHE\000"
+ 824      4555525F 
+ 824      47415543 
+ 824      484500
+ 825              	.LASF10:
+ 826 02f3 75696E74 		.ascii	"uint32_t\000"
+ 826      33325F74 
+ 826      00
+ 827              	.LASF4:
+ 828 02fc 6C6F6E67 		.ascii	"long int\000"
+ 828      20696E74 
+ 828      00
+ 829              	.LASF26:
+ 830 0305 433A5C55 		.ascii	"C:\\Users\\guill\\microinfo_TP\\projet\\buck\000"
+ 830      73657273 
+ 830      5C677569 
+ 830      6C6C5C6D 
+ 830      6963726F 
+ 831              	.LASF0:
+ 832 032d 7369676E 		.ascii	"signed char\000"
+ 832      65642063 
+ 832      68617200 
+ 833              	.LASF20:
+ 834 0339 5F426F6F 		.ascii	"_Bool\000"
+ 834      6C00
+ 835              	.LASF19:
+ 836 033f 43415054 		.ascii	"CAPTEUR_NUMEROTATION\000"
+ 836      4555525F 
+ 836      4E554D45 
+ 836      524F5441 
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 18
+
+
+ 836      54494F4E 
+ 837              		.ident	"GCC: (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 7.2.1 20170904 (release) [ARM
+ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 19
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 traitement_capteur.c
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:18     .text.check_chemin:00000000 $t
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:26     .text.check_chemin:00000000 check_chemin
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:66     .text.check_chemin:00000024 $d
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:72     .text.get_obstacle_condition:00000000 $t
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:80     .text.get_obstacle_condition:00000000 get_obstacle_condition
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:120    .text.get_obstacle_condition:00000020 $d
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:126    .text.actualisation_capteurs:00000000 $t
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:134    .text.actualisation_capteurs:00000000 actualisation_capteurs
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:201    .text.actualisation_capteurs:00000044 $d
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:207    .bss.obstacle:00000000 $d
+C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:211    .bss.obstacle:00000000 obstacle
+
+UNDEFINED SYMBOLS
+__stack_chk_fail
+__stack_chk_guard
+get_calibrated_prox

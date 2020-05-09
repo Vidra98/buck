@@ -19,15 +19,22 @@
 
 static bool commande_validee = false,nouvelle_commande = false;
 
+
+/* Pour faire clignoter les leds rgb et donc indiquer l'état du robot à l'utilisateur
+ *
+ */
 void animation_leds(void);
 
-int get_animations_commande_validee(void){
+
+bool get_animations_commande_validee(void){
 	return commande_validee;
 }
+
 
 void set_nouvelle_commande(void){
 	nouvelle_commande=true;
 }
+
 
 void set_tracking_leds(float angle){
 	clear_leds();
@@ -46,15 +53,14 @@ void set_tracking_leds(float angle){
 
 void animation_leds(void)
 {
-	static uint8_t etat_parcours_buf = MVT_IDLE;
+	static uint8_t etat_parcours_buf = EN_REACTION;
 
 	uint8_t etat_parcours = get_parcours_etat();
 	switch(etat_parcours){
 	case TRACKING:
 		clear_leds();
 		break;
-	case MVT_IDLE:
-		//les leds rgb clignotent en vert uniqument si elles ne sont pas occupées pour donner la direction du son
+	case EN_REACTION:
 		if ((etat_parcours != etat_parcours_buf)) clear_leds();
 		toggle_rgb_led(LED2, GREEN_LED, MAX_INTENSITY);
 		toggle_rgb_led(LED4, GREEN_LED, MAX_INTENSITY);
@@ -62,8 +68,6 @@ void animation_leds(void)
 		toggle_rgb_led(LED8, GREEN_LED, MAX_INTENSITY);
 		break;
 
-		// à partir ou buck rentre en routine contourne les obstacles, les leds sont réquisitionnées en priorité
-		// elles indiquent l'état du contournement
 	case CONTOURNEMENT:
 		if (etat_parcours != etat_parcours_buf) clear_leds();
 		toggle_rgb_led(LED2, RED_LED, MAX_INTENSITY); // rouge
@@ -96,7 +100,7 @@ void animation_leds(void)
 		toggle_rgb_led(LED8, RED_LED, MAX_INTENSITY);
 		break;
 
-	case PARCOURS_INFINI :
+	case MVT_IDLE :
 		if (etat_parcours != etat_parcours_buf) clear_leds();
 		toggle_rgb_led(LED2, BLUE_LED, MAX_INTENSITY); //bleu
 		toggle_rgb_led(LED4, BLUE_LED, MAX_INTENSITY);
@@ -120,7 +124,7 @@ static THD_FUNCTION(Animations, arg){
 	while(1)
 	{
 		time = chVTGetSystemTime();
-		//fais clignoter la body led si un son est tracké/fuis
+		//fait clignoter la body led 2 fois pour indiquer qu'il a compris la nouvelle commande
 		if(nouvelle_commande)
 		{
 			commande_validee=false;

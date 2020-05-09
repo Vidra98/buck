@@ -5,7 +5,7 @@
 
 //etats pour definir la progression du contournement d'obstacles
 typedef enum{
-	MVT_IDLE = 0,
+	EN_REACTION = 0,
 	CONTOURNEMENT,
 	LONGEMENT,
 	RETOUR_TRAJECTOIRE,
@@ -14,7 +14,7 @@ typedef enum{
 	SEC_LIGNE_DROITE,
 	SEC_VIRAGE,
 	TRACKING,
-	PARCOURS_INFINI
+	MVT_IDLE
 } BUCK_STATE;
 
 //retourne l'état du robot (BUCK_STATE)

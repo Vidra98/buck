@@ -11,7 +11,7 @@ GLOBAL_PATH = ../../lib/e-puck2_main-processor
 #Source files to include
 CSRC += ./main.c \
 		./parcours.c \
-		./reception_capteur_IR.c \
+		./traitement_capteur.c \
 		./animations.c \
 		./traitement_son.c \
 

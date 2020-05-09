@@ -7,6 +7,53 @@
 #include <math.h>
 #include <traitement_son.h>
 #include "animations.h"
+#include <stdbool.h>
+
+//temps d'attente avant le parcours en infini [seconde]
+#define TEMPS_IDLE					5
+
+//pour une vitesse lineaire de 10cm/s avec la conversion de 1 tour/s = 1000 steps/s et r = 13/(2pi)
+#define VITESSE_LIN 				769
+
+// pour une vitesse d'environ 7.5 cm/s qui correspond à l'idle
+#define VITESSE_IDLE 				577
+
+#define MARGE_VITESSE		25
+//coefficient du regulateur pour l'esquive d'obstacle
+#define VITESSE_LIM					900
+#define KP 							5
+#define KI							0.1
+#define MAX_SUM_ERROR 				VITESSE_LIM/6
+#define MAX_ERROR 					VITESSE_LIM
+#define VITESSE_MIN_PI				10
+
+//coefficient du regulateur pour le tracking sonore
+#define VITESSE_LIM_PI_SON			900
+#define KP_SON						600
+#define KI_SON						3
+#define MAX_SUM_ERROR_SON 			VITESSE_LIM/6
+#define MAX_ERROR_SON 				VITESSE_LIM
+#define KA_SON						900
+
+#define PI							3.14159265358979f
+#define COS_AVANT					1.0f
+#define COS_ARRIERE					-1.0f
+#define COS_MARGE					0.05f
+
+#define AVANT_FREQ_MIN		10		//152hz
+#define AVANT_FREQ_MAX		27		//411hz
+#define ARRIERE_FREQ_MIN	27		//411hz
+#define ARRIERE_FREQ_MAX	37		//563hz
+
+//intensity min du son pour etre tracké
+#define MIN_INTENSITY_TRACKING	    10000
+
+//constante pour l'animation infini
+#define ERREURS_STEPS				10
+#define LIMITE_STEPS_DROITE			2310
+#define LIMITE_STEPS_PETIT_VIRAGE	1613
+#define LIMITE_STEPS_GRAND_VIRAGE 	3322
+#define VITESSE_PETIT_VIRAGE 		373
 
 
 static int16_t vitesse_droite, vitesse_gauche;
@@ -60,7 +107,7 @@ void reponse_sonore(void){
 		vitesse_d=(COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON+KA_SON*c_angle;
 		vitesse_g=-((COS_AVANT-c_angle)*KP_SON+(sum_error)*KI_SON)+KA_SON*c_angle;
 
-		if (s_angle > NUL){
+		if (s_angle > 0){
 			vitesse_droite=vitesse_d;
 			vitesse_gauche=vitesse_g;
 		}
@@ -69,7 +116,6 @@ void reponse_sonore(void){
 			vitesse_droite=vitesse_g;
 			vitesse_gauche=vitesse_d;
 		}
-
 		//set_tracking_leds est apellée ici pour pouvoir réagir plus vite que dans le thread animation qui est de basse frequence [2Hz].
 		set_tracking_leds(angle);
 	}
@@ -80,14 +126,13 @@ void reponse_sonore(void){
 
 		aller_en_avant = false;
 
-
 		sum_error += (COS_ARRIERE-c_angle);
 		if (sum_error<-MAX_SUM_ERROR_SON) sum_error=-MAX_SUM_ERROR_SON;
 
 		vitesse_d=(COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON-KA_SON*c_angle;
 		vitesse_g=-((COS_ARRIERE-c_angle)*KP_SON+(sum_error)*KI_SON)-KA_SON*c_angle;
 
-		if (s_angle > NUL){
+		if (s_angle > 0){
 			vitesse_droite=vitesse_d;
 			vitesse_gauche=vitesse_g;
 		}
@@ -97,7 +142,6 @@ void reponse_sonore(void){
 			vitesse_droite=vitesse_g;
 			vitesse_gauche=vitesse_d;
 		}
-
 		set_tracking_leds(angle);
 
 	}
@@ -294,7 +338,7 @@ void parcours_obstacle(bool obstacle_devant, bool obstacle_droite_45, bool obsta
 			vitesse_droite = VITESSE_IDLE - vitesse_pi_r;
 			vitesse_gauche = VITESSE_IDLE + vitesse_pi_l;
 		}
-		if (abs(vitesse_pi_r) < 25 || abs(vitesse_pi_l) < 25)
+		if (abs(vitesse_pi_r) < MARGE_VITESSE || abs(vitesse_pi_l) < MARGE_VITESSE)
 		{
 			tourner_a_gauche = false;
 			obstacle_cote_90 = false;

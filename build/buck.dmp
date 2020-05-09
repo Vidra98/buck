@@ -56,21 +56,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  17 .comment      0000015e  00000000  00000000  000315d9  2**0
                   CONTENTS, READONLY
- 18 .debug_info   000f575f  00000000  00000000  00031737  2**0
+ 18 .debug_info   000f569f  00000000  00000000  00031737  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_abbrev 00010b96  00000000  00000000  00126e96  2**0
+ 19 .debug_abbrev 00010b7e  00000000  00000000  00126dd6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .debug_aranges 00001ca8  00000000  00000000  00137a30  2**3
+ 20 .debug_aranges 00001c98  00000000  00000000  00137958  2**3
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_ranges 00003e10  00000000  00000000  001396d8  2**0
+ 21 .debug_ranges 00003e00  00000000  00000000  001395f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_line   0002c888  00000000  00000000  0013d4e8  2**0
+ 22 .debug_line   0002c828  00000000  00000000  0013d3f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_str    000092b1  00000000  00000000  00169d70  2**0
+ 23 .debug_str    00009273  00000000  00000000  00169c18  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_frame  00008828  00000000  00000000  00173024  2**2
+ 24 .debug_frame  000087d8  00000000  00000000  00172e8c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_loc    00016d20  00000000  00000000  0017b84c  2**0
+ 25 .debug_loc    00016c9c  00000000  00000000  0017b664  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -135,20 +135,20 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08002920 l     F .text	000000bc Parcours
 200015b8 l     O .bss	00000001 aller_en_arriere
 200015b9 l     O .bss	00000001 aller_en_avant
-200015bc l     O .bss	00000004 compteur_droite.11959
-200015c0 l     O .bss	00000004 compteur_gauche.11960
+200015bc l     O .bss	00000004 compteur_droite.11937
+200015c0 l     O .bss	00000004 compteur_gauche.11938
 200015c4 l     O .bss	00000001 etat_contournement
-200015c5 l     O .bss	00000001 obstacle_cote_90.11962
+200015c5 l     O .bss	00000001 obstacle_cote_90.11940
 200015c6 l     O .bss	00000001 parcours_infini
-200015c8 l     O .bss	00000002 sum_error.11933
-200015cc l     O .bss	00000004 sum_error.11951
+200015c8 l     O .bss	00000002 sum_error.11911
+200015cc l     O .bss	00000004 sum_error.11929
 200015d0 l     O .bss	00000004 time_start
-200015d4 l     O .bss	00000001 tourner_a_gauche.11961
+200015d4 l     O .bss	00000001 tourner_a_gauche.11939
 200015d6 l     O .bss	00000002 vitesse_droite
 200015d8 l     O .bss	00000002 vitesse_gauche
 200015e0 l     O .bss	000001f8 waParcours
-20000b20 l     O .data	00000001 etat_parcours.11939
-08012d80 l     O .text	00000009 __FUNCTION__.11985
+20000b20 l     O .data	00000001 etat_parcours.11917
+08012d80 l     O .text	00000009 __FUNCTION__.11963
 08012d90 l     O .text	0000000c __func__.7169
 00000000 l    df *ABS*	00000000 reception_capteur_IR.c
 200017d8 l     O .bss	00000008 obstacle
@@ -156,10 +156,10 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 00000000 l    df *ABS*	00000000 animations.c
 08002e60 l     F .text	000000c0 Animations
 20001800 l     O .bss	00000001 commande_validee
-20001801 l     O .bss	00000001 etat_parcours_buf.11393
-20001802 l     O .bss	00000001 nouvelle_commande
+20001801 l     O .bss	00000001 compteur_validation.11408
+20001802 l     O .bss	00000001 etat_parcours_buf.11393
+20001803 l     O .bss	00000001 nouvelle_commande
 20001808 l     O .bss	000001b8 waAnimations
-20000b21 l     O .data	00000001 compteur_validation.11408
 08012da0 l     O .text	0000000b __FUNCTION__.11406
 08012db0 l     O .text	0000000c __func__.7161
 00000000 l    df *ABS*	00000000 traitement_son.c

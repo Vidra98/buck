@@ -33,7 +33,6 @@ int main(void)
     //initialistion des capteurs IR
     proximity_start();
 
-    //
     spi_comm_start();
 
     //démarrage des moteurs

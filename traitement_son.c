@@ -4,6 +4,45 @@
 #include <arm_const_structs.h>
 
 
+//intensity min du son pour ne pas etre traité comme bruit
+#define MIN_VALUE_THREESHOLD		10000
+
+//definie la fréquence du traitement sonore, 1 est la fréquence maximum.
+#define FREQ_TRAITEMENT		1
+
+#define FFT_SIZE 			1024
+#define AUDIO_RESOLUTION   	15.23f
+// SOUND_CONST=340/(2*PI*lx*AUDIO_RESOLUTION), lx la distance entre les deux micros sur l'axe x lx=6cm
+#define SOUND_CONST			59.21
+//paramètre de la moyenne mobile : angle = a*angle +b*angle_buf
+#define A					0.7f
+#define B					0.3f
+
+#define MIN_FREQ			10		//we don't analyze before this index to not use resources for nothing
+#define MAX_FREQ			37		//we don't analyze after this index to not use resources for nothing
+
+
+typedef enum {
+	//2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
+	LEFT_CMPLX_INPUT = 0,
+	RIGHT_CMPLX_INPUT,
+	FRONT_CMPLX_INPUT,
+	BACK_CMPLX_INPUT,
+	//Arrays containing the computed magnitude of the complex numbers
+	LEFT_OUTPUT,
+	RIGHT_OUTPUT,
+	FRONT_OUTPUT,
+	BACK_OUTPUT
+} BUFFER_NAME_t;
+
+typedef enum {
+	MIC_RIGHT_I = 0,
+	MIC_LEFT_I,
+	MIC_BACK_I,
+	MIC_FRONT_I
+} INDEX_MICROPHONE;
+
+
 //semaphore
 static BSEMAPHORE_DECL(traitement, TRUE);
 
@@ -27,11 +66,6 @@ static uint8_t samples_count=0;
 
 static float angle=0., amp=0., freq=0.;
 
-//definie la fréquence du traitement sonore
-#define FREQ_TRAITEMENT		1
-
-
-
 /*
  *fonction determinant l'angle d'incidence du son par rapport à l'axe x du robot
  *Définie positif dans le sens inverse des aiguilles d'une montre de [0,2*PI]
@@ -49,7 +83,7 @@ void set_localisation(float angle_x,float angle_y){
 		angle=PI+(-angle_x+(PI/2+angle_y))/2;
 	}
 	if (angle_x<0 && angle_y>0){
-		angle=1.5*PI+(PI/2+angle_x+angle_y)/2;
+		angle=3*PI/2+(PI/2+angle_x+angle_y)/2;
 	}
 }
 
@@ -116,7 +150,7 @@ void traitement_data(void){
 			freq=max_norm_index[MIC_LEFT_I];
 	}
 	amp=micFront_output[max_norm_index[MIC_FRONT_I]];
-
+	//défini l'angle global d'incidence du son
 	set_localisation(angle_x,angle_y);
 }
 

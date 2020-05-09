@@ -1,14 +1,20 @@
 #include "reception_capteur_IR.h"
 #include <sensors/proximity.h>
 
-static uint32_t val_ambiantes[PROXIMITY_NB_CHANNELS];
-
-static uint32_t val_absolues[PROXIMITY_NB_CHANNELS];
+//en vue des différentes valeurs aléatoires qui pouvait arriver sur les capteurs
+//nous avons décidé d'interpreter l'arrivée d'un obstacle comme 3 valeurs d'affilée sur un capteur dépassant les valeurs seuil
+#define MESURES_AFFILE			3
+#define OBSTACLE_ENV_5CM		150
+#define OBSTACLE_ENV_2CM		600
+#define OBSTACLE_EN_CONTACT 	2000
 
 static uint32_t val_calibrees[PROXIMITY_NB_CHANNELS];
 
 static bool obstacle[PROXIMITY_NB_CHANNELS];
 
+// Fonction qui renvoie une valeur calibrée d'un capteur, pour le PI
+// Est appelée uniquement si nécessaire
+uint32_t valeur_sur_capteur(int32_t num_capteur);
 
 bool check_chemin(void)
 {
@@ -19,7 +25,6 @@ bool check_chemin(void)
 	return false;
 }
 
-
 bool get_obstacle_condition (int32_t numero_capteur)
 {
 	return obstacle[numero_capteur];
@@ -28,23 +33,6 @@ bool get_obstacle_condition (int32_t numero_capteur)
 uint32_t get_valeur_capteur(int32_t numero_capteur)
 {
 	return val_calibrees[numero_capteur];
-}
-
-
-void valeurs_ambiantes(void)
-{
-	for (int i = 0; i < PROXIMITY_NB_CHANNELS; i++)
-	{
-		val_ambiantes[i] = get_ambient_light(i);
-	}
-}
-
-void valeurs_absolues(void)
-{
-	for (int i = 0; i < PROXIMITY_NB_CHANNELS; i++)
-	{
-		val_absolues[i] = get_prox(i);
-	}
 }
 
 void valeurs_calibrees(void)

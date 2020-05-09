@@ -3370,7 +3370,7 @@ Disassembly of section .text:
  80027ae:	f000 ff07 	bl	80035c0 <get_freq>
  80027b2:	eeb0 8a40 	vmov.f32	s16, s0
  80027b6:	f000 ff1b 	bl	80035f0 <get_amp>
- 80027ba:	eef3 7a01 	vmov.f32	s15, #49	; 0x41880000  17.0
+ 80027ba:	eef2 7a04 	vmov.f32	s15, #36	; 0x41200000  10.0
  80027be:	eeb4 8ae7 	vcmpe.f32	s16, s15
  80027c2:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
  80027c6:	dd1d      	ble.n	8002804 <commande_recu+0x64>
@@ -3721,7 +3721,7 @@ Disassembly of section .text:
  8002b4e:	f7ff fb17 	bl	8002180 <__stack_chk_fail>
  8002b52:	bf00      	nop
  8002b54:	20000b00 	.word	0x20000b00
- 8002b58:	20001802 	.word	0x20001802
+ 8002b58:	20001803 	.word	0x20001803
  8002b5c:	00000000 	.word	0x00000000
 
 08002b60 <set_tracking_leds>:
@@ -3994,7 +3994,7 @@ Disassembly of section .text:
  8002e4a:	e7e3      	b.n	8002e14 <animation_leds+0x104>
  8002e4c:	f7ff f998 	bl	8002180 <__stack_chk_fail>
  8002e50:	20000b00 	.word	0x20000b00
- 8002e54:	20001801 	.word	0x20001801
+ 8002e54:	20001802 	.word	0x20001802
 	...
 
 08002e60 <Animations>:
@@ -4047,21 +4047,21 @@ Disassembly of section .text:
  8002ee0:	f888 3000 	strb.w	r3, [r8]
  8002ee4:	f001 fa6c 	bl	80043c0 <set_body_led>
  8002ee8:	f898 3000 	ldrb.w	r3, [r8]
- 8002eec:	2b04      	cmp	r3, #4
+ 8002eec:	2b03      	cmp	r3, #3
  8002eee:	d1cc      	bne.n	8002e8a <Animations+0x2a>
  8002ef0:	2000      	movs	r0, #0
  8002ef2:	f001 fa65 	bl	80043c0 <set_body_led>
  8002ef6:	2301      	movs	r3, #1
  8002ef8:	703e      	strb	r6, [r7, #0]
- 8002efa:	f888 3000 	strb.w	r3, [r8]
+ 8002efa:	f888 6000 	strb.w	r6, [r8]
  8002efe:	f88a 3000 	strb.w	r3, [sl]
  8002f02:	e7c2      	b.n	8002e8a <Animations+0x2a>
  8002f04:	20019d10 	.word	0x20019d10
  8002f08:	20000b00 	.word	0x20000b00
  8002f0c:	08012da0 	.word	0x08012da0
- 8002f10:	20001802 	.word	0x20001802
+ 8002f10:	20001803 	.word	0x20001803
  8002f14:	20001800 	.word	0x20001800
- 8002f18:	20000b21 	.word	0x20000b21
+ 8002f18:	20001801 	.word	0x20001801
  8002f1c:	08012db0 	.word	0x08012db0
 
 08002f20 <animations_start>:
@@ -4216,7 +4216,7 @@ Disassembly of section .text:
  80030ea:	f103 0301 	add.w	r3, r3, #1
  80030ee:	bfc8      	it	gt
  80030f0:	eef0 5a67 	vmovgt.f32	s11, s15
- 80030f4:	2b29      	cmp	r3, #41	; 0x29
+ 80030f4:	2b26      	cmp	r3, #38	; 0x26
  80030f6:	d1cd      	bne.n	8003094 <traitement_data+0x34>
  80030f8:	454f      	cmp	r7, r9
  80030fa:	d01b      	beq.n	8003134 <traitement_data+0xd4>
@@ -4384,7 +4384,7 @@ Disassembly of section .text:
  800330e:	e768      	b.n	80031e2 <traitement_data+0x182>
  8003310:	f7fe ff36 	bl	8002180 <__stack_chk_fail>
  8003314:	20000b00 	.word	0x20000b00
- 8003318:	459c4000 	.word	0x459c4000
+ 8003318:	461c4000 	.word	0x461c4000
  800331c:	20014a04 	.word	0x20014a04
  8003320:	20005a04 	.word	0x20005a04
  8003324:	2000aa04 	.word	0x2000aa04
@@ -28536,7 +28536,7 @@ Disassembly of section .text:
  8012d74:	00646574 	.word	0x00646574
 	...
 
-08012d80 <__FUNCTION__.11985>:
+08012d80 <__FUNCTION__.11963>:
  8012d80:	63726150 7372756f 00000000 00000000     Parcours........
 
 08012d90 <__func__.7169>:

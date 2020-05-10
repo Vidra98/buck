@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
   55              		.cfi_remember_state
   56              		.cfi_def_cfa_offset 4
   57              		@ sp needed
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 2
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 2
 
 
   58 001c 5DF804FB 		ldr	pc, [sp], #4
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  112 0018 5DF804FB 		ldr	pc, [sp], #4
  113              	.L11:
  114              		.cfi_restore_state
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 3
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 3
 
 
  115 001c FFF7FEFF 		bl	__stack_chk_fail
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  169 001a FFF7FEFF 		bl	get_calibrated_prox
  170              	.LVL6:
  171              		.loc 1 36 0
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 4
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 4
 
 
  172 001e 9628     		cmp	r0, #150
@@ -225,8 +225,8 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  212      00000000 
  213              		.text
  214              	.Letext0:
- 215              		.file 2 "c:\\microinfo\\eclipse_e-puck2\\tools\\gcc-arm-none-eabi-7-2017-q4-major-win32\\arm-none-
- 216              		.file 3 "c:\\microinfo\\eclipse_e-puck2\\tools\\gcc-arm-none-eabi-7-2017-q4-major-win32\\arm-none-
+ 215              		.file 2 "c:\\users\\41786\\desktop\\epfl\\microinfo\\eclipse_e-puck2\\tools\\gcc-arm-none-eabi-7-2
+ 216              		.file 3 "c:\\users\\41786\\desktop\\epfl\\microinfo\\eclipse_e-puck2\\tools\\gcc-arm-none-eabi-7-2
  217              		.file 4 "traitement_capteur.h"
  218              		.file 5 "../../lib/e-puck2_main-processor/src/sensors/proximity.h"
  219              		.section	.debug_info,"",%progbits
@@ -236,20 +236,20 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  223 0006 00000000 		.4byte	.Ldebug_abbrev0
  224 000a 04       		.byte	0x4
  225 000b 01       		.uleb128 0x1
- 226 000c 17010000 		.4byte	.LASF24
+ 226 000c 49010000 		.4byte	.LASF24
  227 0010 0C       		.byte	0xc
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 5
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 5
 
 
- 228 0011 B1020000 		.4byte	.LASF25
- 229 0015 05030000 		.4byte	.LASF26
+ 228 0011 E3020000 		.4byte	.LASF25
+ 229 0015 75000000 		.4byte	.LASF26
  230 0019 18000000 		.4byte	.Ldebug_ranges0+0x18
  231 001d 00000000 		.4byte	0
  232 0021 00000000 		.4byte	.Ldebug_line0
  233 0025 02       		.uleb128 0x2
  234 0026 01       		.byte	0x1
  235 0027 06       		.byte	0x6
- 236 0028 2D030000 		.4byte	.LASF0
+ 236 0028 37030000 		.4byte	.LASF0
  237 002c 02       		.uleb128 0x2
  238 002d 01       		.byte	0x1
  239 002e 08       		.byte	0x8
@@ -257,32 +257,32 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  241 0033 02       		.uleb128 0x2
  242 0034 02       		.byte	0x2
  243 0035 05       		.byte	0x5
- 244 0036 DA020000 		.4byte	.LASF2
+ 244 0036 0C030000 		.4byte	.LASF2
  245 003a 02       		.uleb128 0x2
  246 003b 02       		.byte	0x2
  247 003c 07       		.byte	0x7
- 248 003d B2000000 		.4byte	.LASF3
+ 248 003d E4000000 		.4byte	.LASF3
  249 0041 02       		.uleb128 0x2
  250 0042 04       		.byte	0x4
  251 0043 05       		.byte	0x5
- 252 0044 FC020000 		.4byte	.LASF4
+ 252 0044 2E030000 		.4byte	.LASF4
  253 0048 03       		.uleb128 0x3
- 254 0049 03010000 		.4byte	.LASF9
+ 254 0049 35010000 		.4byte	.LASF9
  255 004d 02       		.byte	0x2
  256 004e 4F       		.byte	0x4f
  257 004f 53000000 		.4byte	0x53
  258 0053 02       		.uleb128 0x2
  259 0054 04       		.byte	0x4
  260 0055 07       		.byte	0x7
- 261 0056 8C000000 		.4byte	.LASF5
+ 261 0056 BE000000 		.4byte	.LASF5
  262 005a 02       		.uleb128 0x2
  263 005b 08       		.byte	0x8
  264 005c 05       		.byte	0x5
- 265 005d A3020000 		.4byte	.LASF6
+ 265 005d D5020000 		.4byte	.LASF6
  266 0061 02       		.uleb128 0x2
  267 0062 08       		.byte	0x8
  268 0063 07       		.byte	0x7
- 269 0064 79020000 		.4byte	.LASF7
+ 269 0064 AB020000 		.4byte	.LASF7
  270 0068 04       		.uleb128 0x4
  271 0069 04       		.byte	0x4
  272 006a 05       		.byte	0x5
@@ -290,15 +290,15 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  274 006f 02       		.uleb128 0x2
  275 0070 04       		.byte	0x4
  276 0071 07       		.byte	0x7
- 277 0072 5B020000 		.4byte	.LASF8
+ 277 0072 8D020000 		.4byte	.LASF8
  278 0076 03       		.uleb128 0x3
- 279 0077 F3020000 		.4byte	.LASF10
+ 279 0077 25030000 		.4byte	.LASF10
  280 007b 03       		.byte	0x3
  281 007c 30       		.byte	0x30
  282 007d 48000000 		.4byte	0x48
  283 0081 05       		.uleb128 0x5
  284 0082 07       		.byte	0x7
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 6
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 6
 
 
  285 0083 01       		.byte	0x1
@@ -307,32 +307,32 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  288 0089 08       		.byte	0x8
  289 008a BF000000 		.4byte	0xbf
  290 008e 06       		.uleb128 0x6
- 291 008f C6020000 		.4byte	.LASF11
+ 291 008f F8020000 		.4byte	.LASF11
  292 0093 00       		.byte	0
  293 0094 06       		.uleb128 0x6
- 294 0095 75000000 		.4byte	.LASF12
+ 294 0095 A7000000 		.4byte	.LASF12
  295 0099 01       		.byte	0x1
  296 009a 06       		.uleb128 0x6
  297 009b 25000000 		.4byte	.LASF13
  298 009f 02       		.byte	0x2
  299 00a0 06       		.uleb128 0x6
- 300 00a1 90020000 		.4byte	.LASF14
+ 300 00a1 C2020000 		.4byte	.LASF14
  301 00a5 03       		.byte	0x3
  302 00a6 06       		.uleb128 0x6
- 303 00a7 C5000000 		.4byte	.LASF15
+ 303 00a7 F7000000 		.4byte	.LASF15
  304 00ab 04       		.byte	0x4
  305 00ac 06       		.uleb128 0x6
- 306 00ad E4020000 		.4byte	.LASF16
+ 306 00ad 16030000 		.4byte	.LASF16
  307 00b1 05       		.byte	0x5
  308 00b2 06       		.uleb128 0x6
- 309 00b3 EC000000 		.4byte	.LASF17
+ 309 00b3 1E010000 		.4byte	.LASF17
  310 00b7 06       		.byte	0x6
  311 00b8 06       		.uleb128 0x6
- 312 00b9 D8000000 		.4byte	.LASF18
+ 312 00b9 0A010000 		.4byte	.LASF18
  313 00bd 07       		.byte	0x7
  314 00be 00       		.byte	0
  315 00bf 03       		.uleb128 0x3
- 316 00c0 3F030000 		.4byte	.LASF19
+ 316 00c0 49030000 		.4byte	.LASF19
  317 00c4 04       		.byte	0x4
  318 00c5 11       		.byte	0x11
  319 00c6 81000000 		.4byte	0x81
@@ -346,9 +346,9 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  327 00da 02       		.uleb128 0x2
  328 00db 01       		.byte	0x1
  329 00dc 02       		.byte	0x2
- 330 00dd 39030000 		.4byte	.LASF20
+ 330 00dd 43030000 		.4byte	.LASF20
  331 00e1 09       		.uleb128 0x9
- 332 00e2 0E010000 		.4byte	.LASF21
+ 332 00e2 40010000 		.4byte	.LASF21
  333 00e6 01       		.byte	0x1
  334 00e7 0C       		.byte	0xc
  335 00e8 CA000000 		.4byte	0xca
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  339 00f2 0A       		.uleb128 0xa
  340 00f3 0E000000 		.4byte	.LASF27
  341 00f7 01       		.byte	0x1
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 7
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 7
 
 
  342 00f8 1A       		.byte	0x1a
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  396 0171 01       		.byte	0x1
  397 0172 14       		.byte	0x14
  398 0173 BF000000 		.4byte	0xbf
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 8
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 8
 
 
  399 0177 1F000000 		.4byte	.LLST0
@@ -441,13 +441,13 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  416 01a3 B3010000 		.4byte	0x1b3
  417 01a7 00       		.byte	0
  418 01a8 13       		.uleb128 0x13
- 419 01a9 9E000000 		.4byte	.LASF30
- 420 01ad 9E000000 		.4byte	.LASF30
+ 419 01a9 D0000000 		.4byte	.LASF30
+ 420 01ad D0000000 		.4byte	.LASF30
  421 01b1 05       		.byte	0x5
  422 01b2 37       		.byte	0x37
  423 01b3 14       		.uleb128 0x14
- 424 01b4 68020000 		.4byte	.LASF31
- 425 01b8 68020000 		.4byte	.LASF31
+ 424 01b4 9A020000 		.4byte	.LASF31
+ 425 01b8 9A020000 		.4byte	.LASF31
  426 01bc 00       		.byte	0
  427              		.section	.debug_abbrev,"",%progbits
  428              	.Ldebug_abbrev0:
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  453 0018 3E       		.uleb128 0x3e
  454 0019 0B       		.uleb128 0xb
  455 001a 03       		.uleb128 0x3
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 9
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 9
 
 
  456 001b 0E       		.uleb128 0xe
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  510 0051 01       		.uleb128 0x1
  511 0052 01       		.byte	0x1
  512 0053 49       		.uleb128 0x49
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 10
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 10
 
 
  513 0054 13       		.uleb128 0x13
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  567 008b 0B       		.uleb128 0xb
  568 008c 34       		.uleb128 0x34
  569 008d 00       		.byte	0
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 11
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 11
 
 
  570 008e 03       		.uleb128 0x3
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  624 00cb 00       		.byte	0
  625 00cc 11       		.uleb128 0x11
  626 00cd 01       		.uleb128 0x1
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 12
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 12
 
 
  627 00ce 31       		.uleb128 0x31
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  681 0105 0E       		.uleb128 0xe
  682 0106 03       		.uleb128 0x3
  683 0107 0E       		.uleb128 0xe
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 13
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 13
 
 
  684 0108 3A       		.uleb128 0x3a
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  738 000c 0000     		.2byte	0
  739 000e 0000     		.2byte	0
  740 0010 00000000 		.4byte	.LFB0
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 14
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 14
 
 
  741 0014 2C000000 		.4byte	.LFE0-.LFB0
@@ -806,8 +806,8 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  763 0034 00000000 		.4byte	0
  764              		.section	.debug_line,"",%progbits
  765              	.Ldebug_line0:
- 766 0000 BB010000 		.section	.debug_str,"MS",%progbits,1
- 766      02006E01 
+ 766 0000 ED010000 		.section	.debug_str,"MS",%progbits,1
+ 766      0200A001 
  766      00000201 
  766      FB0E0D00 
  766      01010101 
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  776      61636C65 
  776      5F636F6E 
  776      64697469 
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 15
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 15
 
 
  777              	.LASF29:
@@ -851,194 +851,196 @@ ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 1
  780      676E6564 
  780      20636861 
  780      7200
- 781              	.LASF12:
- 782 0075 43415054 		.ascii	"CAPTEUR_HAUT_DROITE_45\000"
- 782      4555525F 
- 782      48415554 
- 782      5F44524F 
- 782      4954455F 
- 783              	.LASF5:
- 784 008c 6C6F6E67 		.ascii	"long unsigned int\000"
- 784      20756E73 
- 784      69676E65 
- 784      6420696E 
- 784      7400
- 785              	.LASF30:
- 786 009e 6765745F 		.ascii	"get_calibrated_prox\000"
- 786      63616C69 
- 786      62726174 
- 786      65645F70 
- 786      726F7800 
- 787              	.LASF3:
- 788 00b2 73686F72 		.ascii	"short unsigned int\000"
- 788      7420756E 
- 788      7369676E 
- 788      65642069 
- 788      6E7400
- 789              	.LASF15:
- 790 00c5 43415054 		.ascii	"CAPTEUR_BAS_GAUCHE\000"
- 790      4555525F 
- 790      4241535F 
- 790      47415543 
- 790      484500
- 791              	.LASF18:
- 792 00d8 43415054 		.ascii	"CAPTEUR_HAUT_GAUCHE\000"
- 792      4555525F 
- 792      48415554 
- 792      5F474155 
- 792      43484500 
- 793              	.LASF17:
- 794 00ec 43415054 		.ascii	"CAPTEUR_HAUT_GAUCHE_45\000"
- 794      4555525F 
- 794      48415554 
- 794      5F474155 
- 794      4348455F 
- 795              	.LASF9:
- 796 0103 5F5F7569 		.ascii	"__uint32_t\000"
- 796      6E743332 
- 796      5F7400
- 797              	.LASF21:
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 16
+ 781              	.LASF26:
+ 782 0075 433A5C55 		.ascii	"C:\\Users\\41786\\Desktop\\epfl\\microinfo\\projet\\"
+ 782      73657273 
+ 782      5C343137 
+ 782      38365C44 
+ 782      65736B74 
+ 783 00a2 6275636B 		.ascii	"buck\000"
+ 783      00
+ 784              	.LASF12:
+ 785 00a7 43415054 		.ascii	"CAPTEUR_HAUT_DROITE_45\000"
+ 785      4555525F 
+ 785      48415554 
+ 785      5F44524F 
+ 785      4954455F 
+ 786              	.LASF5:
+ 787 00be 6C6F6E67 		.ascii	"long unsigned int\000"
+ 787      20756E73 
+ 787      69676E65 
+ 787      6420696E 
+ 787      7400
+ 788              	.LASF30:
+ 789 00d0 6765745F 		.ascii	"get_calibrated_prox\000"
+ 789      63616C69 
+ 789      62726174 
+ 789      65645F70 
+ 789      726F7800 
+ 790              	.LASF3:
+ 791 00e4 73686F72 		.ascii	"short unsigned int\000"
+ 791      7420756E 
+ 791      7369676E 
+ 791      65642069 
+ 791      6E7400
+ 792              	.LASF15:
+ 793 00f7 43415054 		.ascii	"CAPTEUR_BAS_GAUCHE\000"
+ 793      4555525F 
+ 793      4241535F 
+ 793      47415543 
+ 793      484500
+ 794              	.LASF18:
+ 795 010a 43415054 		.ascii	"CAPTEUR_HAUT_GAUCHE\000"
+ 795      4555525F 
+ 795      48415554 
+ 795      5F474155 
+ 795      43484500 
+ 796              	.LASF17:
+ 797 011e 43415054 		.ascii	"CAPTEUR_HAUT_GAUCHE_45\000"
+ 797      4555525F 
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 16
 
 
- 798 010e 6F627374 		.ascii	"obstacle\000"
- 798      61636C65 
- 798      00
- 799              	.LASF24:
- 800 0117 474E5520 		.ascii	"GNU C11 7.2.1 20170904 (release) [ARM/embedded-7-br"
- 800      43313120 
- 800      372E322E 
- 800      31203230 
- 800      31373039 
- 801 014a 616E6368 		.ascii	"anch revision 255204] -mcpu=cortex-m4 -mfloat-abi=h"
- 801      20726576 
- 801      6973696F 
- 801      6E203235 
- 801      35323034 
- 802 017d 61726420 		.ascii	"ard -mfpu=fpv4-sp-d16 -mno-thumb-interwork -mthumb "
- 802      2D6D6670 
- 802      753D6670 
- 802      76342D73 
- 802      702D6431 
- 803 01b0 2D676764 		.ascii	"-ggdb -O2 -fomit-frame-pointer -falign-functions=16"
- 803      62202D4F 
- 803      32202D66 
- 803      6F6D6974 
- 803      2D667261 
- 804 01e3 202D666E 		.ascii	" -fno-strict-aliasing -fstack-protector-all -ffunct"
- 804      6F2D7374 
- 804      72696374 
- 804      2D616C69 
- 804      6173696E 
- 805 0216 696F6E2D 		.ascii	"ion-sections -fdata-sections -fno-common -fsingle-p"
- 805      73656374 
- 805      696F6E73 
- 805      202D6664 
- 805      6174612D 
- 806 0249 72656369 		.ascii	"recision-constant\000"
- 806      73696F6E 
- 806      2D636F6E 
- 806      7374616E 
- 806      7400
- 807              	.LASF8:
- 808 025b 756E7369 		.ascii	"unsigned int\000"
- 808      676E6564 
- 808      20696E74 
- 808      00
- 809              	.LASF31:
- 810 0268 5F5F7374 		.ascii	"__stack_chk_fail\000"
- 810      61636B5F 
- 810      63686B5F 
- 810      6661696C 
- 810      00
- 811              	.LASF7:
- 812 0279 6C6F6E67 		.ascii	"long long unsigned int\000"
- 812      206C6F6E 
- 812      6720756E 
- 812      7369676E 
- 812      65642069 
- 813              	.LASF14:
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 17
+ 797      48415554 
+ 797      5F474155 
+ 797      4348455F 
+ 798              	.LASF9:
+ 799 0135 5F5F7569 		.ascii	"__uint32_t\000"
+ 799      6E743332 
+ 799      5F7400
+ 800              	.LASF21:
+ 801 0140 6F627374 		.ascii	"obstacle\000"
+ 801      61636C65 
+ 801      00
+ 802              	.LASF24:
+ 803 0149 474E5520 		.ascii	"GNU C11 7.2.1 20170904 (release) [ARM/embedded-7-br"
+ 803      43313120 
+ 803      372E322E 
+ 803      31203230 
+ 803      31373039 
+ 804 017c 616E6368 		.ascii	"anch revision 255204] -mcpu=cortex-m4 -mfloat-abi=h"
+ 804      20726576 
+ 804      6973696F 
+ 804      6E203235 
+ 804      35323034 
+ 805 01af 61726420 		.ascii	"ard -mfpu=fpv4-sp-d16 -mno-thumb-interwork -mthumb "
+ 805      2D6D6670 
+ 805      753D6670 
+ 805      76342D73 
+ 805      702D6431 
+ 806 01e2 2D676764 		.ascii	"-ggdb -O2 -fomit-frame-pointer -falign-functions=16"
+ 806      62202D4F 
+ 806      32202D66 
+ 806      6F6D6974 
+ 806      2D667261 
+ 807 0215 202D666E 		.ascii	" -fno-strict-aliasing -fstack-protector-all -ffunct"
+ 807      6F2D7374 
+ 807      72696374 
+ 807      2D616C69 
+ 807      6173696E 
+ 808 0248 696F6E2D 		.ascii	"ion-sections -fdata-sections -fno-common -fsingle-p"
+ 808      73656374 
+ 808      696F6E73 
+ 808      202D6664 
+ 808      6174612D 
+ 809 027b 72656369 		.ascii	"recision-constant\000"
+ 809      73696F6E 
+ 809      2D636F6E 
+ 809      7374616E 
+ 809      7400
+ 810              	.LASF8:
+ 811 028d 756E7369 		.ascii	"unsigned int\000"
+ 811      676E6564 
+ 811      20696E74 
+ 811      00
+ 812              	.LASF31:
+ 813 029a 5F5F7374 		.ascii	"__stack_chk_fail\000"
+ 813      61636B5F 
+ 813      63686B5F 
+ 813      6661696C 
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 17
 
 
- 814 0290 43415054 		.ascii	"CAPTEUR_BAS_DROITE\000"
- 814      4555525F 
- 814      4241535F 
- 814      44524F49 
- 814      544500
- 815              	.LASF6:
- 816 02a3 6C6F6E67 		.ascii	"long long int\000"
- 816      206C6F6E 
- 816      6720696E 
- 816      7400
- 817              	.LASF25:
- 818 02b1 74726169 		.ascii	"traitement_capteur.c\000"
- 818      74656D65 
- 818      6E745F63 
- 818      61707465 
- 818      75722E63 
- 819              	.LASF11:
- 820 02c6 43415054 		.ascii	"CAPTEUR_HAUT_DROITE\000"
- 820      4555525F 
- 820      48415554 
- 820      5F44524F 
- 820      49544500 
- 821              	.LASF2:
- 822 02da 73686F72 		.ascii	"short int\000"
- 822      7420696E 
- 822      7400
- 823              	.LASF16:
- 824 02e4 43415054 		.ascii	"CAPTEUR_GAUCHE\000"
- 824      4555525F 
- 824      47415543 
- 824      484500
- 825              	.LASF10:
- 826 02f3 75696E74 		.ascii	"uint32_t\000"
- 826      33325F74 
- 826      00
- 827              	.LASF4:
- 828 02fc 6C6F6E67 		.ascii	"long int\000"
- 828      20696E74 
- 828      00
- 829              	.LASF26:
- 830 0305 433A5C55 		.ascii	"C:\\Users\\guill\\microinfo_TP\\projet\\buck\000"
- 830      73657273 
- 830      5C677569 
- 830      6C6C5C6D 
- 830      6963726F 
- 831              	.LASF0:
- 832 032d 7369676E 		.ascii	"signed char\000"
- 832      65642063 
- 832      68617200 
- 833              	.LASF20:
- 834 0339 5F426F6F 		.ascii	"_Bool\000"
- 834      6C00
- 835              	.LASF19:
- 836 033f 43415054 		.ascii	"CAPTEUR_NUMEROTATION\000"
- 836      4555525F 
- 836      4E554D45 
- 836      524F5441 
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 18
+ 813      00
+ 814              	.LASF7:
+ 815 02ab 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 815      206C6F6E 
+ 815      6720756E 
+ 815      7369676E 
+ 815      65642069 
+ 816              	.LASF14:
+ 817 02c2 43415054 		.ascii	"CAPTEUR_BAS_DROITE\000"
+ 817      4555525F 
+ 817      4241535F 
+ 817      44524F49 
+ 817      544500
+ 818              	.LASF6:
+ 819 02d5 6C6F6E67 		.ascii	"long long int\000"
+ 819      206C6F6E 
+ 819      6720696E 
+ 819      7400
+ 820              	.LASF25:
+ 821 02e3 74726169 		.ascii	"traitement_capteur.c\000"
+ 821      74656D65 
+ 821      6E745F63 
+ 821      61707465 
+ 821      75722E63 
+ 822              	.LASF11:
+ 823 02f8 43415054 		.ascii	"CAPTEUR_HAUT_DROITE\000"
+ 823      4555525F 
+ 823      48415554 
+ 823      5F44524F 
+ 823      49544500 
+ 824              	.LASF2:
+ 825 030c 73686F72 		.ascii	"short int\000"
+ 825      7420696E 
+ 825      7400
+ 826              	.LASF16:
+ 827 0316 43415054 		.ascii	"CAPTEUR_GAUCHE\000"
+ 827      4555525F 
+ 827      47415543 
+ 827      484500
+ 828              	.LASF10:
+ 829 0325 75696E74 		.ascii	"uint32_t\000"
+ 829      33325F74 
+ 829      00
+ 830              	.LASF4:
+ 831 032e 6C6F6E67 		.ascii	"long int\000"
+ 831      20696E74 
+ 831      00
+ 832              	.LASF0:
+ 833 0337 7369676E 		.ascii	"signed char\000"
+ 833      65642063 
+ 833      68617200 
+ 834              	.LASF20:
+ 835 0343 5F426F6F 		.ascii	"_Bool\000"
+ 835      6C00
+ 836              	.LASF19:
+ 837 0349 43415054 		.ascii	"CAPTEUR_NUMEROTATION\000"
+ 837      4555525F 
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 18
 
 
- 836      54494F4E 
- 837              		.ident	"GCC: (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 7.2.1 20170904 (release) [ARM
-ARM GAS  C:\Users\guill\AppData\Local\Temp\ccISx2xN.s 			page 19
+ 837      4E554D45 
+ 837      524F5441 
+ 837      54494F4E 
+ 838              		.ident	"GCC: (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 7.2.1 20170904 (release) [ARM
+ARM GAS  C:\Users\41786\AppData\Local\Temp\cczxFGmq.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 traitement_capteur.c
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:18     .text.check_chemin:00000000 $t
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:26     .text.check_chemin:00000000 check_chemin
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:66     .text.check_chemin:00000024 $d
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:72     .text.get_obstacle_condition:00000000 $t
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:80     .text.get_obstacle_condition:00000000 get_obstacle_condition
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:120    .text.get_obstacle_condition:00000020 $d
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:126    .text.actualisation_capteurs:00000000 $t
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:134    .text.actualisation_capteurs:00000000 actualisation_capteurs
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:201    .text.actualisation_capteurs:00000044 $d
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:207    .bss.obstacle:00000000 $d
-C:\Users\guill\AppData\Local\Temp\ccISx2xN.s:211    .bss.obstacle:00000000 obstacle
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:18     .text.check_chemin:00000000 $t
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:26     .text.check_chemin:00000000 check_chemin
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:66     .text.check_chemin:00000024 $d
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:72     .text.get_obstacle_condition:00000000 $t
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:80     .text.get_obstacle_condition:00000000 get_obstacle_condition
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:120    .text.get_obstacle_condition:00000020 $d
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:126    .text.actualisation_capteurs:00000000 $t
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:134    .text.actualisation_capteurs:00000000 actualisation_capteurs
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:201    .text.actualisation_capteurs:00000044 $d
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:207    .bss.obstacle:00000000 $d
+C:\Users\41786\AppData\Local\Temp\cczxFGmq.s:211    .bss.obstacle:00000000 obstacle
 
 UNDEFINED SYMBOLS
 __stack_chk_fail

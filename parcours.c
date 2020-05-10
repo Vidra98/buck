@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include "traitement_capteur.h"
 
+
 //Temps d'attente [seconde] avant d'entrer en état d'idle (avec le parcours)
 #define TEMPS_IDLE							5
 
@@ -19,8 +20,6 @@
 
 // Pour une vitesse d'environ 7.5 cm/s
 #define VITESSE_LIN 						577
-
-
 
 //coefficient du regulateur pour le retour de trajectoire (une fois l'obstacle contourné)
 #define VITESSE_LIM							900
@@ -33,8 +32,8 @@
 //coefficient du regulateur pour le tracking sonore
 #define VITESSE_LIM_PI_SON					900
 #define KP_SON								600
-#define KI_SON								3
-#define MAX_SUM_ERROR_SON 					VITESSE_LIM/6
+#define KI_SON								2
+#define MAX_SUM_ERROR_SON 					VITESSE_LIM/9
 #define MAX_ERROR_SON 						VITESSE_LIM
 #define KA_SON								900
 
@@ -44,10 +43,10 @@
 #define COS_MARGE							0.05f
 
 // Bandes passantes des commandes
-#define AVANT_FREQ_MIN						10		//152hz
-#define AVANT_FREQ_MAX						27		//411hz
-#define ARRIERE_FREQ_MIN					27		//411hz
-#define ARRIERE_FREQ_MAX					37		//563hz
+#define AVANT_FREQ_MIN						30		//456hz
+#define AVANT_FREQ_MAX						40		//608hz
+#define ARRIERE_FREQ_MIN					55		//836hz
+#define ARRIERE_FREQ_MAX					65		//988hz
 
 //intensity min du son pour etre tracké
 #define MIN_INTENSITY_TRACKING	    10000
@@ -61,7 +60,7 @@
 
 
 static int16_t vitesse_droite, vitesse_gauche;
-static uint8_t etat_contournement = MVT_IDLE;
+static uint8_t etat_contournement = EN_REACTION;
 static bool aller_en_avant = false, aller_en_arriere = false, parcours_infini =false;
 static systime_t time_start;
 
@@ -90,7 +89,7 @@ int16_t pi_controller(int32_t objectif, int32_t pos_actuelle);
  *
  */
 void parcours_obstacle(bool obstacle_devant_droite, bool obstacle_devant_gauche,
-								bool obstacle_droite_45, bool obstacle_gauche_45);
+		bool obstacle_droite_45, bool obstacle_gauche_45);
 
 /*
  * Pour suivre ou bien s'éloigner du son
@@ -132,6 +131,7 @@ void reponse_sonore(void){
 			//Pour indiquer la direction du son
 			set_tracking_leds(angle);
 		}
+		else sum_error = 0;
 	}
 	//dirige le robot à l'inverse de la source de son pour les frequence [400,555]Hz
 	else if (aller_en_arriere)
@@ -159,6 +159,7 @@ void reponse_sonore(void){
 			}
 			set_tracking_leds(angle);
 		}
+		else sum_error = 0;
 	}
 	else {
 		vitesse_droite=0;
@@ -172,8 +173,8 @@ void parcours_en_infini(void)
 	int32_t compteur_gauche = left_motor_get_pos();
 	static uint8_t etat_parcours = PREM_LIGNE_DROITE;
 	/*Séquence ligne droite - virage - ligne droite - virage que l'on répète en boucle
-	* Le passage d'une étape à l'autre s'effectue avec l'actualisation de la position des moteurs
-	*/
+	 * Le passage d'une étape à l'autre s'effectue avec l'actualisation de la position des moteurs
+	 */
 	switch(etat_parcours)
 	{
 	case PREM_LIGNE_DROITE :
@@ -255,7 +256,7 @@ int16_t pi_retour_trajectoire(int32_t objectif, int32_t pos_actuelle)
 }
 
 void parcours_obstacle(bool obstacle_devant_droite, bool obstacle_devant_gauche,
-								bool obstacle_droite_45	, bool obstacle_gauche_45)
+		bool obstacle_droite_45	, bool obstacle_gauche_45)
 {
 	int16_t vitesse_pi_r = 0;
 	int16_t vitesse_pi_l = 0;
@@ -268,7 +269,7 @@ void parcours_obstacle(bool obstacle_devant_droite, bool obstacle_devant_gauche,
 	{
 	case EN_REACTION :
 		if ((!obstacle_devant_droite) && (!obstacle_devant_gauche)
-					&&(!obstacle_droite_45)	&& (!obstacle_gauche_45))
+				&&(!obstacle_droite_45)	&& (!obstacle_gauche_45))
 		{
 			reponse_sonore();
 		}
@@ -283,7 +284,7 @@ void parcours_obstacle(bool obstacle_devant_droite, bool obstacle_devant_gauche,
 	case CONTOURNEMENT :
 
 		if ((!obstacle_devant_droite) && (!obstacle_devant_gauche)
-					&&(!obstacle_droite_45)	&& (!obstacle_gauche_45))
+				&&(!obstacle_droite_45)	&& (!obstacle_gauche_45))
 		{
 			etat_contournement = LONGEMENT;
 		}
@@ -437,7 +438,7 @@ uint8_t get_parcours_etat(void)
 // Thread avec les routines controlant les moteurs
 static THD_WORKING_AREA(waParcours, 128);
 static THD_FUNCTION(Parcours, arg)
-												{
+{
 	chRegSetThreadName(__FUNCTION__);
 	(void)arg;
 
@@ -458,7 +459,7 @@ static THD_FUNCTION(Parcours, arg)
 		obstacle_gauche_45 = get_obstacle_condition(CAPTEUR_HAUT_GAUCHE_45);
 
 		parcours_obstacle(obstacle_devant_droite, obstacle_devant_gauche,
-									obstacle_droite_45, obstacle_gauche_45);
+				obstacle_droite_45, obstacle_gauche_45);
 
 		//En appelant le parcours d'Idle avec le parcours obstacle, on peut gérer l'intérraction avec les obstacles en idle
 		if (lancement_idle()) parcours_en_infini();
@@ -468,7 +469,7 @@ static THD_FUNCTION(Parcours, arg)
 
 		chThdSleepUntilWindowed(time, time + MS2ST(10)); //mise à une freq de 100Hz
 	}
-												}
+}
 
 void parcours_start(void){
 	chThdCreateStatic(waParcours, sizeof(waParcours), NORMALPRIO, Parcours, NULL);

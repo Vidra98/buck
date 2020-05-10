@@ -1,6 +1,5 @@
 #include "animations.h"
 #include <main.h>
-#include <chprintf.h>
 #include <spi_comm.h>
 #include <leds.h>
 #include "ch.h"
@@ -10,14 +9,14 @@
 #define PI					3.14159265358979f
 #define SEC					1000
 #define TOGGLE				2
-#define VALIDATION			3
+#define VALIDATION			2
 #define MAX_INTENSITY		255
 #define MEDIUM_INTENSITY    128
 
 #define ON					1
 #define OFF					0
 
-static bool commande_validee = false,nouvelle_commande = false;
+static bool commande_validee = false;
 
 
 /* Pour faire clignoter les leds rgb et donc indiquer l'état du robot à l'utilisateur
@@ -32,7 +31,7 @@ bool get_animations_commande_validee(void){
 
 
 void set_nouvelle_commande(void){
-	nouvelle_commande=true;
+	commande_validee=false;
 }
 
 
@@ -124,16 +123,14 @@ static THD_FUNCTION(Animations, arg){
 	while(1)
 	{
 		time = chVTGetSystemTime();
-		//fait clignoter la body led 2 fois pour indiquer qu'il a compris la nouvelle commande
-		if(nouvelle_commande)
+		//fait clignoter la body led pour indiquer qu'il a compris la nouvelle commande
+		if(!commande_validee)
 		{
-			commande_validee=false;
 			compteur_validation ++;
 			set_body_led(TOGGLE);
 			if(compteur_validation == VALIDATION)
 			{
 				set_body_led(OFF);
-				nouvelle_commande=false;
 				compteur_validation = 0;
 				commande_validee=true;
 			}

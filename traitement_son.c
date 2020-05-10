@@ -18,8 +18,8 @@
 #define A					0.7f
 #define B					0.3f
 
-#define MIN_FREQ			10		//we don't analyze before this index to not use resources for nothing
-#define MAX_FREQ			37		//we don't analyze after this index to not use resources for nothing
+#define MIN_FREQ			29		//we don't analyze before this index to not use resources for nothing
+#define MAX_FREQ			66		//we don't analyze after this index to not use resources for nothing
 
 
 typedef enum {

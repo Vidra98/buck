@@ -16,6 +16,7 @@
 #include "parcours.h"
 #include "animations.h"
 
+
 messagebus_t bus;
 MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
@@ -50,7 +51,7 @@ int main(void)
     //Creation du thread responsable des animations
     animations_start();
 
-    /* Infinite loop. */
+    /* Infinite loop, frequency = 14Hz */
     while (1) {
     	wait_traitement_data();
     	traitement_data();
